@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import React, { useEffect } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
@@ -13,12 +14,13 @@ export default function Reset() {
 
   const { username } = useAuthStore(state => state.auth);
   const navigate = useNavigate();
+  // eslint-disable-next-line
   const [{ isLoading, apiData, status, serverError }] = useFetch('createResetSession')
 
   const formik = useFormik({
     initialValues : {
-      password : 'admin@123',
-      confirm_pwd: 'admin@123'
+      password : '',
+      confirm_pwd: ''
     },
     validate : resetPasswordValidation,
     validateOnBlur: false,
