@@ -1,1 +1,2 @@
-# CodeElitez
+# AuthSystem
+Advanced Authentication System
