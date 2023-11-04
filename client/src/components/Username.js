@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import avatar from '../assets/profile.png';
 import toast, { Toaster } from 'react-hot-toast';
@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { usernameValidate } from '../helper/validate'
 import { useAuthStore } from '../store/store'
 import {  googleregisterUser } from '../helper/helper';
+import { verifyGoogle } from '../helper/helper'
 
 import styles from '../styles/Username.module.css';
 
@@ -31,16 +32,16 @@ export default function Username() {
   })
 
 
-  const [user,setUser] = useState({});
+  // const [user,setUser] = useState({});
   
 
 
   function handleCallbackResponse(res){
         
-    console.log("Encoded jwt id token " + res.credential);
+    // console.log("Encoded jwt id token " + res.credential);
     var userObject = jwt_decode(res.credential);
-    console.log(userObject);
-    setUser(userObject);
+    // console.log(userObject);
+    // setUser(userObject);
 
    
     const googlecredentials = {
@@ -51,25 +52,37 @@ export default function Username() {
 
 
 
-      let registerPromise = googleregisterUser(googlecredentials)
+      let registerPromise = googleregisterUser(googlecredentials);
+
       toast.promise(registerPromise, {
-        loading: 'Creating...',
-        success : <b>Register Successfully...!</b>,
-        error : <b>Could not Register and Login.</b>
+        loading: 'Checking...',
+        success : <b>registered Successfully...!</b>,
+        error : <b>registration Failed</b>
       });
       registerPromise.then(
         
         function(){ 
           navigate('/profile')});
+          let username = googlecredentials.username;
+          // console.log({username});
+          let loginPromise = verifyGoogle({ username})
+          toast.promise(loginPromise, {
+            loading: 'Checking...',
+            success : <b>Login Successfully...!</b>,
+            error : <b>login failed</b>
+          });
+
+      loginPromise.then(res => {
+        let { token } = res.data;
+        localStorage.setItem('token', token);
+        navigate('/profile')
+      })
       
     document.getElementById('signInDiv').hidden=true;
   }
 
 
-// function handleSignOut(event){
-//     setUser({});
-//     document.getElementById('signInDiv').hidden=false;
-// }
+
 
 
   useEffect(()=>{
@@ -81,7 +94,7 @@ export default function Username() {
 
     google.accounts.id.renderButton(
       document.getElementById('signInDiv'),
-      {theme : "outline",size: "large", text: "Sign Up with Google"}
+      {theme : "outline",size: "large", text: "Sign in with Google"}
     );
       
     google.accounts.id.prompt();
@@ -126,12 +139,7 @@ export default function Username() {
 } */}
 
 
-{
-user && 
-<div><img src={user.picture} alt=''></img>
-<h3>{user.email}</h3>
-</div>
-}
+
 
               </div>
 

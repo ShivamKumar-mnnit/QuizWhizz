@@ -53,7 +53,18 @@ export async function registerUser(credentials){
 }
 /** google register user function */
 export async function googleregisterUser(credentials){
+    let {username }= credentials;
+    const val = await authenticate(username);
+    
+    if(val.status === 200){
+        
+        // const { data } = await axios.post('/api/googlelogin', {username})
+        //     return Promise.resolve({ data });
+    }
+
+else{
     try {
+        console.log("else")
         const { data : { msg }, status } = await axios.post(`/api/googleregister`, credentials);
 
         let { username, email } = credentials;
@@ -67,7 +78,7 @@ export async function googleregisterUser(credentials){
         return Promise.reject({ error })
     }
 }
-
+}
 
 
 /** login function */
@@ -81,6 +92,19 @@ export async function verifyPassword({ username, password }){
         return Promise.reject({ error : "Password doesn't Match...!"})
     }
 }
+
+export async function verifyGoogle({ username}){
+    try {
+        if(username){
+            const { data } = await axios.post('/api/googlelogin', { username})
+            return Promise.resolve({ data });
+        }
+    } catch (error) {
+        return Promise.reject({ error : "User not registered...!"})
+    }
+}
+
+
 
 /** update user profile function */
 export async function updateUser(response){
