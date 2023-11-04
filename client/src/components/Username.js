@@ -8,6 +8,7 @@ import { useAuthStore } from '../store/store'
 import {  googleregisterUser } from '../helper/helper';
 import { verifyGoogle } from '../helper/helper'
 
+import { useLocation } from 'react-router-dom';
 import styles from '../styles/Username.module.css';
 
 //for GoogleAuth
@@ -17,6 +18,7 @@ import jwt_decode from "jwt-decode";
 export default function Username() {
   const navigate = useNavigate();
   const setUsername = useAuthStore(state => state.setUsername);
+  const location = useLocation();
 
   const formik = useFormik({
     initialValues : {
@@ -64,7 +66,6 @@ export default function Username() {
         function(){ 
           navigate('/profile')});
           let username = googlecredentials.username;
-          // console.log({username});
           let loginPromise = verifyGoogle({ username})
           toast.promise(loginPromise, {
             loading: 'Checking...',
@@ -86,6 +87,7 @@ export default function Username() {
 
 
   useEffect(()=>{
+    if (location.pathname === '/') {
     /* global google */ 
     google.accounts.id.initialize({
       client_id: "35173665291-tqsaugfjn3i4es5mcltbmtbluqlepnv3.apps.googleusercontent.com",
@@ -96,11 +98,15 @@ export default function Username() {
       document.getElementById('signInDiv'),
       {theme : "outline",size: "large", text: "Sign in with Google"}
     );
-      
     google.accounts.id.prompt();
+   
+  }
+  return () => {
+    // Perform cleanup if necessary
+  };
     // eslint-disable-next-line
-  },[]);
- 
+  },[location.pathname]);
+
 
 
 
@@ -133,10 +139,6 @@ export default function Username() {
 
               <div id='signInDiv'></div>
 
-{/* {
-  Object.keys(user).length !== 0 &&
-<button onClick={(e)=>handleSignOut(e)}>Signout</button>
-} */}
 
 
 
