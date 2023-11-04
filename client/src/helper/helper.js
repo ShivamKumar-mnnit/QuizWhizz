@@ -51,6 +51,24 @@ export async function registerUser(credentials){
         return Promise.reject({ error })
     }
 }
+/** google register user function */
+export async function googleregisterUser(credentials){
+    try {
+        const { data : { msg }, status } = await axios.post(`/api/googleregister`, credentials);
+
+        let { username, email } = credentials;
+
+        /** send email */
+         if(status === 201){
+             await axios.post('/api/registerMail', { username, userEmail : email, text : msg})
+         }
+        return Promise.resolve(msg)
+    } catch (error) {
+        return Promise.reject({ error })
+    }
+}
+
+
 
 /** login function */
 export async function verifyPassword({ username, password }){

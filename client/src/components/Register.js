@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import avatar from '../assets/profile.png';
 import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { registerValidation } from '../helper/validate';
 import convertToBase64 from '../helper/convert';
-import { registerUser } from '../helper/helper'
-
+import { registerUser} from '../helper/helper';
 
 import styles from '../styles/Username.module.css';
 
@@ -38,7 +37,7 @@ export default function Register() {
   })
 
   /** formik doensn't support file upload so we need to create this handler */
-  const onUpload = async e => {
+  const onUpload = async (e) => {
     const base64 = await convertToBase64(e.target.files[0]);
     setFile(base64);
   }
@@ -73,6 +72,8 @@ export default function Register() {
                   <input {...formik.getFieldProps('password')} className={styles.textbox} type="text" placeholder='Password*' />
                   <button className={styles.btn} type='submit'>Register</button>
               </div>
+
+
 
               <div className="text-center py-4">
                 <span className='text-gray-500'>Already Register? <Link className='text-red-500' to="/">Login Now</Link></span>
