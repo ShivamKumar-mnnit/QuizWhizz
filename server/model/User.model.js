@@ -22,7 +22,7 @@ export const UserSchema = new mongoose.Schema({
     address: { type: String},
     profile: { type: String},
     role:{type : String,
-        required:[true,"Please Provide Your Role"]
+        // required:[true,"Please Provide Your Role"]
     }
 });
 

@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import profile from '../assets/profile.png'
-export default function App() {
+import React, { useEffect } from 'react';
+import profile from '../../assets/profile.png'
+import useFetch from '../../hooks/fetch.hook';
+
+export default function App() {  
   useEffect(() => {
     const tabList = Array.from(document.querySelectorAll('[data-toggle="tab"]'));
     tabList.forEach((tab) => {
@@ -32,24 +34,10 @@ export default function App() {
     justifyContent: 'flex-end', // Align items to the right
     marginTop: '-10px', // Adjust the margin as needed
   };
+  const [{ isLoading, apiData, serverError }] = useFetch(); 
+  if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
+  if(serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
 
-  const [userData, setUserData] = useState("")
-  useEffect(() => {
-
-    fetch('http://localhost:8080/api/user')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Data Not Fetched...")
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setUserData(data)
-      })
-      .catch((error) => {
-        console.log("Data Not Fetched.....", error)
-      })
-  }, [])
 
   return (
     <div className="container mt-4" style={{ margin: 'auto auto', alignContent: 'center', border: '1px solid black', padding: '50px 20px', borderRadius: '10px' }}>
@@ -57,15 +45,15 @@ export default function App() {
         <div className="row" style={mainDivStyle}>
           <div className="col-md-4">
             <div className="profile-img">
-              <img src={profile} alt="Image" className="img-fluid rounded-circle" />
+              <img src={profile} alt="loading..." className="img-fluid rounded-circle" />
             </div>
           </div>
 
           <div className="col-md-4" style={mainDivStyle}>
             <div className="content p-3 bg-light">
-              <h5 className="mb-3">Hitesh</h5>
-              <h6 className="text-muted">Web Developer</h6>
-              <p className="mt-3 mb-4">{userData.firstname}</p>
+              <h5 className="mb-3"></h5>
+              <h6 className="text-muted">{apiData?.email ||''} </h6>
+                  
               <ul className="nav nav-tabs" role="tablist">
                 <li className="nav-item">
                   <a className="nav-link active" href="#home" data-toggle="tab" role="tab">
