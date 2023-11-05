@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
+import 'bootstrap/dist/css/bootstrap.css'
 
 /** import all components */
 import Username from './components/Username';
@@ -10,6 +10,7 @@ import Profile from './components/Profile';
 import Recovery from './components/Recovery';
 import Reset from './components/Reset';
 import PageNotFound from './components/PageNotFound';
+import User from './components/user/User'
 
 
 /** auth middleware */
@@ -45,6 +46,11 @@ const router = createBrowserRouter([
         path : '*',
         element : <PageNotFound></PageNotFound>
     },
+    {
+        path:'/user',
+        element:<User></User>
+    }
+    
 ])
 
 export default function App() {

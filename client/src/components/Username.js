@@ -26,6 +26,7 @@ export default function Username() {
     initialValues : {
       username : ''
     },
+  
     validate : usernameValidate,
     validateOnBlur: false,
     validateOnChange: false,
