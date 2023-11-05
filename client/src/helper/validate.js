@@ -96,3 +96,19 @@ function emailVerify(error ={}, values){
 
     return error;
 }
+
+/*Validate Profile */
+export async function Role(values){
+    const errors = Role({}, values);
+
+    if(values.role){
+        
+        const { status } = await authenticate(values.role);
+        
+        if(status !== 200){
+            errors.exist = toast.error('Not Available Role ')
+        }
+    }
+
+    return errors;
+}

@@ -20,7 +20,6 @@ export async function verifyUser(req, res, next){
     }
 }
 
-
 /** POST: http://localhost:8080/api/register 
  * @param : {
   "username" : "example123",
@@ -33,6 +32,7 @@ export async function verifyUser(req, res, next){
   "profile": ""
 }
 */
+
 export async function register(req,res){
 
     if (req.body.googleAccessToken) {

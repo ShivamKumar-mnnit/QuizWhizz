@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import avatar from '../assets/profile.png';
 import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
-import { profileValidation } from '../helper/validate';
+import { profileValidation,Role} from '../helper/validate';
 import convertToBase64 from '../helper/convert';
 import useFetch from '../hooks/fetch.hook';
 import { updateUser } from '../helper/helper'
@@ -23,10 +23,11 @@ export default function Profile() {
       lastName: apiData?.lastName || '',
       email: apiData?.email || '',
       mobile: apiData?.mobile || '',
-      address : apiData?.address || ''
+      address : apiData?.address || '',
+      role : apiData ?. role || '',
     },
     enableReinitialize: true,
-    validate : profileValidation,
+    validate : profileValidation,Role,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit : async values => {
@@ -37,8 +38,9 @@ export default function Profile() {
         loading: 'Updating...',
         success : <b>Update Successfully...!</b>,
         error: <b>Could not Update!</b>
+      
       });
-
+      navigate('/User')
     }
   })
 
@@ -93,11 +95,12 @@ export default function Profile() {
                 </div>
 
                
-                  <input {...formik.getFieldProps('address')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Address' />
+                <input {...formik.getFieldProps('address')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Address' />
+                <input {...formik.getFieldProps('role')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Role' />
+ 
                   <button className={styles.btn} type='submit'>Update</button>
-               
-                  
               </div>
+
 
               <div className="text-center py-4">
                 <span className='text-gray-500'>come back later? <button onClick={userLogout} className='text-red-500' to="/">Logout</button></span>

@@ -1,0 +1,40 @@
+.container {
+    background: #fff; /* Set the background color for the container */
+    padding: 20px; /* Add some padding for spacing */
+    border: 1px solid #ccc; /* Add a border for better separation */
+  }
+  
+  .row {
+    display: flex;
+    align-items: center; /* Center content vertically within the row */
+  }
+  
+  .content {
+    background: #f0f0f0; /* Set a background color for the content area */
+    padding: 20px; /* Add padding to the content area */
+    border: 1px solid #ddd; /* Add a border for separation */
+  }
+  
+  h5, h6 {
+    margin: 0; /* Remove margin for the headings */
+  }
+  
+  ul.nav-tabs {
+    list-style: none; /* Remove list bullets */
+    padding: 0;
+  }
+  
+  .nav-item {
+    display: inline;
+    margin-right: 10px; /* Add space between nav items */
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: #333; /* Set link color */
+  }
+  
+  .nav-link.active {
+    font-weight: bold; /* Highlight the active link */
+  }
+  

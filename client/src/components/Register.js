@@ -32,7 +32,6 @@ export default function Register() {
         success : <b>Register Successfully...!</b>,
         error : <b>Could not Register.</b>
       });
-
       registerPromise.then(function(){ navigate('/')});
     }
   })
