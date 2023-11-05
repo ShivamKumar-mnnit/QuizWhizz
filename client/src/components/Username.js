@@ -8,6 +8,8 @@ import { useAuthStore } from '../store/store'
 import {  googleregisterUser } from '../helper/helper';
 import { verifyGoogle } from '../helper/helper'
 
+
+
 import { useLocation } from 'react-router-dom';
 import styles from '../styles/Username.module.css';
 
@@ -138,10 +140,6 @@ export default function Username() {
               <div className="textbox flex flex-col items-center gap-6 my-3">
 
               <div id='signInDiv'></div>
-
-
-
-
 
               </div>
 
