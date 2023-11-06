@@ -34,46 +34,6 @@ export async function verifyUser(req, res, next){
 */
 
 export async function register(req,res){
-
-    if (req.body.googleAccessToken) {
-        const {googleAccessToken} = req.body;
-
-        axios
-            .get("https://www.googleapis.com/oauth2/v3/userinfo", {
-            headers: {
-                "Authorization": `Bearer ${googleAccessToken}`
-            }
-        })
-            .then(async response => {
-                const firstName = response.data.given_name;
-                const lastName = response.data.family_name;
-                const email = response.data.email;
-                const picture = response.data.picture;
-
-                const existingUser = await User.findOne({email})
-
-                if (existingUser) 
-                    return res.status(400).json({message: "User already exist!"})
-
-                const result = await User.create({verified:"true",email, firstName, lastName, profile: picture})
-
-                const token = jwt.sign({
-                    email: result.email,
-                    id: result._id
-                },ENV.JWT_SECRET, {expiresIn: "1h"})
-
-                res
-                    .status(200)
-                    .json({result, token})
-            })
-            .catch(err => {
-                res
-                    .status(400)
-                    .json({message: "Invalid access token!"})
-            })
-
-    }else{
-
     try {
         const { username, password, profile, email } = req.body;        
 
@@ -133,6 +93,89 @@ export async function register(req,res){
 
 }
 
+
+/** POST: http://localhost:8080/api/register 
+ * @param : {
+  "username" : "example123",
+  "email": "example@gmail.com",
+  "profile": ""
+}
+*/
+
+export async function googleregister(req,res){
+
+    try {
+        const { username, profile, email } = req.body;        
+
+        // check for existing email
+        const existEmail = new Promise((resolve, reject) => {
+            UserModel.findOne({ email }, function(err, email){
+                if(err) reject(new Error(err))
+                if(email) reject({ error : "Please use unique Email"});
+
+                resolve();
+            })
+        });
+
+
+        Promise.all([ existEmail])
+            .then(() => {
+                            const user = new UserModel({
+                                username,
+                                profile: profile || '',
+                                email
+                            });
+
+                            // return save result as a response
+                            user.save()
+                                .then(result => res.status(201).send({ msg: "User Register Successfully"}))
+                                .catch(error => res.status(500).send({error}))
+
+            }).catch(error => {
+                return res.status(500).send({ error })
+            })
+
+
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+
+}
+
+
+/** POST: http://localhost:8080/api/googlelogin 
+ * @param: {
+  "username" : "example12345@gmail.com"
+}
+*/
+export async function googlelogin(req,res){
+
+    const { username, email } = req.body;
+
+    try {
+        
+        UserModel.findOne({ username })
+            .then(user => {
+                        // create jwt token
+                        const token = jwt.sign({
+                                        userId: user._id,
+                                        username : user.username
+                                    }, ENV.JWT_SECRET , { expiresIn : "24h"});
+
+                        return res.status(200).send({
+                            msg: "Login Successful...!",
+                            username: user.username,
+                            token
+                        });                                    
+
+                    })
+            .catch( error => {
+                return res.status(404).send({ error : "User not Found"});
+            })
+
+    } catch (error) {
+        return res.status(500).send({ error});
+    }
 }
 
 /** POST: http://localhost:8080/api/login 
@@ -218,6 +261,9 @@ export async function login(req,res){
     }
 }
 }
+
+
+
 
 /** GET: http://localhost:8080/api/user/example123 */
 export async function getUser(req,res){

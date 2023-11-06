@@ -10,9 +10,11 @@ import Auth, { localVariables } from '../middleware/auth.js';
 
 /** POST Methods */
 router.route('/register').post(controller.register); // register user
+router.route('/googleregister').post(controller.googleregister); // register user via GoogleAuth
 router.route('/registerMail').post(registerMail); // send the email
 router.route('/authenticate').post(controller.verifyUser, (req, res) => res.end()); // authenticate user
 router.route('/login').post(controller.verifyUser,controller.login); // login in app
+router.route('/googlelogin').post(controller.verifyUser,controller.googlelogin); // login using google in app
 
 /** GET Methods */
 router.route('/user/:username').get(controller.getUser) // user with username
