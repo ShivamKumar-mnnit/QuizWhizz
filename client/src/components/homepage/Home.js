@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import HashLoader from "react-spinners/HashLoader";
 import logo from './img/quizzwizz.png'
-
+import { Navbar } from './Navbar';
 
 
 const Home = () => {
@@ -13,7 +13,7 @@ const Home = () => {
         setTimeout(()=>{
             setLoading(false)
             
-        },5000)
+        },1000)
 
     },[])
 
@@ -38,7 +38,7 @@ const Home = () => {
           :
           
        <>
-       <h1>Homepage</h1>
+       <Navbar/>
        </>
 
         
