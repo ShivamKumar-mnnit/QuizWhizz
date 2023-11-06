@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import HashLoader from "react-spinners/HashLoader";
 import logo from './img/quizzwizz.png'
 import { Navbar } from './Navbar';
+import Crousel from './Crousel';
 
 
 const Home = () => {
@@ -13,7 +14,7 @@ const Home = () => {
         setTimeout(()=>{
             setLoading(false)
             
-        },1000)
+        },5000)
 
     },[])
 
@@ -37,8 +38,10 @@ const Home = () => {
 
           :
           
+          
        <>
        <Navbar/>
+       <Crousel/>
        </>
 
         

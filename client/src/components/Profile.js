@@ -26,7 +26,7 @@ export default function Profile() {
       email: apiData?.email || '',
       mobile: apiData?.mobile || '',
       address : apiData?.address || '',
-      role : apiData ?. role || '',
+      role : apiData?.role || false,
     },
     enableReinitialize: true,
     validate : profileValidation,Role,
@@ -42,6 +42,7 @@ export default function Profile() {
         error: <b>Could not Update!</b>
       
       });
+      navigate('/home')
     }
   })
 
@@ -93,12 +94,12 @@ export default function Profile() {
 
                 <div className="name flex w-3/4 gap-10">
                   <input {...formik.getFieldProps('mobile')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Mobile No.' />
-                  <input {...formik.getFieldProps('email')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Email*' />
+                  
                 </div>
 
                
                 <input {...formik.getFieldProps('address')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Address' />
-                <input {...formik.getFieldProps('role')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Role (in lower case)' />
+                <input {...formik.getFieldProps('role')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Role' />
  
                   <button className={styles.btn} type='submit'>Update</button>
               </div>

@@ -10,13 +10,26 @@ import logo from './img/quizzwizz.png';
 import useFetch from '../../hooks/fetch.hook';
 
 import avatar from '../../assets/profile.png';
+import { useNavigate } from 'react-router-dom'
 
+import { googleLogout } from '@react-oauth/google';
 
 
 export const Navbar = () => {
+
+  const token = localStorage.getItem('token');
   
   const [nav, setNav] = useState(false)
   const [{apiData}] = useFetch();
+  const navigate = useNavigate()
+
+// logout handler function
+function userLogout(){
+  googleLogout();
+  localStorage.removeItem('token');
+  navigate('/')
+}
+
   return (
    
 <div className='max-w-[1640px] mx-auto flex justify-between items-center p-4'>
@@ -30,9 +43,20 @@ export const Navbar = () => {
       <img src={logo} alt="Bootstrap" width="100" height="75" />
     </Link>
   </div>
+
+    {
+      apiData?.role===true ?
+
         <div className=' lg:flex items-center bg-gray-200 rounded-full text-[10px]'>
           <p className='bg-black text-white rounded-full p-2'>Admin</p>
         </div>
+:
+        <div></div>
+
+    }
+
+
+
       </div>
 
       {/* Search Input */}
@@ -45,8 +69,8 @@ export const Navbar = () => {
         />
       </div>
       {/* Cart button */}
-      <button className='bg-black text-white hidden md:flex items-center  rounded-full'>
-        <img src={apiData?.profile || avatar} className='' alt="avatar"  width="30" height="25" />
+      <button className='bg-black text-white md:flex items-center rounded-full'>
+        <img src={apiData?.profile || avatar} className='' alt="avatar"  width="50" height="30" />
       </button>
       
       {/* Mobile Menu */}
@@ -68,13 +92,29 @@ export const Navbar = () => {
         </div>
         <nav>
             <ul className='flex flex-col p-4 text-gray-800'>
-                <li className='text-xl py-4 flex'><TbTruckDelivery size={25} className='mr-4' /> Orders</li>
+
+          {
+            token?
+            <>
+            <li className='text-xl py-4 flex'><TbTruckDelivery size={25} className='mr-4' /> Your Profile</li>
                 <li className='text-xl py-4 flex'><MdFavorite size={25} className='mr-4' /> Favorites</li>
                 <li className='text-xl py-4 flex'><FaWallet size={25} className='mr-4' /> Wallet</li>
                 <li className='text-xl py-4 flex'><MdHelp size={25} className='mr-4' /> Help</li>
                 <li className='text-xl py-4 flex'><AiFillTag size={25} className='mr-4' /> Promotions</li>
                 <li className='text-xl py-4 flex'><BsFillSaveFill size={25} className='mr-4' /> Best Ones</li>
-                <li className='text-xl py-4 flex'><CgLogOut size={25} className='mr-4' /> Logout</li>
+                </>
+
+:
+              <div>please login to access the content</div>
+          }
+
+                {
+                  token?
+                  <Link to="/login"><li onClick={userLogout} className='text-xl py-4 flex'><CgLogOut size={25} className='mr-4' /> Logout</li></Link>
+                  :
+                <Link to="/login"><li onClick={userLogout} className='text-xl py-4 flex'><CgLogOut size={25} className='mr-4' /> Login/signup</li></Link>
+
+                }
             </ul>
         </nav>
       </div>
