@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap/dist/css/bootstrap.css'
 
 /** import all components */
 import Username from './components/Username';
@@ -10,17 +10,20 @@ import Profile from './components/Profile';
 import Recovery from './components/Recovery';
 import Reset from './components/Reset';
 import PageNotFound from './components/PageNotFound';
-import User from './components/user/User'
+import Home from './components/homepage/Home';
 
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
-import Home from './components/homepage/Home';
 
 /** root routes */
 const router = createBrowserRouter([
     {
         path : '/',
+        element : <Home></Home>
+    },
+    {
+        path : '/login',
         element : <Username></Username>
     },
     {
@@ -43,17 +46,10 @@ const router = createBrowserRouter([
         path : '/reset',
         element : <Reset></Reset>
     },
-    {
-        path : '/home',
-        element : <Home></Home>
-    },
+   
     {
         path : '*',
         element : <PageNotFound></PageNotFound>
-    },
-    {
-        path:'/user',
-        element:<User></User>
     }
     
 ])

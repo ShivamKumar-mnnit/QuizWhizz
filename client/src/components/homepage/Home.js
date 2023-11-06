@@ -13,7 +13,7 @@ const Home = () => {
         setTimeout(()=>{
             setLoading(false)
             
-        },1000)
+        },5000)
 
     },[])
 
@@ -36,6 +36,7 @@ const Home = () => {
 
 
           :
+          
           
        <>
        <Navbar/>

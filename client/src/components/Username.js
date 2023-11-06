@@ -67,7 +67,7 @@ export default function Username() {
       registerPromise.then(
         
         function(){ 
-          navigate('/profile')});
+          navigate('/')});
           let username = googlecredentials.username;
           let loginPromise = verifyGoogle({ username})
           toast.promise(loginPromise, {
@@ -79,7 +79,7 @@ export default function Username() {
       loginPromise.then(res => {
         let { token } = res.data;
         localStorage.setItem('token', token);
-        navigate('/profile')
+        navigate('/')
       })
       
     document.getElementById('signInDiv').hidden=true;
@@ -90,7 +90,7 @@ export default function Username() {
 
 
   useEffect(()=>{
-    if (location.pathname === '/') {
+    if (location.pathname === '/login') {
     /* global google */ 
     google.accounts.id.initialize({
       client_id: "35173665291-tqsaugfjn3i4es5mcltbmtbluqlepnv3.apps.googleusercontent.com",
