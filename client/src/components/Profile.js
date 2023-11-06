@@ -26,7 +26,7 @@ export default function Profile() {
       email: apiData?.email || '',
       mobile: apiData?.mobile || '',
       address : apiData?.address || '',
-      role : apiData ?. role || '',
+      role : apiData?.role || false,
     },
     enableReinitialize: true,
     validate : profileValidation,Role,
@@ -93,7 +93,7 @@ export default function Profile() {
 
                 <div className="name flex w-3/4 gap-10">
                   <input {...formik.getFieldProps('mobile')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Mobile No.' />
-                  <input {...formik.getFieldProps('email')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Email*' />
+                  
                 </div>
 
                
