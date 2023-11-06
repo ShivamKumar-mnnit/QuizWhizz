@@ -34,7 +34,8 @@ export default function Password() {
       loginPromise.then(res => {
         let { token } = res.data;
         localStorage.setItem('token', token);
-        navigate(`/user/${username}`)
+        const path = apiData?.role === 'Admin' ? `/admin/` : `/user/${username}`;
+        navigate(path);
       })
     }
   })

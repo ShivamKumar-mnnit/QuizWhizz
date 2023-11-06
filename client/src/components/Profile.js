@@ -40,7 +40,6 @@ export default function Profile() {
         error: <b>Could not Update!</b>
       
       });
-      navigate('/User')
     }
   })
 
@@ -96,7 +95,7 @@ export default function Profile() {
 
                
                 <input {...formik.getFieldProps('address')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Address' />
-                <input {...formik.getFieldProps('role')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Role' />
+                <input {...formik.getFieldProps('role')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Role (in lower case)' />
  
                   <button className={styles.btn} type='submit'>Update</button>
               </div>
