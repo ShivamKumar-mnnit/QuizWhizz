@@ -15,6 +15,7 @@ import User from './components/user/User'
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
+import Home from './components/homepage/Home';
 
 /** root routes */
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
     {
         path : '/reset',
         element : <Reset></Reset>
+    },
+    {
+        path : '/home',
+        element : <Home></Home>
     },
     {
         path : '*',
