@@ -21,8 +21,8 @@ export const UserSchema = new mongoose.Schema({
     mobile : { type : Number},
     address: { type: String},
     profile: { type: String},
-    role:{type : String,
-        // required:[true,"Please Provide Your Role"]
+    role:{type : Boolean,
+        default : false,
     }
 });
 

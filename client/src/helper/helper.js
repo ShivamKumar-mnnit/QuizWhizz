@@ -53,7 +53,7 @@ export async function registerUser(credentials){
 }
 /** google register user function */
 export async function googleregisterUser(credentials){
-    let {username }= credentials;
+    let {username}= credentials;
     const val = await authenticate(username);
     
     if(val.status === 200){
@@ -67,11 +67,11 @@ else{
         console.log("else")
         const { data : { msg }, status } = await axios.post(`/api/googleregister`, credentials);
 
-        let { username, email } = credentials;
+        let { username, email, profile,firstname } = credentials;
 
         /** send email */
          if(status === 201){
-             await axios.post('/api/registerMail', { username, userEmail : email, text : msg})
+             await axios.post('/api/registerMail', { username, userEmail : email, profile,firstname, text : msg})
          }
         return Promise.resolve(msg)
     } catch (error) {

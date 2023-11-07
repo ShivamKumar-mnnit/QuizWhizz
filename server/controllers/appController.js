@@ -105,7 +105,7 @@ export async function register(req,res){
 export async function googleregister(req,res){
 
     try {
-        const { username, profile, email } = req.body;        
+        const { username, profile, email , firstName } = req.body;        
 
         // check for existing email
         const existEmail = new Promise((resolve, reject) => {
@@ -123,7 +123,8 @@ export async function googleregister(req,res){
                             const user = new UserModel({
                                 username,
                                 profile: profile || '',
-                                email
+                                email,
+                                firstName
                             });
 
                             // return save result as a response

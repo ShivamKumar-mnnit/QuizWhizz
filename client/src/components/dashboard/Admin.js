@@ -1,10 +1,26 @@
 import React from 'react'
+import avatar from '../../assets/profile.png';
 import { Navbar } from '../homepage/Navbar'
 // import { Link } from 'react-router-dom'
 import progress from '../homepage/img/progrees.jpg'
+import styles from '../../styles/Username.module.css';
+
+import extend from '../../styles/Profile.module.css'
+import useFetch from '../../hooks/fetch.hook';
+
+import { BiSolidEdit } from "react-icons/bi";
+import { Link } from 'react-router-dom';
 
 const Admin = () => {
 
+
+
+
+
+  const [{ apiData }] = useFetch();
+
+
+  //to style the card elements 
     const cardStyle = {
         height: '800px', // Set a fixed height, adjust the value as needed
       };
@@ -22,7 +38,56 @@ const Admin = () => {
       </p>
 
       <div className="grid lg:grid-cols-3 gap-5 mb-16">
-        <div className="rounded bg-white h-40 shadow-sm"></div>
+        <div className="rounded bg-white h-40 shadow-sm">
+
+<div className='d-flex mx-2'>
+
+        <div>
+        <label htmlFor="profile">
+                    <img src={apiData?.profile || avatar} className={`${styles.profile_img} ${extend.profile_img}`} alt="avatar" />
+        </label>
+        </div>
+
+
+
+        <div className="container mx-1 my-3">
+
+          
+          
+            <div className=' d-flex flex-row'>
+              <h2 className='fw-bold my-1 mx-1'>Name:</h2>
+              <p className='mx-1'>{apiData?.firstName}</p>
+            </div> 
+          
+            <div className=' d-flex flex-row'>
+              <h2 className='fw-bold my-1 mx-1'>Email:</h2>
+              <p className='mx-1'>{apiData?.email}</p>
+            </div> 
+          
+            <div className=' d-flex flex-row'>
+              <h2 className='fw-bold my-1 mx-1'>Phone:</h2>
+              <p className='mx-1'>{apiData?.mobile}</p>
+            </div> 
+
+            <div className=' d-flex flex-row'>
+              <h2 className='fw-bold my-1 mx-1'>Address:</h2>
+              <p className='mx-1'>{apiData?.address}</p>
+            </div> 
+
+        </div>
+
+      <Link to='/profile'>
+        <div className=" d-flex flex-row-reverse mx-1">
+        edit<BiSolidEdit/>
+        </div>
+        </Link>
+
+</div>
+
+
+                  
+
+        </div>
         <div className="rounded bg-white h-40 shadow-sm"></div>
         <div className="rounded bg-white h-40 shadow-sm"></div>
       </div>

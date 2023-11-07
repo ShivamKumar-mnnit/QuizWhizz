@@ -8,7 +8,7 @@ import useFetch from '../hooks/fetch.hook';
 import { updateUser } from '../helper/helper'
 import { useNavigate } from 'react-router-dom'
 
-import { googleLogout } from '@react-oauth/google';
+// import { googleLogout } from '@react-oauth/google';
 
 import styles from '../styles/Username.module.css';
 import extend from '../styles/Profile.module.css'
@@ -42,7 +42,7 @@ export default function Profile() {
         error: <b>Could not Update!</b>
       
       });
-      navigate('/home')
+      navigate('/dashboard')
     }
   })
 
@@ -52,12 +52,14 @@ export default function Profile() {
     setFile(base64);
   }
 
-  // logout handler function
-  function userLogout(){
-    googleLogout();
-    localStorage.removeItem('token');
-    navigate('/')
-  }
+
+
+  // // logout handler function
+  // function userLogout(){
+  //   googleLogout();
+  //   localStorage.removeItem('token');
+  //   navigate('/')
+  // }
 
   if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
   if(serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
@@ -106,7 +108,7 @@ export default function Profile() {
 
 
               <div className="text-center py-4">
-                <span className='text-gray-500'>come back later? <button onClick={userLogout} className='text-red-500' to="/">Logout</button></span>
+                <span className='text-gray-500'><button className='text-red-500' to="/dashboard">Back to Home</button></span>
               </div>
 
           </form>

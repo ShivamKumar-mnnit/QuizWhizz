@@ -14,7 +14,7 @@ const Home = () => {
         setTimeout(()=>{
             setLoading(false)
             
-        },5000)
+        },3000)
 
     },[])
 
