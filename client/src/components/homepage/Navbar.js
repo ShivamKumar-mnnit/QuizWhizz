@@ -43,7 +43,7 @@ function userLogout(){
           <AiOutlineMenu size={30} />
         </div>
         <div className="mx-3">
-    <Link className="navbar-brand" href="/home">
+    <Link className="navbar-brand" to="/">
       <img src={logo} alt="Bootstrap" width="100" height="75" />
     </Link>
   </div>
