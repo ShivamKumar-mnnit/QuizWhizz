@@ -27,8 +27,12 @@ export const Navbar = () => {
 function userLogout(){
   googleLogout();
   localStorage.removeItem('token');
-  navigate('/')
+  navigate('/login')
 }
+
+
+
+
 
   return (
    
@@ -39,7 +43,7 @@ function userLogout(){
           <AiOutlineMenu size={30} />
         </div>
         <div className="mx-3">
-    <Link class="navbar-brand" href="/home">
+    <Link className="navbar-brand" href="/home">
       <img src={logo} alt="Bootstrap" width="100" height="75" />
     </Link>
   </div>
@@ -69,9 +73,30 @@ function userLogout(){
         />
       </div>
       {/* Cart button */}
-      <button className='bg-black text-white md:flex items-center rounded-full'>
-        <img src={apiData?.profile || avatar} className='' alt="avatar"  width="50" height="30" />
-      </button>
+
+      <div className="dropdown rounded-full ">
+  <img src={apiData?.profile || avatar} className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"  alt="avatar"  width="50" height="30" />
+
+  <ul className="dropdown-menu container-fluid" aria-labelledby="dropdownMenuButton1">
+    
+
+
+{     token?
+    <>
+    <li className='container-fluid overflow-auto text-center fw-bold' >{apiData?.firstName}</li>
+    {/* <li className='overflow-auto'>{apiData?.email}</li> */}
+    <li><button className="btn btn-danger container-fluid text-center" onClick={userLogout}>Logout</button></li>
+    </>
+:
+    <>
+    <li><button className="btn btn-warning container-fluid" onClick={userLogout}>Login Now</button></li>
+    </>
+}
+
+  </ul>
+</div>
+
+
       
       {/* Mobile Menu */}
       {/* Overlay */}
@@ -86,7 +111,7 @@ function userLogout(){
           className='absolute right-4 top-4 cursor-pointer'
         />
         <div className='text-2xl p-4'>
-        <Link class="navbar-brand" href="/home">
+        <Link className="navbar-brand" to="/">
       <img src={logo} alt="Bootstrap" width="100" height="75" />
     </Link>
         </div>
@@ -96,7 +121,7 @@ function userLogout(){
           {
             token?
             <>
-            <li className='text-xl py-4 flex'><TbTruckDelivery size={25} className='mr-4' /> Your Profile</li>
+                <Link to="/dashboard"><li className='text-xl py-4 flex'><TbTruckDelivery size={25} className='mr-4' /> Your Profile</li></Link>
                 <li className='text-xl py-4 flex'><MdFavorite size={25} className='mr-4' /> Favorites</li>
                 <li className='text-xl py-4 flex'><FaWallet size={25} className='mr-4' /> Wallet</li>
                 <li className='text-xl py-4 flex'><MdHelp size={25} className='mr-4' /> Help</li>
