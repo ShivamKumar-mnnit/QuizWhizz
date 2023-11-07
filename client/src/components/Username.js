@@ -45,14 +45,15 @@ export default function Username() {
         
     // console.log("Encoded jwt id token " + res.credential);
     var userObject = jwt_decode(res.credential);
-    // console.log(userObject);
+    console.log(userObject);
     // setUser(userObject);
 
    
     const googlecredentials = {
       username : userObject.email,
       email : userObject.email,
-      profile : userObject.picture
+      profile : userObject.picture,
+      firstName : userObject.name,
     }
 
 

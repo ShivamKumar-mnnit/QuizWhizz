@@ -6,17 +6,11 @@ import { useFormik } from 'formik';
 import { registerValidation } from '../helper/validate';
 import convertToBase64 from '../helper/convert';
 import { registerUser} from '../helper/helper';
-import useFetch from '../hooks/fetch.hook';
 
 import styles from '../styles/Username.module.css';
 
 export default function Register() {
 
-  // const [values, setValues] = useState({
-  //   role : false
-  // });
-
-  const [{ apiData }] = useFetch();
   const navigate = useNavigate()
   const [file, setFile] = useState()
 
@@ -59,7 +53,7 @@ export default function Register() {
           <div className="title flex flex-col items-center">
             <h4 className='text-5xl font-bold'>Register</h4>
             <span className='py-4 text-xl w-2/3 text-center text-gray-500'>
-                Happy to join you! {apiData?.role===false? <h1>yes</h1>: <h1>no</h1>}
+                Happy to join you!
             </span>
           </div>
 
@@ -76,8 +70,6 @@ export default function Register() {
                   <input {...formik.getFieldProps('email')} className={styles.textbox} type="text" placeholder='Email*' />
                   <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*' />
                   <input {...formik.getFieldProps('password')} className={styles.textbox} type="text" placeholder='Password*' />
-                  <input type="checkbox" {...formik.getFieldProps('role')} />
-                 
                   <button className={styles.btn} type='submit'>Register</button>
               </div>
 

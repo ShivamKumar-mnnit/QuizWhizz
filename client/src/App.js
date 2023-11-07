@@ -11,6 +11,7 @@ import Recovery from './components/Recovery';
 import Reset from './components/Reset';
 import PageNotFound from './components/PageNotFound';
 import Home from './components/homepage/Home';
+import Admin from './components/dashboard/Admin';
 
 
 /** auth middleware */
@@ -46,7 +47,10 @@ const router = createBrowserRouter([
         path : '/reset',
         element : <Reset></Reset>
     },
-   
+    {
+        path : '/dashboard',
+        element : <AuthorizeUser><Admin /></AuthorizeUser>
+    },
     {
         path : '*',
         element : <PageNotFound></PageNotFound>
