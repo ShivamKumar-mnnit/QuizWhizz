@@ -101,8 +101,29 @@ export default function Profile() {
 
                
                 <input {...formik.getFieldProps('address')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Address' />
-                <input {...formik.getFieldProps('role')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Role' />
- 
+                
+
+
+ {
+  !apiData?.role ?
+
+   <div className="d-flex">
+                  <input
+  {...formik.getFieldProps('role')}
+  type="checkbox"
+  checked={formik.values.role || false} // Set the checked attribute based on the formik values, default to false if undefined or null
+/>
+<p className='mx-1'>Check the box to be admin and Update</p>
+</div>
+
+:
+<></>
+
+}               
+
+
+
+
                   <button className={styles.btn} type='submit'>Update</button>
               </div>
 

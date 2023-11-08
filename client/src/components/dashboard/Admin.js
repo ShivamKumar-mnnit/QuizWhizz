@@ -34,7 +34,20 @@ const Admin = () => {
 <Navbar/>
 
 <div className="container-fluid">
-      <p className="text-gray-700 text-3xl mb-16 font-bold">Dashboard<span class="badge bg-warning text-dark mx-3">Admin</span>
+      <p className="text-gray-700 text-3xl mb-16 font-bold">Dashboard
+      
+      {
+        apiData?.role ?
+        <span class="badge bg-warning text-dark mx-3">Admin</span>
+        :
+        <></>
+      }
+      
+      
+      
+      
+      
+      
       </p>
 
       <div className="grid lg:grid-cols-3 gap-5 mb-16">
