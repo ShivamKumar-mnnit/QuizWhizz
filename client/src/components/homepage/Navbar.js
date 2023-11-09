@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom'
 import { AiOutlineMenu, AiOutlineSearch, AiOutlineClose, AiFillTag } from 'react-icons/ai';
-import {TbTruckDelivery} from 'react-icons/tb'
+import {CgProfile} from 'react-icons/cg'
 import {CgLogOut} from 'react-icons/cg'
-import {MdFavorite, MdHelp} from 'react-icons/md'
+import {MdQuiz, MdHelp} from 'react-icons/md'
 import logo from './img/quizzwizz.png';
 import useFetch from '../../hooks/fetch.hook';
 
@@ -154,8 +154,8 @@ function userLogout(){
 }
 
 
-                <Link to="/dashboard"><li className='text-xl py-4 flex'><TbTruckDelivery size={25} className='mr-4' /> Your Profile</li></Link>
-                <li className='text-xl py-4 flex'><MdFavorite size={25} className='mr-4' />option2</li>
+                <Link to="/dashboard"><li className='text-xl py-4 flex'><CgProfile size={25} className='mr-4' /> Your Profile</li></Link>
+                <li className='text-xl py-4 flex'><MdQuiz size={25} className='mr-4' />Quick Quiz</li>
                 <li className='text-xl py-4 flex'><MdHelp size={25} className='mr-4' /> Help</li>
                 <li className='text-xl py-4 flex'><AiFillTag size={25} className='mr-4' /> Promotions</li>
                 

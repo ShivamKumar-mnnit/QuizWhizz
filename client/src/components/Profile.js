@@ -129,7 +129,7 @@ export default function Profile() {
 
 
               <div className="text-center py-4">
-                <span className='text-gray-500'><button className='text-red-500' to="/dashboard">Back to Home</button></span>
+                <span className='text-gray-500'><button className='text-red-500' to="/dashboard">Back to dashboard</button></span>
               </div>
 
           </form>

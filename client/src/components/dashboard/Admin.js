@@ -69,7 +69,16 @@ const Admin = () => {
           
             <div className=' d-flex flex-row'>
               <h2 className='fw-bold my-1 mx-1'>Name:</h2>
-              <p className='mx-1'>{apiData?.firstName}</p>
+              <p className='mx-1'>
+                
+
+                {
+                  (!apiData?.firstName) ? 
+                  <>{apiData?.username}</> :  <>{apiData?.firstName}</>
+                }
+
+                </p>
+
             </div> 
           
             <div className=' d-flex flex-row'>
