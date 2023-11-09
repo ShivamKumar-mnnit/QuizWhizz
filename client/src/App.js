@@ -68,17 +68,17 @@ const router = createBrowserRouter([
         element : <AuthorizeUser><Questions /></AuthorizeUser>
     },
     {
-        path : '/quiz',
+        path : '/quiz/quiz',
         element : <AuthorizeUser><Quiz /></AuthorizeUser>
     },
     {
         path : '/result',
         element : <AuthorizeUser><Result /></AuthorizeUser>
     },
-    {
-        path : '/resultTable',
-        element : <AuthorizeUser><ResultTable /></AuthorizeUser>
-    },
+    // {
+    //     path : '/resultTable',
+    //     element : <AuthorizeUser><ResultTable /></AuthorizeUser>
+    // },
     {
         path : '*',
         element : <PageNotFound></PageNotFound>
