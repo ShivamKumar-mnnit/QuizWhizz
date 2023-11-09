@@ -156,7 +156,7 @@ function userLogout(){
 
                 <Link to="/dashboard"><li className='text-xl py-4 flex'><TbTruckDelivery size={25} className='mr-4' /> Your Profile</li></Link>
                 <li className='text-xl py-4 flex'><MdFavorite size={25} className='mr-4' />option2</li>
-                <li className='text-xl py-4 flex'><MdHelp size={25} className='mr-4' /> Help</li>
+              <Link to="/quiz"></Link>  <li  className='text-xl py-4 flex'><MdHelp size={25} className='mr-4' /> Quiz</li>
                 <li className='text-xl py-4 flex'><AiFillTag size={25} className='mr-4' /> Promotions</li>
                 
 

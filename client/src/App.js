@@ -14,6 +14,14 @@ import Home from './components/homepage/Home';
 import Admin from './components/dashboard/Admin';
 
 
+// Quiz
+import Main from './components/quiz/Main';
+import Questions from './components/quiz/Questions';
+import Quiz from './components/quiz/Quiz';
+import Result from './components/quiz/Result';
+import ResultTable from './components/quiz/ResultTable';
+
+
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
 
@@ -52,10 +60,30 @@ const router = createBrowserRouter([
         element : <AuthorizeUser><Admin /></AuthorizeUser>
     },
     {
+        path : '/quiz',
+        element : <AuthorizeUser><Main /></AuthorizeUser>
+    },
+    {
+        path : '/questions',
+        element : <AuthorizeUser><Questions /></AuthorizeUser>
+    },
+    {
+        path : '/quiz',
+        element : <AuthorizeUser><Quiz /></AuthorizeUser>
+    },
+    {
+        path : '/result',
+        element : <AuthorizeUser><Result /></AuthorizeUser>
+    },
+    {
+        path : '/resultTable',
+        element : <AuthorizeUser><ResultTable /></AuthorizeUser>
+    },
+    {
         path : '*',
         element : <PageNotFound></PageNotFound>
     }
-    
+
 ])
 
 export default function App() {
