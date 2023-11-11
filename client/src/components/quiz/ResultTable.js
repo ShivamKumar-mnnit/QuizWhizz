@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { getServerData } from '../../helper/quiz/helper';
+import { getServerData } from '../../helper/quiz/helper'
 
 export default function ResultTable() {
 
     const [data, setData] = useState([])
 
     useEffect(() => {
-        // getServerData(`${process.env.REACT_APP_SERVER_DOMAIN}/api/result`, (res) => {
-        getServerData(`http://localhost:8080/api/result`, (res) => {
+        getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/result`, (res) => {
             setData(res)
         })
     })
