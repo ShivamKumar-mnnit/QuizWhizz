@@ -9,7 +9,7 @@ import '../quick-quiz/Home.css';
 
   
 
-const Main = () => {
+export default function Main () {
     const inputRef = useRef(null)
     const dispatch = useDispatch()
 
