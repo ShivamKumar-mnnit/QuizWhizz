@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 const Home = () => {
   return (
     <>
-     <div className="container backgroundimagesetter fw-bold">
+     <div className="container backgroundimagesetter fw-bold text-center">
         
         
      <ul>
