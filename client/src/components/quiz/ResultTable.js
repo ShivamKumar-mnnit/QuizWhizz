@@ -1,5 +1,5 @@
 import React from 'react'
-import './styles/ResultTable.css'
+// import './styles/ResultTable.css'
 const ResultTable = () => {
   return (
     <>
