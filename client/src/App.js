@@ -75,10 +75,10 @@ const router = createBrowserRouter([
         path : '/result',
         element : <AuthorizeUser><Result /></AuthorizeUser>
     },
-    // {
-    //     path : '/resultTable',
-    //     element : <AuthorizeUser><ResultTable /></AuthorizeUser>
-    // },
+    {
+        path : '/resultTable',
+        element : <AuthorizeUser><ResultTable /></AuthorizeUser>
+    },
     {
         path : '*',
         element : <PageNotFound></PageNotFound>
