@@ -2,10 +2,14 @@ import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { setUserId } from '../../redux/quiz/result_reducer'
+import '../quick-quiz/Home.css';
 
 
-export default function Main() {
 
+
+  
+
+const Main = () => {
     const inputRef = useRef(null)
     const dispatch = useDispatch()
 
@@ -17,8 +21,10 @@ export default function Main() {
     }
 
   return (
-    <div className='container'>
-        <h1 className='title text-light'>Quiz Application</h1>
+    <>
+       <div className='container backgroundimagesetter fw-bold text-center'>
+   
+        <h1 className='title text-danger py-4'>Quiz Application</h1>
 
         <ol>
             <li>You will be asked 10 questions one after another.</li>
@@ -27,7 +33,7 @@ export default function Main() {
             <li>You can review and change answers before the quiz finish.</li>
             <li>The result will be declared at the end of the quiz.</li>
         </ol>
-
+        
         <form id="form">
             <input ref={inputRef} className="userid" type="text" placeholder='Username*' />
         </form>
@@ -35,7 +41,15 @@ export default function Main() {
         <div className='start'>
             <Link className='btn' to={'quiz'} onClick={startQuiz}>Start Quiz</Link>
         </div>
+          <Link to="/questions"><button>Questions</button></Link> 
+          <Link to="/quiz"><button>Quiz</button></Link> 
+          <Link to="/result"><button>Result</button></Link> 
+          <Link to="/resultTable"><button>ResultTable</button></Link> 
 
+        
     </div>
+    </>
   )
 }
+
+  

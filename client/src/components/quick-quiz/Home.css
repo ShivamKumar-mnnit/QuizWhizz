@@ -1,0 +1,12 @@
+
+.backgroundimagesetter {
+    background-image: url('./img/temp1.png'); /* Path to your background image file */
+    background-size: cover; /* This ensures the background image covers the whole container */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    height: 100vh; /* Set the height of the container to 100% of the viewport height */
+    /* color: white; Text color for better visibility on the background
+    text-align: center; /* Center align the text content */
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */ 
+  }
