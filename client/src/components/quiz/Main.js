@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import '../quick-quiz/Home.css';
 
@@ -10,19 +11,19 @@ const Main = () => {
         <h1 className='title text-danger py-4'>Quiz Application</h1>
 
         <ol>
-            <li className='my-1'>You will be asked 10 questions one after another.</li>
-            <li className='my-1'>10 points is awarded for the correct answer.</li>
-            <li className='my-1'>Each question has three options. You can choose only one options.</li>
-            <li className='my-1'>You can review and change answers before the quiz finish.</li>
-            <li className='my-1'>The result will be declared at the end of the quiz.</li>
+            <li>You will be asked 10 questions one after another.</li>
+            <li>10 points is awarded for the correct answer.</li>
+            <li>Each question has three options. You can choose only one options.</li>
+            <li>You can review and change answers before the quiz finish.</li>
+            <li>The result will be declared at the end of the quiz.</li>
         </ol>
         
         <form id="form">
-            {/* <input ref={inputRef} className="userid" type="text" placeholder='Username*' /> */}
+            <input ref={inputRef} className="userid" type="text" placeholder='Username*' />
         </form>
 
         <div className='start'>
-            {/* <Link className='btn' to={'quiz'} onClick={startQuiz}>Start Quiz</Link> */}
+            <Link className='btn' to={'quiz'} onClick={startQuiz}>Start Quiz</Link>
         </div>
           <Link to="/questions"><button>Questions</button></Link> 
           <Link to="/quiz"><button>Quiz</button></Link> 
@@ -35,4 +36,4 @@ const Main = () => {
   )
 }
 
-export default Main
+  

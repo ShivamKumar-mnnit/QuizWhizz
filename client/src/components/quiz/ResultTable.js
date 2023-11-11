@@ -2,8 +2,7 @@ import React from 'react'
 // import './styles/ResultTable.css'
 const ResultTable = () => {
   return (
-    <>
-       <div>
+    <div>
         <table>
             <thead className='table-header'>
                 <tr className='table-row'>
@@ -13,8 +12,8 @@ const ResultTable = () => {
                     <td>Result</td>
                 </tr>
             </thead>
-            {/* {<tbody>
-              { !data ?? <div>No Data Found </div>}
+            <tbody>
+                { !data ?? <div>No Data Found </div>}
                 {
                     data.map((v, i) => (
                         <tr className='table-body' key={i}>
@@ -26,21 +25,8 @@ const ResultTable = () => {
                     ))
                 }
                 
-            </tbody> } */}
-            <tbody>
-                        <tr className='table-body'>
-                            <td>user</td>
-                            <td>user</td>
-                            <td>user</td>
-                            <td>user</td>
-                            
-                        </tr>
-                    
             </tbody>
         </table>
     </div>
-    </>
   )
 }
-
-export default ResultTable

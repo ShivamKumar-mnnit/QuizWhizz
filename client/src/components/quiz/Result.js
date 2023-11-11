@@ -1,11 +1,45 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+// import '../styles/Result.css';
+import { Link } from 'react-router-dom';
 
-const Result = () => {
+import ResultTable from './ResultTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { attempts_Number, earnPoints_Number, flagResult } from '../../helper/quiz/helper';
+
+/** import actions  */
+import { resetAllAction } from '../../redux/quiz/question_reducer';
+import { resetResultAction } from '../../redux/quiz/result_reducer';
+import { usePublishResult } from '../../hooks/quiz/setResult';
+
+
+export default function Result() {
+
+    const dispatch = useDispatch()
+    const { questions : { queue ,answers}, result : { result, userId}}  = useSelector(state => state)
+
+    const totalPoints = queue.length * 10; 
+    const attempts = attempts_Number(result);
+    const earnPoints = earnPoints_Number(result, answers, 10)
+    const flag = flagResult(totalPoints, earnPoints)
+
+
+    /** store user result */
+    usePublishResult({ 
+        result, 
+        username : userId,
+        attempts,
+        points: earnPoints,
+        achived : flag ? "Passed" : "Failed" });
+
+    function onRestart(){
+        dispatch(resetAllAction())
+        dispatch(resetResultAction())
+    }
+
   return (
-    <>
-      <div className='container'>
+    <div className='container'>
         <h1 className='title text-light'>Quiz Application</h1>
-{/* 
+
         <div className='result flex-center'>
             <div className='flex'>
                 <span>Username</span>
@@ -38,12 +72,9 @@ const Result = () => {
         </div>
 
         <div className="container">
-            { result table }
+            {/* result table */}
             <ResultTable></ResultTable>
-        </div> */}
+        </div>
     </div>
-    </>
   )
 }
-
-export default Result

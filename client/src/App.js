@@ -96,7 +96,7 @@ const router = createBrowserRouter([
         element : <AuthorizeUser><Questions /></AuthorizeUser>
     },
     {
-        path : '/quiz',
+        path : '/quiz/quiz',
         element : <AuthorizeUser><Quiz /></AuthorizeUser>
     },
     {
