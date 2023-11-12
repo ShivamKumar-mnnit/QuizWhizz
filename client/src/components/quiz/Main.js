@@ -6,9 +6,6 @@ import '../quick-quiz/Home.css';
 
 
 
-
-  
-
 export default function Main () {
     const inputRef = useRef(null)
     const dispatch = useDispatch()

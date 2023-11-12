@@ -21,9 +21,14 @@ const Game = ({onChecked}) => {
   const questions = useSelector(state => state.questions.queue[state.questions.trace])
   const dispatch = useDispatch()
 
+  // useEffect(() => {
+  //     dispatch(updateResult({ trace, checked}))
+  // }, [checked])
+
   useEffect(() => {
-      dispatch(updateResult({ trace, checked}))
-  }, [checked])
+    // Reset selected option when moving to a new question
+    setChecked(undefined);
+  }, [trace]);
 
 
   
@@ -34,10 +39,9 @@ const Game = ({onChecked}) => {
       dispatch(updateResult({ trace, checked}))
   }
 
-  useEffect(() => {
-    // Remove selected class when moving to the next question
-    setChecked(undefined);
-  }, [trace]);
+ 
+
+  
   if(isLoading) return <h3 className='text-light'>isLoading</h3>
   if(serverError) return <h3 className='text-light'>{serverError || "Unknown Error"}</h3>
 
@@ -56,10 +60,10 @@ const Game = ({onChecked}) => {
         </div>
         <div id="hud-item">
           <p className="hud-prefix">
-            Score
+            Max.Score
           </p>
           <h1 className="hud-main-text" id="score">
-            0
+            10
           </h1>
         </div>
       </div>
@@ -86,26 +90,6 @@ const Game = ({onChecked}) => {
         ))}
       </ul>
 
-{/* <ul key={questions?.id}>
-            {
-                questions?.options.map((q, i) => (
-                    <li key={i}>
-                        <input 
-                            type="radio"
-                            value={false}
-                            name="options"
-                            id={`q${i}-option`}
-                            onChange={() => onSelect(i)}
-                        />
-
-                        <label className='text-primary' htmlFor={`q${i}-option`}>{q}</label>
-                        <div className={`check ${result[trace] === i ? 'checked' : ''}`}></div>
-                    </li>
-                ))
-            }
-        </ul> */}
-
- 
 
     </div>
   </div>
