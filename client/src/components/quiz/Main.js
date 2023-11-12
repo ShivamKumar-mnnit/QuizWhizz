@@ -13,9 +13,9 @@ export default function Main () {
     const [{ apiData }] = useFetch();
 
     function startQuiz(){
-        if(inputRef.current?.value){
-            dispatch(setUserId(inputRef.current?.value))
-        }
+        // if(inputRef.current?.value){
+            dispatch(setUserId(apiData?.firstName || apiData?.email))
+        // }
     }
 
   return (

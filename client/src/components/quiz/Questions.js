@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import './Questions.css'
 
 
 // Custom Hook 
 import { useFetchQestion } from '../../hooks/quiz/FetchQuestions';
 import { updateResult } from '../../hooks/quiz/setResult';
+
+// ... (existing imports)
 
 export default function Questions({ onChecked }) {
     const [checked, setChecked] = useState(undefined);
@@ -33,7 +36,7 @@ export default function Questions({ onChecked }) {
 
             <ul key={questions?.id} className='list-unstyled text-center'>
                 {questions?.options.map((q, i) => (
-                    <li key={i} className='mb-3'>
+                    <li key={i} className={`mb-3 choice-container ${result[trace] === i ? 'selected' : ''}`}>
                         <div className='form-check d-flex align-items-center justify-content-center'>
                             <input
                                 type='radio'
@@ -44,7 +47,7 @@ export default function Questions({ onChecked }) {
                                 onChange={() => onSelect(i)}
                                 checked={result[trace] === i}
                             />
-                            <label className='form-check-label text-primary ms-2' htmlFor={`q${i}-option`}>{q}</label>
+                            <label className={`form-check-label ${result[trace] === i ? 'text-success' : 'text-primary'} ms-2`} htmlFor={`q${i}-option`}>{q}</label>
                         </div>
                     </li>
                 ))}

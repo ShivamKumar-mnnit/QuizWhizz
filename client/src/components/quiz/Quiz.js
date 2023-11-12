@@ -53,11 +53,14 @@ export default function Quiz() {
             <Questions onChecked={onChecked} />
 
             <div className='d-flex justify-content-between mt-3'>
-                {trace > 0 && (
+                {trace > 0 ? 
                     <button className='btn btn-primary' onClick={onPrev}>
                         Prev
                     </button>
-                )}
+
+                    :
+                    <div></div>
+                }
                 <button className='btn btn-primary' onClick={onNext}>
                     Next
                 </button>
