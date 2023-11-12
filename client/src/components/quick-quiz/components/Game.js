@@ -1,10 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+
+/** Custom Hook */
+import { useFetchQestion } from '../../../hooks/quiz/FetchQuestions'
+import { updateResult } from '../../../hooks/quiz/setResult'
 
 import '../Home.css';
 import './Game.css';
 
 
-const Game = () => {
+const Game = ({onChecked}) => {
+
+
+  const [checked, setChecked] = useState(undefined)
+  const { trace } = useSelector(state => state.questions);
+  const result = useSelector(state => state.result.result);
+  const [{ isLoading, apiData, serverError}] = useFetchQestion() 
+
+  const questions = useSelector(state => state.questions.queue[state.questions.trace])
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+      dispatch(updateResult({ trace, checked}))
+  }, [checked])
+
+
+  
+  function onSelect(i){
+    console.log('Selected index:', i);
+      onChecked(i)
+      setChecked(i)
+      dispatch(updateResult({ trace, checked}))
+  }
+
+  useEffect(() => {
+    // Remove selected class when moving to the next question
+    setChecked(undefined);
+  }, [trace]);
+  if(isLoading) return <h3 className='text-light'>isLoading</h3>
+  if(serverError) return <h3 className='text-light'>{serverError || "Unknown Error"}</h3>
 
   return (
     <>
@@ -29,22 +64,49 @@ const Game = () => {
         </div>
       </div>
       <h2 id="question">What is the answer to this questions?</h2>
-      <div className="choice-container">
-        <p className="choice-prefix">A</p>
-        <p className="choice-text" data-number="1">Choice 1</p>
-      </div>
-      <div className="choice-container">
-        <p className="choice-prefix">B</p>
-        <p className="choice-text" data-number="2">Choice 2</p>
-      </div>
-      <div className="choice-container">
-        <p className="choice-prefix">C</p>
-        <p className="choice-text" data-number="3">Choice 3</p>
-      </div>
-      <div className="choice-container">
-        <p className="choice-prefix">D</p>
-        <p className="choice-text" data-number="4">Choice 4</p>
-      </div>
+      <h2 id="question" className='my-2'>{questions?.question}</h2>
+
+
+      <ul key={questions?.id}>
+        {questions?.options.map((q, i) => (
+          <li key={i}>
+            <div id={`q${i}-option`}
+              className={`choice-container ${
+                checked === i ? 'selected' : ''
+              }`}
+              onClick={() => onSelect(i)}
+            >
+              <p className="choice-prefix">{String.fromCharCode(65 + i)}</p>
+              <p className="choice-text" data-number={i + 1}>
+                {q}
+              </p>
+              <div className={`check ${result[trace] === i ? 'checked' : ''}`}></div>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+{/* <ul key={questions?.id}>
+            {
+                questions?.options.map((q, i) => (
+                    <li key={i}>
+                        <input 
+                            type="radio"
+                            value={false}
+                            name="options"
+                            id={`q${i}-option`}
+                            onChange={() => onSelect(i)}
+                        />
+
+                        <label className='text-primary' htmlFor={`q${i}-option`}>{q}</label>
+                        <div className={`check ${result[trace] === i ? 'checked' : ''}`}></div>
+                    </li>
+                ))
+            }
+        </ul> */}
+
+ 
+
     </div>
   </div>
 

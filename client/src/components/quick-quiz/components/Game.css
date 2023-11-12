@@ -61,3 +61,8 @@
     background-color: #56a5eb;
     width: 0%;
   }
+
+  .choice-container.selected {
+    /* Style for selected option */
+    background-color: lightblue;
+  }
