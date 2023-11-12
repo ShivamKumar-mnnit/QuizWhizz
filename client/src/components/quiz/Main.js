@@ -3,13 +3,14 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { setUserId } from '../../redux/quiz/result_reducer'
 import '../quick-quiz/Home.css';
+import useFetch from '../../hooks/fetch.hook';
 
 
 
 export default function Main () {
     const inputRef = useRef(null)
     const dispatch = useDispatch()
-
+    const [{ apiData }] = useFetch();
 
     function startQuiz(){
         if(inputRef.current?.value){
@@ -31,19 +32,19 @@ export default function Main () {
             <li>The result will be declared at the end of the quiz.</li>
         </ol>
         
-        <form id="form">
-            <input ref={inputRef} className="userid" type="text" placeholder='Username*' />
+        <form id="form" className='my-4 text-center'>
+            <input ref={inputRef} className="userid text-center" type="text" placeholder='Username*' defaultValue={apiData?.firstName || apiData?.username}
+             readOnly/>
         </form>
 
         <div className='start'>
-            <Link className='btn' to={'quiz'} onClick={startQuiz}>Start Quiz</Link>
+            <Link className='btn btn-success' to={'quiz'} onClick={startQuiz}>Start Quiz</Link>
         </div>
-          <Link to="/questions"><button>Questions</button></Link> 
-          <Link to="/quiz"><button>Quiz</button></Link> 
-          <Link to="/result"><button>Result</button></Link> 
-          <Link to="/resultTable"><button>ResultTable</button></Link> 
-
-        
+         
+        <div className="my-4">
+          <Link to="/resultTable"><button className='btn btn-info my-2 mx-4'>Your Scores</button></Link> 
+          <Link to="/resultTable"><button className='btn btn-info'>LeaderBoard</button></Link> 
+          </div>
     </div>
     </>
   )

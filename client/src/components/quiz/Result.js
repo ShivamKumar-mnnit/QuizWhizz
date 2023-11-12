@@ -40,10 +40,10 @@ export default function Result() {
 
                 <div className='result flex-center text-center'>
                     {/* User Name and Result Table */}
-                    <div>
+                    {/* <div> */}
                         <h4>User Name: {userId || ''}</h4>
-                        <ResultTable />
-                    </div>
+                        {/* <ResultTable /> */}
+                    {/* </div> */}
                 </div>
 
                 <div className='text-center mt-4'>
@@ -56,7 +56,7 @@ export default function Result() {
 
                 <div className='start text-center mt-4'>
                     {/* Restart Button */}
-                    <Link className='btn btn-primary' to={'/'} onClick={onRestart}>
+                    <Link className='btn btn-primary' to={'/quiz'} onClick={onRestart}>
                         Restart
                     </Link>
                 </div>
