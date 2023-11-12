@@ -21,10 +21,9 @@ export const usePublishResult = (resultData) => {
     const { result, username } = resultData;
     (async () => {
         try {
-            if(!Array.isArray(result) || result.length === 0 && !username) throw new Error("Couldn't get Result");
+            if(!username ||  !Array.isArray(result) || result.length === 0) throw new Error("Couldn't get Result");
             await postServerData(`http://localhost:8080/api/result`, resultData, data => data)
         } catch (error) {
-            console.log("me")
             console.log(error)
         }
     })();
