@@ -155,8 +155,8 @@ function userLogout(){
 
 
                 <Link to="/dashboard"><li className='text-xl py-4 flex'><CgProfile size={25} className='mr-4' /> Your Profile</li></Link>
-               <Link to='/quick_quiz'> <li className='text-xl py-4 flex'><MdQuiz size={25} className='mr-4' />Quick Quiz</li></Link>
-                <Link to='/quiz'><li className='text-xl py-4 flex'><MdHelp size={25} className='mr-4' /> Quiz</li></Link>
+               <Link to='/quick_quiz'> <li className='text-xl py-4 flex'><MdQuiz size={25} className='mr-4' />Testing</li></Link>
+                <Link to='/quiz'><li className='text-xl py-4 flex'><MdHelp size={25} className='mr-4' /> Quick-Quiz</li></Link>
                 <li className='text-xl py-4 flex'><AiFillTag size={25} className='mr-4' /> Promotions</li>
                 
 
