@@ -24,7 +24,7 @@ import ResultTable from './components/quiz/ResultTable';
 //QuickQuiz
 import QuickQuizHome from './components/quick-quiz/Home';
 import QuickQuizOption from './components/quick-quiz/components/Indexpage';
-import QuickQuizGame from './components/quick-quiz/components/Game';
+import QuickQuizGame from './components/quick-quiz/components/Quizpage';
 import QuickQuizEnd from './components/quick-quiz/components/End';
 import QuickQuizHiscore from './components/quick-quiz/components/Highscore';
 

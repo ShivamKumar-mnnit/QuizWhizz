@@ -1,110 +1,100 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-const Game = () => {
+
+/** Custom Hook */
+import { useFetchQestion } from '../../../hooks/quiz/FetchQuestions'
+import { updateResult } from '../../../hooks/quiz/setResult'
+
+import '../Home.css';
+import './Game.css';
 
 
-  const [questions, setQuestions] = useState([]);
-  const [currentQuestion, setCurrentQuestion] = useState({});
-  const [score, setScore] = useState(0);
-  const [questionCounter, setQuestionCounter] = useState(0);
-  const [acceptingAnswers, setAcceptingAnswers] = useState(false);
+const Game = ({onChecked}) => {
+
+
+  const [checked, setChecked] = useState(undefined)
+  const { trace } = useSelector(state => state.questions);
+  const result = useSelector(state => state.result.result);
+  const [{ isLoading, apiData, serverError}] = useFetchQestion() 
+
+  const questions = useSelector(state => state.questions.queue[state.questions.trace])
+  const dispatch = useDispatch()
+
+  // useEffect(() => {
+  //     dispatch(updateResult({ trace, checked}))
+  // }, [checked])
 
   useEffect(() => {
-    fetchQuestions();
-  }, []);
-
-  const fetchQuestions = async () => {
-    try {
-      const response = await fetch('https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple');
-      const data = await response.json();
-      const formattedQuestions = data.results.map((loadedQuestion) => {
-        const formattedQuestion = {
-          question: loadedQuestion.question,
-          choices: [...loadedQuestion.incorrect_answers, loadedQuestion.correct_answer],
-        };
-        formattedQuestion.choices.sort(() => Math.random() - 0.5);
-        return formattedQuestion;
-      });
-      setQuestions(formattedQuestions);
-      startGame();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const startGame = () => {
-    setQuestionCounter(0);
-    setScore(0);
-    setCurrentQuestion(questions[0]);
-    setAcceptingAnswers(true);
-  };
-
-  const checkAnswer = (selectedChoice) => {
-    if (!acceptingAnswers) return;
-
-    setAcceptingAnswers(false);
-    const correctAnswer = currentQuestion.choices.indexOf(currentQuestion.choices.find(choice => choice === currentQuestion.choices[3]));
-
-    if (selectedChoice === correctAnswer) {
-      setScore(score + 10);
-    }
-    setTimeout(() => {
-      if (questionCounter + 1 < questions.length) {
-        setCurrentQuestion(questions[questionCounter + 1]);
-        setQuestionCounter(questionCounter + 1);
-        setAcceptingAnswers(true);
-      } else {
-        // Game Over: navigate to end page or display game over message
-        localStorage.setItem('mostRecentScore', score);
-        window.location.assign('/end.html');
-      }
-    }, 1000);
-  };
+    // Reset selected option when moving to a new question
+    setChecked(undefined);
+  }, [trace]);
 
 
+  
+  function onSelect(i){
+    console.log('Selected index:', i);
+      onChecked(i)
+      setChecked(i)
+      dispatch(updateResult({ trace, checked}))
+  }
 
-    
+ 
+
+  
+  if(isLoading) return <h3 className='text-light'>isLoading</h3>
+  if(serverError) return <h3 className='text-light'>{serverError || "Unknown Error"}</h3>
+
   return (
-    <div class="container">
-      <div id="loader"></div>
-      <div id="game" class="justify-center flex-column hidden">
-        <div id="hud">
-          <div id="hud-item">
-            <p id="progressText" class="hud-prefix">
-              Question
-            </p>
-            <div id="progressBar">
-              <div id="progressBarFull"></div>
-            </div>
-          </div>
-          <div id="hud-item">
-            <p class="hud-prefix">
-              Score
-            </p>
-            <h1 class="hud-main-text" id="score">
-              0
-            </h1>
+    <>
+    <div className="container">
+    <div id="game" className="justify-center flex-column">
+      <div id="hud">
+        <div id="hud-item">
+          <p id="progressText" className="hud-prefix">
+            Question
+          </p>
+          <div id="progressBar">
+            <div id="progressBarFull"></div>
           </div>
         </div>
-        <h2 id="question">a</h2>
-        <div class="choice-container">
-          <p class="choice-prefix">A</p>
-          <p class="choice-text" data-number="1"></p>
-        </div>
-        <div class="choice-container">
-          <p class="choice-prefix">B</p>
-          <p class="choice-text" data-number="2"></p>
-        </div>
-        <div class="choice-container">
-          <p class="choice-prefix">C</p>
-          <p class="choice-text" data-number="3"></p>
-        </div>
-        <div class="choice-container">
-          <p class="choice-prefix">D</p>
-          <p class="choice-text" data-number="4"></p>
+        <div id="hud-item">
+          <p className="hud-prefix">
+            Max.Score
+          </p>
+          <h1 className="hud-main-text" id="score">
+            10
+          </h1>
         </div>
       </div>
+      <h2 id="question">What is the answer to this questions?</h2>
+      <h2 id="question" className='my-2'>{questions?.question}</h2>
+
+
+      <ul key={questions?.id}>
+        {questions?.options.map((q, i) => (
+          <li key={i}>
+            <div id={`q${i}-option`}
+              className={`choice-container ${
+                checked === i ? 'selected' : ''
+              }`}
+              onClick={() => onSelect(i)}
+            >
+              <p className="choice-prefix">{String.fromCharCode(65 + i)}</p>
+              <p className="choice-text" data-number={i + 1}>
+                {q}
+              </p>
+              <div className={`check ${result[trace] === i ? 'checked' : ''}`}></div>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+
     </div>
+  </div>
+
+  </>
   )
 }
 

@@ -6,6 +6,10 @@ export const ResultSchema = new mongoose.Schema({
     attempts: {type: Number, default: 0},
     points: {type: Number, default: 0},
     achived: {type: String, default: ''},
+    //i will store here time in milliseconds
+    timetaken: {
+        type: Number, default: 0
+    },
     createdAt: {type: Date, default: Date.now}
 });
 

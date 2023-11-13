@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 const Home = () => {
   return (
     <>
-     <div className="container backgroundimagesetter fw-bold">
+     <div className="container backgroundimagesetter fw-bold text-center">
         
         
      <ul>
@@ -22,13 +22,13 @@ const Home = () => {
 
 
 {/* Search Input */}
-<div className='bg-gray-200 rounded-full flex items-center px-2 w-[200px] sm:w-[400px] lg:w-[500px]'>
+{/* <div className='bg-gray-200 rounded-full flex items-center px-2 w-[200px] sm:w-[400px] lg:w-[500px]'>
         <input
           className='bg-transparent p-2 w-full focus:outline-none'
           type='text'
           placeholder='Enter the topic'
         />
-      </div>
+      </div> */}
 
 </div>
 
