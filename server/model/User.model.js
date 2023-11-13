@@ -23,7 +23,15 @@ export const UserSchema = new mongoose.Schema({
     profile: { type: String},
     role:{type : Boolean,
         default : false,
-    }
+    },
+
+    exams:[
+        {
+            type: mongoose.Schema.Types.ObjectId,ref: 'Exam'
+        }
+
+    ]
+
 });
 
 export default mongoose.model.Users || mongoose.model('User', UserSchema);
