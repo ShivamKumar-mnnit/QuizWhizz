@@ -21,12 +21,7 @@ import Quiz from './components/quiz/Quiz';
 import Result from './components/quiz/Result';
 import ResultTable from './components/quiz/ResultTable';
 
-//QuickQuiz
-import QuickQuizHome from './components/quick-quiz/Home';
-import QuickQuizOption from './components/quick-quiz/components/Indexpage';
-import QuickQuizGame from './components/quick-quiz/components/Quizpage';
-import QuickQuizEnd from './components/quick-quiz/components/End';
-import QuickQuizHiscore from './components/quick-quiz/components/Highscore';
+
 
 
 
@@ -71,26 +66,7 @@ const router = createBrowserRouter([
         path : '/quiz',
         element : <AuthorizeUser><Main /></AuthorizeUser>
     },
-    {
-        path : '/quick_quiz',
-        element : <AuthorizeUser><QuickQuizHome /></AuthorizeUser>
-    },
-    {
-        path : '/quick_quiz/option',
-        element : <AuthorizeUser><QuickQuizOption /></AuthorizeUser>
-    },
-    {
-        path : '/quick_quiz/game',
-        element : <AuthorizeUser><QuickQuizGame /></AuthorizeUser>
-    },
-    {
-        path : '/quick_quiz/end',
-        element : <AuthorizeUser><QuickQuizEnd /></AuthorizeUser>
-    },
-    {
-        path : '/quick_quiz/score',
-        element : <AuthorizeUser><QuickQuizHiscore /></AuthorizeUser>
-    },
+   
     {
         path : '/questions',
         element : <AuthorizeUser><Questions /></AuthorizeUser>
