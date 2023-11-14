@@ -1,5 +1,6 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
 // import 'bootstrap/dist/css/bootstrap.css'
 
 /** import all components */
@@ -21,12 +22,15 @@ import Quiz from './components/quiz/Quiz';
 import Result from './components/quiz/Result';
 import ResultTable from './components/quiz/ResultTable';
 
-
+//Exam
+import ExamDashboard from './components_pages/Dashboard';
 
 
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
+
+
 
 /** root routes */
 const router = createBrowserRouter([
@@ -83,6 +87,24 @@ const router = createBrowserRouter([
         path : '/resultTable',
         element : <AuthorizeUser><ResultTable /></AuthorizeUser>
     },
+
+//define all exams related paths here
+{
+    path : '/examDashboard',
+    element : <ExamDashboard  />
+},
+
+
+
+
+
+
+
+
+
+
+
+
     {
         path : '*',
         element : <PageNotFound></PageNotFound>
@@ -91,6 +113,9 @@ const router = createBrowserRouter([
 ])
 
 export default function App() {
+
+
+
   return (
     <main>
         <RouterProvider router={router}></RouterProvider>

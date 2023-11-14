@@ -1,5 +1,6 @@
 import express from 'express';
 import Exam from '../model/exam.js';
+import User from '../model/User.model.js'
 const router = express.Router()
 
 import Auth from '../middleware/auth.js';
@@ -35,19 +36,31 @@ router.get("/exam/:id", async (req, resp) => {
     }
 });
 
-router.post('/', (req, resp) => {
-    const exam = new Exam({
-        creatorUserId: req.body.creatorUserId,
-        examname: req.body.examname,
-        passGrade: req.body.passGrade,
-        time: req.body.time,
-    })
-    exam.save().then(data => {
-        resp.json(data)
-    }).catch(e => {
-        resp.json({ message: e })
-    })
-})
+
+router.post('/', Auth, async (req, resp) => {
+    try {
+        const exam = new Exam({
+            creatorUserId: req.user.userId,
+            examname: req.body.examname,
+            passGrade: req.body.passGrade,
+            time: req.body.time,
+        });
+
+        const savedExam = await exam.save();
+
+        // Update the user's exams array with the ID of the created exam
+        await User.findByIdAndUpdate(
+            req.user.userId,
+            { $push: { exams: { examId: savedExam._id, examname: savedExam.examname } } },
+            { new: true }
+        );
+
+        resp.json(savedExam);
+    } catch (e) {
+        resp.status(500).json({ message: e.message });
+    }
+});
+
 
 router.patch('/:id', (req, resp) => {
     Exam.updateOne({ _id: req.params.id }, {

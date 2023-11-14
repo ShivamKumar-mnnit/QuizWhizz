@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const ExamSchema = new mongoose.Schema({
   creatorUserId: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
   },
   examname: {
     type: String,
@@ -24,5 +24,4 @@ const ExamSchema = new mongoose.Schema({
 );
 
 export default mongoose.model('exam', ExamSchema);
-// export default mongoose.model.Exams || mongoose.model('exam', ExamSchema);
 

@@ -1,6 +1,7 @@
 
 import { Navigate } from "react-router-dom";
 import { useAuthStore } from "../store/store";
+// import { useSelector } from "react-redux";
 
 export const AuthorizeUser = ({ children }) => {
     const token = localStorage.getItem('token');
@@ -20,3 +21,4 @@ export const ProtectRoute = ({ children }) => {
     }
     return children;
 }
+
