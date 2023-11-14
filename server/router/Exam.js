@@ -15,9 +15,9 @@ router.get('/', (req, resp) => {
 })
 
 //GET Exam
-router.get("/:id", async (req, resp) => {
+router.get("/:id",Auth, async (req, resp) => {
     try {
-        Exam.find({ creatorUserId: req.params.id}).then(data => {
+        Exam.find({ creatorUserId: req.user.userId}).then(data => {
             resp.json(data)
         })
     } catch (err) {
@@ -25,16 +25,22 @@ router.get("/:id", async (req, resp) => {
     }
 });
 
-//GET Exam by examId
+// GET Exam by examId
 router.get("/exam/:id", async (req, resp) => {
     try {
-        Exam.find({ _id: req.params.id }).then(data => {
-            resp.json(data)
-        })
+        const exam = await Exam.findOne({ _id: req.params.id });
+        
+        if (!exam) {
+            // If no exam is found with the given ID
+            return resp.status(404).json({ message: "Exam not found" });
+        }
+
+        resp.json(exam);
     } catch (err) {
-        resp.json({ message: err });
+        resp.status(500).json({ message: err.message });
     }
 });
+
 
 
 router.post('/', Auth, async (req, resp) => {

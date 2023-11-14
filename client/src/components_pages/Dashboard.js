@@ -1,8 +1,7 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom";
 import React ,{useState,useEffect}from 'react'
-import { useSelector } from "react-redux";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import axios from 'axios'
 import Popup from 'reactjs-popup';
 
@@ -57,18 +56,18 @@ cursor: pointer;
 
 
 const Dashboard = () => {
+
+  const token = localStorage.getItem('token');
     const notify = () => toast.success("Link successfully  copied to the clipboard");
 
-    const [isLoading, setIsLoading] = useState(true);
     const [examName, setExamName] = useState("");
     const [examNameStorage, setExamNameStorage] = useState([]);
     const [dummy, setDummy] = useState(0);
 
   
     const getExamNames = async () => {
-        const { data } = await axios.get(`http://localhost:8080/exam/655369aa7d9b53a0b9f00350`);
+        const { data } = await axios.get(`http://localhost:8080/exam/:id` , { headers: { Authorization: `Bearer ${token}` } });
         setExamNameStorage(data);
-        setIsLoading(false);
       }
 
       const deleteExam = (id) => {
@@ -81,6 +80,7 @@ const Dashboard = () => {
     
       useEffect(() => {
         getExamNames();
+        // eslint-disable-next-line
       }, [examName, dummy]);
     
       const handleName = (e) => {
@@ -92,9 +92,13 @@ const Dashboard = () => {
             examname: examName,
           };
           console.log(newExam)
-          axios.post("http://localhost:8080/exam/", newExam).then((response) => {
+          axios.post("http://localhost:8080/exam/", newExam, { headers: { Authorization: `Bearer ${token}` } })
+          .then((response) => {
             console.log(response.status);
             console.log(response.data);
+          })
+          .catch((error) => {
+            console.error(error);
           });
           setDummy(dummy + 1)
         }
