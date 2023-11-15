@@ -1,7 +1,8 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom";
 import React ,{useState,useEffect}from 'react'
-import {  toast } from 'react-toastify';
+import {  ToastContainer,toast  } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 import Popup from 'reactjs-popup';
 
@@ -55,7 +56,7 @@ cursor: pointer;
 
 
 
-const Dashboard = ({ close }) => {
+const Dashboard = () => {
 
   const token = localStorage.getItem('token');
     const notify = () => toast.success("Link successfully copied to the clipboard");
@@ -65,8 +66,8 @@ const Dashboard = ({ close }) => {
     const [dummy, setDummy] = useState(0);
 
   
-    const getExamNames = async () => {
-        const { data } = await axios.get(`http://localhost:8080/exam/:id` , { headers: { Authorization: `Bearer ${token}` } });
+    const getExamNames = async (id) => {
+        const { data } = await axios.get(`http://localhost:8080/exam/${id}` , { headers: { Authorization: `Bearer ${token}` } });
         setExamNameStorage(data);
       }
 
@@ -182,7 +183,7 @@ const Dashboard = ({ close }) => {
           </TableContainer>
         </Wrapper>
       </Container>
-
+<ToastContainer/>
     </div>
   )
 }

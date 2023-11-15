@@ -1,6 +1,8 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+
+
 // import 'bootstrap/dist/css/bootstrap.css'
 
 /** import all components */
@@ -25,6 +27,9 @@ import ResultTable from './components/quiz/ResultTable';
 //Exam
 import ExamDashboard from './components_pages/Dashboard';
 import CreateQuiz from './components_pages/CreateQuiz';
+import Configure from './components_pages/Configure';
+import Anlyze from './components_pages/Anlyze';
+import ExamReview from './components_pages/ExamReview';
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
@@ -96,6 +101,19 @@ const router = createBrowserRouter([
     path : '/create/:id',
     element : <CreateQuiz  />
 },
+{
+    path : '/configure/:id',
+    element : <Configure  />
+},
+{
+    path : '/anlyze/:id',
+    element : <Anlyze  />
+},
+{
+    path : '/examreview/:id',
+    element : <ExamReview  />
+},
+
 
 
 
@@ -121,7 +139,7 @@ export default function App() {
 
   return (
     <main>
-        <RouterProvider router={router}></RouterProvider>
+        <RouterProvider router={router} ></RouterProvider>
     </main>
   )
 }
