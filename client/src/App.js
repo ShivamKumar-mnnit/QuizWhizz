@@ -24,8 +24,7 @@ import ResultTable from './components/quiz/ResultTable';
 
 //Exam
 import ExamDashboard from './components_pages/Dashboard';
-
-
+import CreateQuiz from './components_pages/CreateQuiz';
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
@@ -92,6 +91,10 @@ const router = createBrowserRouter([
 {
     path : '/examDashboard',
     element : <ExamDashboard  />
+},
+{
+    path : '/create/:id',
+    element : <CreateQuiz  />
 },
 
 

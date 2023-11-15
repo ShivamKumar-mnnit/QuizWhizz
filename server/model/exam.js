@@ -16,7 +16,12 @@ const ExamSchema = new mongoose.Schema({
   time: {
     type: Number,
     default: 20,
-  },
+  }, 
+  examQuestions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'examquestion'
+  }],
+
 },
   {
     timestamps: true,

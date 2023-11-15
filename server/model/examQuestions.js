@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 const ExamQuestionsSchema = new mongoose.Schema({
     examId: {
-        type: String,
+        type:  mongoose.Schema.Types.ObjectId,
+        ref: 'exam'
     },
     questionTitle: {
         type: String,

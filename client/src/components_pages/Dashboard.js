@@ -55,10 +55,10 @@ cursor: pointer;
 
 
 
-const Dashboard = () => {
+const Dashboard = ({ close }) => {
 
   const token = localStorage.getItem('token');
-    const notify = () => toast.success("Link successfully  copied to the clipboard");
+    const notify = () => toast.success("Link successfully copied to the clipboard");
 
     const [examName, setExamName] = useState("");
     const [examNameStorage, setExamNameStorage] = useState([]);
@@ -70,39 +70,52 @@ const Dashboard = () => {
         setExamNameStorage(data);
       }
 
-      const deleteExam = (id) => {
-        axios.delete(`http://localhost:8080/exam/${id}`).then((response) => {
-          console.log(response.status);
-          console.log(response.data);
-        });
-        setDummy(dummy + 1)
-      }
+      const deleteExam = async (id) => {
+        try {
+            // Send DELETE request to delete the exam
+            await axios.delete(`http://localhost:8080/exam/${id}`);
+    
+            // Update state to reflect the deletion
+            setExamNameStorage(prevExams => prevExams.filter(exam => exam._id !== id));
+    
+            // Optionally, you can trigger a re-fetch of exam data
+            // getExamNames();
+        } catch (error) {
+            console.error("Error deleting exam:", error);
+        }
+    }
+    
     
       useEffect(() => {
         getExamNames();
         // eslint-disable-next-line
       }, [examName, dummy]);
     
-      const handleName = (e) => {
+      const handleName = async (e) => {
         e.preventDefault();
         if (examName === "") {
-          alert("If you want to create an exam you have to give it a name")
+          alert("If you want to create an exam, you have to give it a name");
         } else {
           const newExam = {
             examname: examName,
           };
-          console.log(newExam)
-          axios.post("http://localhost:8080/exam/", newExam, { headers: { Authorization: `Bearer ${token}` } })
-          .then((response) => {
+    
+          try {
+            const response = await axios.post("http://localhost:8080/exam/", newExam, { headers: { Authorization: `Bearer ${token}` } });
+            
+            // Update state to include the newly created exam
+            setExamNameStorage(prevExams => [...prevExams, response.data]);
+            
             console.log(response.status);
             console.log(response.data);
-          })
-          .catch((error) => {
+          } catch (error) {
             console.error(error);
-          });
-          setDummy(dummy + 1)
+          }
+    
+          setDummy(dummy + 1);
         }
-      }
+    };
+    
 
   return (
     <div>

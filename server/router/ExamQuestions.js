@@ -1,5 +1,7 @@
 import express from 'express';
 import ExamQuestions from '../model/examQuestions.js';
+import Exam from '../model/exam.js';
+
 const router = express.Router()
 
 import Auth from '../middleware/auth.js';
@@ -24,19 +26,54 @@ router.get("/:id", async (req, resp) => {
     }
 });
 
-router.post('/', (req, resp) => {
-    const examQuestions = new ExamQuestions({
-        examId: req.body.examId,
-        questionTitle: req.body.questionTitle,
-        options: req.body.options,
-        correctOption: req.body.correctOption,
-    })
-    examQuestions.save().then(data => {
-        resp.json(data)
-    }).catch(e => {
-        resp.json({ message: e })
-    })
-})
+// router.post('/', async(req, resp) => {
+//     const examQuestions = new ExamQuestions({
+//         examId: req.body.examId,
+//         questionTitle: req.body.questionTitle,
+//         options: req.body.options,
+//         correctOption: req.body.correctOption,
+//     })
+
+//     const savedExamQuestions = await  examQuestions.save();
+//     await Exam.findByIdAndUpdate(req,body.examId,{
+//         $push
+//     })
+//     examQuestions.save().then(data => {
+//         resp.json(data)
+//     }).catch(e => {
+//         resp.json({ message: e })
+//     })
+// })
+router.post('/', async (req, resp) => {
+    try {
+        const { examId, questionTitle, options, correctOption } = req.body;
+
+        // Create a new exam question
+        const newQuestion = new ExamQuestions({
+            examId,
+            questionTitle,
+            options,
+            correctOption,
+        });
+
+        // Save the question
+        const savedExamQuestions = await newQuestion.save();
+
+        // Update the corresponding exam with the new question
+        await Exam.findByIdAndUpdate(
+            examId,
+            { $push: { examQuestions: savedExamQuestions._id } },
+            { new: true }
+        );
+
+        resp.json(savedExamQuestions);
+    } catch (error) {
+        resp.status(500).json({ message: error.message });
+    }
+});
+
+
+
 
 router.put("/:id", (req, resp) => {
     ExamQuestions.updateOne({ _id: req.params.id }, {

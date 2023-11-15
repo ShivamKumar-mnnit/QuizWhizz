@@ -82,13 +82,30 @@ router.patch('/:id', (req, resp) => {
     })
 })
 
-router.delete('/:id', (req, resp) => {
-    Exam.deleteOne({ _id: req.params.id })
-        .then(data => {
-            resp.json(data)
-        }).catch(e => {
-            resp.json({ message: e })
-        })
-})
+router.delete('/:id', async (req, resp) => {
+    try {
+        // Find and delete the exam
+        const deletedExam = await Exam.findByIdAndDelete(req.params.id);
+
+        if (!deletedExam) {
+            // If the exam is not found, return a 404 status
+            return resp.status(404).json({ message: 'Exam not found' });
+        }
+
+        // Update the associated user's exams array
+        const user = await User.findByIdAndUpdate(
+            deletedExam.creatorUserId,
+            { $pull: { exams: req.params.id } },
+            { new: true }
+        );
+
+        // Respond with a success status
+        resp.status(204).end();
+    } catch (e) {
+        // Handle errors and respond with an appropriate status
+        resp.status(500).json({ message: e.message });
+    }
+});
+
 
 export default router;
