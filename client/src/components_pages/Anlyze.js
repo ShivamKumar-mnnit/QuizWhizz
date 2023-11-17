@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
@@ -45,7 +46,8 @@ font-size:14px;
 cursor: pointer;
 `
 
-const Anlyze = () => {
+const Anlyze = (CUId) => {
+    const token = localStorage.getItem('token');
 
     const [examInfo, setExamInfo] = useState([]);
     // eslint-disable-next-line
@@ -62,11 +64,16 @@ const Anlyze = () => {
 
 
     const getExamInfos = async () => {
-        const { data } = await axios.get(`http://localhost:8080/userexams/exam/${id.id}`);
+        const { data } = await axios.get(`http://localhost:8080/userexams/exam/${id.id}`,{ headers: { Authorization: `Bearer ${token}` } });
         setExamInfo(data);
         setStart(false);
     }
-
+    if (start) {
+        return (
+            <>
+                loading...
+            </>)
+    }
    
     return (
         <>

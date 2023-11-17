@@ -15,6 +15,7 @@ const Container = styled.div`
 
 const Result = () => {
 
+  const token = localStorage.getItem('token')
   const [score, setScore] = useState(0);
   const [passGrade, setPassGrade] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,13 +28,13 @@ const Result = () => {
   }, [setScore])
 
   const getExamNames = async () => {
-    const { data } = await axios.get(`http://localhost:8080/userexams/exam/${id.id}`);
+    const { data } = await axios.get(`http://localhost:8080/userexams/exam/${id.id}`,{ headers: { Authorization: `Bearer ${token}` } });
     setScore(data);
     getPassGrade();
   }
 
   const getPassGrade = async () => {
-    await axios.get(`http://localhost:8080/exam/exam/${id.id}`).then((response) => {
+    await axios.get(`http://localhost:8080/exam/exam/${id.id}`,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
       setPassGrade(response.data);
     });
     setIsLoading(false);

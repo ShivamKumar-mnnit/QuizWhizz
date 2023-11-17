@@ -55,7 +55,7 @@ const Reports = (CUId) => {
   const [examDatas, setExamDatas] = useState([]);
  
 
-
+const token = localStorage.getItem('token');
 
   useEffect(() => {
     getUserDatas();
@@ -65,13 +65,13 @@ const Reports = (CUId) => {
 
 
   const getUserDatas = async () => {
-    const { data } = await axios.get(`http://localhost:8080/userexams/`+CUId.CUId);
+    const { data } = await axios.get(`http://localhost:8080/userexams/`+CUId.CUId,{ headers: { Authorization: `Bearer ${token}` } });
     setUserDatas(data)
     console.log(data)
   }
 
   const getExamDatas = async () => {
-    await axios.get(`http://localhost:8080/exam`).then((response) => {
+    await axios.get(`http://localhost:8080/exam`,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
       setExamDatas(response.data)
       console.log(response.data)
       setIsLoading(false)

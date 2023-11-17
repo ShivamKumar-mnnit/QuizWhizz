@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const ExamSchema = new mongoose.Schema({
   creatorUserId: {
-    type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
+    type: String,
+    required: true,
   },
   examname: {
     type: String,

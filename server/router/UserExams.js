@@ -1,8 +1,9 @@
 import express from 'express';
 import UserExams from '../model/userExams.js'
+import Auth from '../middleware/auth.js';
 const router = express.Router()
 
-router.get('/', (req, resp) => {
+router.get('/',Auth, (req, resp) => {
     UserExams.find().then(data => {
         resp.json(data)
     }).catch(e => {
@@ -11,7 +12,7 @@ router.get('/', (req, resp) => {
 })
 
 //spesific exam
-router.get("/:id", async (req, resp) => {
+router.get("/:id",Auth, async (req, resp) => {
     try {
         UserExams.find({ userId: req.params.id }).then(data => {
             resp.json(data)
@@ -21,7 +22,7 @@ router.get("/:id", async (req, resp) => {
     }
 });
 
-router.get("/exam/:id", async (req, resp) => {
+router.get("/exam/:id",Auth, async (req, resp) => {
     try {
         UserExams.find({ examId: req.params.id }).then(data => {
             resp.json(data)
@@ -58,7 +59,7 @@ router.get("/exam/:id", async (req, resp) => {
 
 */
 
-router.post('/', (req, resp) => {
+router.post('/',Auth, (req, resp) => {
     const userExams = new UserExams({
         examId: req.body.examId,
         userId: req.body.userId,
@@ -74,7 +75,7 @@ router.post('/', (req, resp) => {
     })
 })
 
-router.put("/:id", (req, resp) => {
+router.put("/:id",Auth, (req, resp) => {
     UserExams.updateOne({ _id: req.params.id }, {
         $push: {
             examReview: req.body.examReview,
@@ -86,7 +87,7 @@ router.put("/:id", (req, resp) => {
     })
 })
 
-router.patch('/:id', (req, resp) => {
+router.patch('/:id',Auth, (req, resp) => {
     UserExams.updateOne({ _id: req.params.id }, {
         $set: {
             examId: req.body.examId,
@@ -101,7 +102,7 @@ router.patch('/:id', (req, resp) => {
     })
 })
 
-router.delete('/:id', (req, resp) => {
+router.delete('/:id',Auth, (req, resp) => {
     UserExams.deleteOne({ _id: req.params.id })
         .then(data => {
             resp.json(data)

@@ -1,11 +1,13 @@
-import axios from "axios";
 import React from "react";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import Quiz from "./quizHandler/Quiz";
 import { useParams, useNavigate } from 'react-router-dom'
+
 import CountDownTimer from "./elements/CountDownTimer";
 
 const QuizController = (CUId) => {
+    const token = localStorage.getItem('token');
 
     const userId = CUId.CUId
     const [questions, setQuestions] = useState([]);
@@ -23,29 +25,21 @@ const QuizController = (CUId) => {
         getExams();
     }, [])
 
- 
     const getExams = async () => {
-        try {
-          const { data } = await axios.get('http://localhost:8080/examquestions/' + id.id);
-          setQuestions(data);
-          userCheck();
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-    console.log(questions);
-
-
-
-
+        const { data } = await axios.get('http://localhost:8080/examquestions/' + id.id,{ headers: { Authorization: `Bearer ${token}` } });
+        setQuestions(data);
+        userCheck();
+    }
+    console.log(CUId);
 
     const securityData = async () => {
         axios.all([
-            await axios.get('http://localhost:8080/api/users/' + CUId.CUId),
-            await axios.get('http://localhost:8080/exam/exam/' + id.id)
+            await axios.get('http://localhost:8080/api/users/' + CUId.CUId,{ headers: { Authorization: `Bearer ${token}` } }),
+            await axios.get('http://localhost:8080/exam/exam/' + id.id,{ headers: { Authorization: `Bearer ${token}` } })
         ]).then(axios.spread((data, data2) => {
-            if (data2.data.creatorUserId === CUId.CUId) {
+            console.log(data);
+            console.log(data2);
+            if (data2.data.creatorUserId == CUId.CUId) {
                 setTimerData(data2.data.time)
                 console.log(data2.data.time)
                 alert("You are in preview mode that means your question data will not be saved")
@@ -59,7 +53,7 @@ const QuizController = (CUId) => {
                         score: 0,
                     }
                 };
-                axios.post("http://localhost:8080/userexams/", dummyData).then((response) => {
+                axios.post("http://localhost:8080/userexams/", dummyData,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
                     console.log(response.status);
                     console.log(response.data);
                     setExam_id(response.data._id)
@@ -74,11 +68,11 @@ const QuizController = (CUId) => {
 
     const userCheck = async () => {
         try {
-            const { data } = await axios.get('http://localhost:8080/userexams/' + CUId.CUId);
+            const { data } = await axios.get('http://localhost:8080/userexams/' + CUId.CUId,{ headers: { Authorization: `Bearer ${token}` } });
             const myData = await Promise.all(data.map((d) => d.examId))
             for (let i = 0; i <= myData.length; i++) {
                 if (myData[i] === id.id) {
-                    navigate("/examdashboard")
+                    navigate("/dashboard")
                     alert("you have already took this exam")
                     return
                 }
@@ -92,15 +86,15 @@ const QuizController = (CUId) => {
     }
 
     const hoursMinSecs = {hours:0, minutes: timerData, seconds: 0}
- 
-    if (questions === undefined || isLoading) {
-        return <div>Loading...</div>;
-      }
-    
-
+    if (isLoading) {
+        return (
+            <>
+              loading...
+            </>)
+    }
     return (
         <div>
-           
+ 
             <CountDownTimer hoursMinSecs={hoursMinSecs}/>
             <Quiz
                 questions={questions}
@@ -110,7 +104,7 @@ const QuizController = (CUId) => {
                 userId={userId}
                 exam_id={exam_id}
             />
-          
+        
         </div>
     );
 }

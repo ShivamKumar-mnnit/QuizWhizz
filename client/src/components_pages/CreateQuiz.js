@@ -103,7 +103,7 @@ const CreateQuiz = () => {
                 questionTitle: questionTitle,
             };
             console.log(newQuestion)
-            axios.post("http://localhost:8080/examquestions/", newQuestion).then((response) => {
+            axios.post("http://localhost:8080/examquestions/", newQuestion,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
                 console.log(response.status);
                 const data = response.data._id;
                 handleOptions({ data, inputOption });
@@ -166,7 +166,7 @@ const CreateQuiz = () => {
     const getExams = async () => {
         const { data } = await axios.get('http://localhost:8080/examquestions/' + id.id , { headers: { Authorization: `Bearer ${token}` } });
         setExamDatas(data);
-        console.log(data[0].options)
+        console.log(data)
     }
 
     const deleteQuestion = (propId) => {

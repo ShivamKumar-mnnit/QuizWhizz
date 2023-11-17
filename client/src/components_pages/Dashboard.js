@@ -1,10 +1,5 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom";
-import React ,{useState,useEffect}from 'react'
-import {  ToastContainer,toast  } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios'
-import Popup from 'reactjs-popup';
+import React from "react";
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,8 +9,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { BarChart, Delete, Edit, Visibility } from "@mui/icons-material";
-
-
+import { useEffect, useState } from "react";
+import Popup from 'reactjs-popup';
+import axios from 'axios'
+import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Container = styled.table`
     width: 100%;
@@ -52,76 +51,63 @@ cursor: pointer;
   background-color: #55B4BA;
 }
 `
-
-
-
-
 const Dashboard = (CUId) => {
+  const token = localStorage.getItem("token");
 
-  const token = localStorage.getItem('token');
-    const notify = () => toast.success("Link successfully copied to the clipboard");
+  const notify = () => toast.success("Link successfully  copied to the clipboard");
 
-    const [examName, setExamName] = useState("");
-    const [examNameStorage, setExamNameStorage] = useState([]);
-    const [dummy, setDummy] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [examName, setExamName] = useState("");
+  const [examNameStorage, setExamNameStorage] = useState([]);
+  const [dummy, setDummy] = useState(0);
+console.log(CUId.CUId);
 
-  
-    const getExamNames = async (id) => {
-        const { data } = await axios.get(`http://localhost:8080/exam/${CUId.CUId}` , { headers: { Authorization: `Bearer ${token}` } });
-        setExamNameStorage(data);
-      }
+  const getExamNames = async (req,res) => {
+    const { data } = await axios.get(`http://localhost:8080/exam/${CUId.CUId}`, { headers: { Authorization: `Bearer ${token}` } });
+    console.log(data)
+    setExamNameStorage(data);
+    setIsLoading(false);
+  }
 
+  const deleteExam = (id) => {
+    axios.delete(`http://localhost:8080/exam/${id}`, { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
+      console.log(response.status);
+      console.log(response.data);
+    });
+    setDummy(dummy + 1)
+  }
 
+  useEffect(() => {
+    getExamNames();
+  }, [examName, dummy]);
 
-    const deleteExam = (id) => {
-      axios.delete(`http://localhost:8080/exam/${id}` ,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
+  const handleName = (e) => {
+    e.preventDefault();
+    if (examName == "") {
+      alert("If you want to create an exam you have to give it a name")
+    } else {
+      const newExam = {
+        creatorUserId: CUId.CUId,
+        examname: examName,
+      };
+      console.log(newExam)
+      axios.post("http://localhost:8080/exam/", newExam, { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
         console.log(response.status);
         console.log(response.data);
       });
       setDummy(dummy + 1)
     }
-    
-    
-      useEffect(() => {
-        getExamNames();
-        // eslint-disable-next-line
-      }, [examName, dummy]);
-    
-      const handleName = async (e) => {
-        e.preventDefault();
-        if (examName === "") {
-          alert("If you want to create an exam, you have to give it a name");
-        } else {
-          const newExam = {
-            creatorUserId: CUId.CUId,
-            examname: examName,
-          };
+  }
 
-
-          // try {
-          //   const response = await axios.post("http://localhost:8080/exam/", newExam, { headers: { Authorization: `Bearer ${token}` } });
-            
-          //   // Update state to include the newly created exam
-          //   setExamNameStorage(prevExams => [...prevExams, response.data]);
-            
-          //   console.log(response.status);
-          //   console.log(response.data);
-          // } catch (error) {
-          //   console.error(error);
-          // }
-
-          console.log(newExam)
-          axios.post("http://localhost:8080/exam/", newExam, { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
-            console.log(response.status);
-            console.log(response.data);
-          });
-          setDummy(dummy + 1)
-        }
-    };
-    
-
+  if (isLoading) {
+    return (
+      <>
+       loading...
+      </>)
+  }
   return (
-    <div>
+    <>
+
       <Container>
         <Wrapper>
           <Popup
@@ -141,7 +127,7 @@ const Dashboard = (CUId) => {
                   </div>
                   <div style={{ width: "100%", padding: "10px 5px", margin: "auto", textAlign: "center" }}>
                     <Popup
-                      trigger={<Button className="formQButton" style={{ width: "30%", marginRight: "10px", backgroundColor: "#0275d8", color: "white" }}> Confirm </Button>}
+                      trigger={<Button type="submit" className="formQButton" style={{ width: "30%", marginRight: "10px", backgroundColor: "#0275d8", color: "white" }}> Confirm </Button>}
                       position="top center"
                       nested
                     >
@@ -185,9 +171,10 @@ const Dashboard = (CUId) => {
           </TableContainer>
         </Wrapper>
       </Container>
-<ToastContainer/>
-    </div>
-  )
+  
+      <ToastContainer />
+    </>
+  );
 }
 
 export default Dashboard

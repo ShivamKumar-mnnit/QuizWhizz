@@ -1,30 +1,36 @@
 import { useEffect, useState } from "react";
-import React from "react";
 import Question from "./Question";
 
 const Quiz = ({ questions, score, setScore, setQuestions, userId, exam_id}) => {
-
-    const [options, setOptions] = useState([]);
+    const [options, setOptions] = useState();
     const [currQues, setCurrQues] = useState(0);
-    const [correct, setCorrect] = useState('');
-
+    const [correct, setCorrect] = useState();
 
     useEffect(() => {
         startFunction();
     }, [currQues, questions]);
 
     const startFunction = () => {
-        if (questions && questions[currQues]) {
-          const data = questions[currQues].options;
-          setOptions(data);
-    
-          const correctOption = data.find((option) => option.isCorrect);
-          if (correctOption) {
-            setCorrect(correctOption.option);
-          }
+        var data;
+        var dataOptions;
+console.log(questions[0]);
+        data = (questions[0].options)
+        console.log(data)
+        setOptions(data);
+
+        for (let k = 0; k < data.length; k++) {
+            dataOptions = (data[k].isCorrect);
+            if (dataOptions == true) {
+                setCorrect(data[k].option)
+                console.log(data[k].option)
+            }
         }
-      };
-  
+
+
+        // const { data } = questions[currQues]?.options[currQues];
+        //   setOptions(data);
+    }
+    console.log(exam_id)
     return (
         <div className="quiz">
             {questions ? (
@@ -33,23 +39,24 @@ const Quiz = ({ questions, score, setScore, setQuestions, userId, exam_id}) => {
                         <span>
                             Score : {score}
                         </span>
-                        </div>
-          <Question
-            currQues={currQues}
-            setCurrQues={setCurrQues}
-            questions={questions[currQues]}
-            options={options}
-            correct={correct}
-            score={score}
-            setScore={setScore}
-            setQuestions={setQuestions}
-            userId={userId}
-          />
-        </>
-      ) : (
-        <div>Sorry, we couldn't find any questions</div>
-      )}
-    </div>
+                    </div>
+                    <Question
+                        currQues={currQues}
+                        setCurrQues={setCurrQues}
+                        questions={questions}
+                        options={options}
+                        correct={correct}
+                        score={score}
+                        setScore={setScore}
+                        setQuestions={setQuestions}
+                        userId={userId}
+                        exam_id={exam_id}
+                    />
+                </>
+            ) : (
+                <div>Sorry we couldn't find any question</div>
+            )}
+        </div>
     );
 };
 export default Quiz;

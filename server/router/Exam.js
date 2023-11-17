@@ -26,7 +26,7 @@ router.get("/:id",Auth, async (req, resp) => {
 });
 
 // GET Exam by examId
-router.get("/exam/:id", async (req, resp) => {
+router.get("/exam/:id",Auth, async (req, resp) => {
     try {
         const exam = await Exam.findOne({ _id: req.params.id });
         
@@ -43,7 +43,7 @@ router.get("/exam/:id", async (req, resp) => {
 
 
 
-router.post('/', Auth, async (req, resp) => {
+router.post('/',Auth,  async (req, resp) => {
     try {
         const exam = new Exam({
             creatorUserId: req.user.userId,

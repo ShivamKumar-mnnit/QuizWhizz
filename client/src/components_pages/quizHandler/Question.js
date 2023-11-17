@@ -4,7 +4,7 @@ import ErrorMessage from "./ErrorMessage";
 import styled from "styled-components"
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-
+import React from "react";
 
 const Container = styled.div`
   width: 100%;
@@ -65,16 +65,15 @@ const Question = ({
   score,
   setQuestions,
   userId,
+  exam_id
 }) => {
-  console.log(questions);
-  const exam_id=questions.examId;
   const [selected, setSelected] = useState();
   const [error, setError] = useState(false);
   const [pass, setPass] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+
   const token = localStorage.getItem('token');
-  console.log(questions)
 
   const navigate = useNavigate()
 
@@ -85,10 +84,11 @@ const Question = ({
     handleCreatorUser();
   }, [])
 
+  console.log(exam_id)
+
   const handleCreatorUser = async () => {
-    const { data } = await axios.get('http://localhost:8080/exam/exam/' + id.id, { headers: { Authorization: `Bearer ${token}` } })
-    console.log(data);
-    setPass(data.creatorUserId === userId)
+    const { data } = await axios.get('http://localhost:8080/exam/exam/' + id.id,{ headers: { Authorization: `Bearer ${token}` } })
+    setPass(data.creatorUserId == userId)
     setIsLoading(false)
   }
 
@@ -104,25 +104,14 @@ const Question = ({
     setError(false);
   };
 
-
   const handleNext = () => {
     if (currQues >= (questions.length - 1)) {
-      navigate(`/examresult/${id.id}`);
+      navigate(`/result/${id.id}`);
     } else if (selected) {
       setCurrQues(currQues + 1);
       setSelected();
     } else setError("Please select an option first");
   };
-
-
-  // const handleNext = () => {
-  //   // if (currQues >= (questions.length - 1)) {
-  //   //   navigate(`/result/${id.id}`);
-  //    if (selected) {
-  //     setCurrQues(currQues + 1);
-  //     setSelected();
-  //   } else setError("Please select an option first");
-  // };
 
 
   const handleSubmit = (e) => {
@@ -136,7 +125,7 @@ const Question = ({
         examId: id.id,
         grade: score,
       };
-      axios.patch(`http://localhost:8080/userexams/${exam_id}`, userExam).then((response) => {
+      axios.patch(`http://localhost:8080/userexams/${exam_id}`, userExam,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
         console.log(response.status);
         console.log(response.data);
       });
@@ -144,31 +133,35 @@ const Question = ({
   }
 
   const handleReview = (i) => {
-    if (pass === userId) {
+    if (pass == userId) {
       console.log("datas did not saved")
     } else {
       const userOptions = {
         examReview: {
           qAnswers: i,
           qCorrect: correct,
-          qTitle: questions.questionTitle,
+          qTitle: questions[currQues].questionTitle,
         }
       };
       console.log(userOptions)
-      axios.put("http://localhost:8080/userexams/" + exam_id, userOptions).then((response) => {
+      axios.put("http://localhost:8080/userexams/" + exam_id, userOptions,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
         console.log(response.status);
         console.log(response.data);
       });
     }
   }
 
- 
+  if (isLoading) {
+    return (
+      <>
+       loading...
+      </>)
+  }
   return (
     <Container>
       <h1>Question {currQues + 1} :</h1>
       <SingleQuestion>
-      <h2>{questions.questionTitle}</h2>
-
+        <h2>{questions[currQues].questionTitle}</h2>
         <Options>
           {error && <ErrorMessage>{error}</ErrorMessage>}
           {options &&

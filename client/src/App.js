@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 
 
 // import 'bootstrap/dist/css/bootstrap.css'
@@ -35,8 +35,10 @@ import ExamResult from './components_pages/quizHandler/Result';
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
-
 import { getUsername } from './helper/helper';
+
+// import { getUsername } from './helper/helper';
+import { useSelector } from "react-redux";
 
 export default function App() {
 
@@ -55,6 +57,9 @@ export default function App() {
 if(!currentUserUid){
     return <div>loading...</div>
 }
+  
+
+    console.log(currentUserUid);
 
 /** root routes */
 const router = createBrowserRouter([

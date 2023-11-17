@@ -7,7 +7,7 @@ const router = express.Router()
 import Auth from '../middleware/auth.js';
 
 //Get ExamQ(s)
-router.get('/', (req, resp) => {
+router.get('/',Auth, (req, resp) => {
     ExamQuestions.find().then(data => {
         resp.json(data)
     }).catch(e => {
@@ -16,7 +16,7 @@ router.get('/', (req, resp) => {
 })
 
 //GET ExamQ
-router.get("/:id", async (req, resp) => {
+router.get("/:id",Auth, async (req, resp) => {
     try {
         ExamQuestions.find({ examId: req.params.id }).then(data => {
             resp.json(data)
@@ -44,7 +44,7 @@ router.get("/:id", async (req, resp) => {
 //         resp.json({ message: e })
 //     })
 // })
-router.post('/', async (req, resp) => {
+router.post('/',Auth, async (req, resp) => {
     try {
         const { examId, questionTitle, options, correctOption } = req.body;
 
@@ -75,7 +75,7 @@ router.post('/', async (req, resp) => {
 
 
 
-router.put("/:id", (req, resp) => {
+router.put("/:id",Auth, (req, resp) => {
     ExamQuestions.updateOne({ _id: req.params.id }, {
         $push: {
             options: req.body.options,
@@ -89,7 +89,7 @@ router.put("/:id", (req, resp) => {
 
 
 
-router.patch('/:id', (req, resp) => {
+router.patch('/:id',Auth, (req, resp) => {
     ExamQuestions.updateOne({ _id: req.params.id }, {
         $set: {
             examId: req.body.examId,
@@ -104,7 +104,7 @@ router.patch('/:id', (req, resp) => {
     })
 })
 
-router.delete('/:id', (req, resp) => {
+router.delete('/:id',Auth, (req, resp) => {
     ExamQuestions.deleteOne({ _id: req.params.id })
         .then(data => {
             resp.json(data)
