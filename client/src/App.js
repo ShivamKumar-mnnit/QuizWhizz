@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
 
 
 // import 'bootstrap/dist/css/bootstrap.css'
@@ -30,11 +29,32 @@ import CreateQuiz from './components_pages/CreateQuiz';
 import Configure from './components_pages/Configure';
 import Anlyze from './components_pages/Anlyze';
 import ExamReview from './components_pages/ExamReview';
+import Reports from './components_pages/Reports';
+import QuizController from './components_pages/QuizController';
+import ExamResult from './components_pages/quizHandler/Result';
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
 
+import { getUsername } from './helper/helper';
 
+export default function App() {
+
+    const [currentUserUid, setCurrentUserUid] = useState(null);
+
+    useEffect(() => {
+        getUsername()
+          .then((data) => {
+            setCurrentUserUid(data.userId);
+          })
+          .catch((error) => {
+            console.error('Error occurred:', error);
+          });
+      }, []);
+
+if(!currentUserUid){
+    return <div>loading...</div>
+}
 
 /** root routes */
 const router = createBrowserRouter([
@@ -95,7 +115,7 @@ const router = createBrowserRouter([
 //define all exams related paths here
 {
     path : '/examDashboard',
-    element : <ExamDashboard  />
+    element : <AuthorizeUser><ExamDashboard CUId={currentUserUid} /></AuthorizeUser>
 },
 {
     path : '/create/:id',
@@ -113,14 +133,18 @@ const router = createBrowserRouter([
     path : '/examreview/:id',
     element : <ExamReview  />
 },
-
-
-
-
-
-
-
-
+{
+    path : '/reports',
+    element : <Reports CUId={currentUserUid} />
+},
+{
+    path : '/examquiz/:id',
+    element : <QuizController CUId={currentUserUid} />
+},
+{
+    path : '/examresult/:id',
+    element : <ExamResult />
+},
 
 
 
@@ -133,7 +157,6 @@ const router = createBrowserRouter([
 
 ])
 
-export default function App() {
 
 
 

@@ -56,7 +56,7 @@ cursor: pointer;
 
 
 
-const Dashboard = () => {
+const Dashboard = (CUId) => {
 
   const token = localStorage.getItem('token');
     const notify = () => toast.success("Link successfully copied to the clipboard");
@@ -67,23 +67,18 @@ const Dashboard = () => {
 
   
     const getExamNames = async (id) => {
-        const { data } = await axios.get(`http://localhost:8080/exam/${id}` , { headers: { Authorization: `Bearer ${token}` } });
+        const { data } = await axios.get(`http://localhost:8080/exam/${CUId.CUId}` , { headers: { Authorization: `Bearer ${token}` } });
         setExamNameStorage(data);
       }
 
-      const deleteExam = async (id) => {
-        try {
-            // Send DELETE request to delete the exam
-            await axios.delete(`http://localhost:8080/exam/${id}`);
-    
-            // Update state to reflect the deletion
-            setExamNameStorage(prevExams => prevExams.filter(exam => exam._id !== id));
-    
-            // Optionally, you can trigger a re-fetch of exam data
-            // getExamNames();
-        } catch (error) {
-            console.error("Error deleting exam:", error);
-        }
+
+
+    const deleteExam = (id) => {
+      axios.delete(`http://localhost:8080/exam/${id}` ,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
+        console.log(response.status);
+        console.log(response.data);
+      });
+      setDummy(dummy + 1)
     }
     
     
@@ -98,22 +93,29 @@ const Dashboard = () => {
           alert("If you want to create an exam, you have to give it a name");
         } else {
           const newExam = {
+            creatorUserId: CUId.CUId,
             examname: examName,
           };
-    
-          try {
-            const response = await axios.post("http://localhost:8080/exam/", newExam, { headers: { Authorization: `Bearer ${token}` } });
+
+
+          // try {
+          //   const response = await axios.post("http://localhost:8080/exam/", newExam, { headers: { Authorization: `Bearer ${token}` } });
             
-            // Update state to include the newly created exam
-            setExamNameStorage(prevExams => [...prevExams, response.data]);
+          //   // Update state to include the newly created exam
+          //   setExamNameStorage(prevExams => [...prevExams, response.data]);
             
+          //   console.log(response.status);
+          //   console.log(response.data);
+          // } catch (error) {
+          //   console.error(error);
+          // }
+
+          console.log(newExam)
+          axios.post("http://localhost:8080/exam/", newExam, { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
             console.log(response.status);
             console.log(response.data);
-          } catch (error) {
-            console.error(error);
-          }
-    
-          setDummy(dummy + 1);
+          });
+          setDummy(dummy + 1)
         }
     };
     
@@ -169,11 +171,11 @@ const Dashboard = () => {
                     key={name.examname}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row" onClick={() => { navigator.clipboard.writeText("http://localhost:3000/quiz/" + name._id) }}>
+                    <TableCell component="th" scope="row" onClick={() => { navigator.clipboard.writeText("http://localhost:3000/examquiz/" + name._id) }}>
                       <span style={{ cursor: "pointer" }} onClick={() => { notify(); }}> {name.examname}  <span style={{ color: "#CC0000" }}>{"=>"}  Click for quiz link</span> </span>
                     </TableCell>
                     <TableCell align="right"><Link to={`/anlyze/${name._id}`}><Button><BarChart style={{ verticalAlign: "middle", padding: "5px" }} />Analyze</Button></Link></TableCell>
-                    <TableCell align="right"><Link to={`/quiz/${name._id}`}><Button><Visibility style={{ verticalAlign: "middle", padding: "5px" }} />Preview</Button></Link></TableCell>
+                    <TableCell align="right"><Link to={`/examquiz/${name._id}`}><Button><Visibility style={{ verticalAlign: "middle", padding: "5px" }} />Preview</Button></Link></TableCell>
                     <TableCell align="right"><Link to={`/create/${name._id}`}><Button ><Edit style={{ verticalAlign: "middle", padding: "5px" }} />Edit</Button></Link></TableCell>
                     <TableCell align="right"><Button onClick={() => { deleteExam(name._id); }}><Delete style={{ verticalAlign: "middle", padding: "5px" }} />Delete</Button></TableCell>
                   </TableRow>

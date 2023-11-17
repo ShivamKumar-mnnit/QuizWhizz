@@ -67,6 +67,7 @@ cursor: pointer;
   `
 
 const CreateQuiz = () => {
+    const token = localStorage.getItem('token');
 
     const params = useParams();
     const id = params;
@@ -127,7 +128,7 @@ const CreateQuiz = () => {
                 }
             }
             console.log(option);
-            axios.put("http://localhost:8080/examquestions/" + data, option).then((response) => {
+            axios.put("http://localhost:8080/examquestions/" + data, option , { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
                 console.log(response.status);
                 console.log(response);
             });
@@ -163,13 +164,13 @@ const CreateQuiz = () => {
     }, [options, dummy, dumy]);
 
     const getExams = async () => {
-        const { data } = await axios.get('http://localhost:8080/examquestions/' + id.id);
+        const { data } = await axios.get('http://localhost:8080/examquestions/' + id.id , { headers: { Authorization: `Bearer ${token}` } });
         setExamDatas(data);
-        // console.log(data[0].options)
+        console.log(data[0].options)
     }
 
     const deleteQuestion = (propId) => {
-        axios.delete('http://localhost:8080/examquestions/' + propId).then((response) => {
+        axios.delete('http://localhost:8080/examquestions/' + propId, { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
             console.log(response.status);
             console.log(response.data);
             setDummy(dummy + 1);

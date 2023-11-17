@@ -110,7 +110,17 @@ const Admin = () => {
                   
 
         </div>
-        <div className="rounded bg-white h-40 shadow-sm"></div>
+
+        <div className="rounded bg-white h-40 shadow-sm">
+
+        {
+        apiData?.role ?
+        <Link to="/examdashboard"> <span class="badge bg-warning text-dark mx-3">Go to Dashboard</span></Link>
+        :
+        <>be admin</>
+      }
+
+        </div>
         <div className="rounded bg-white h-40 shadow-sm"></div>
       </div>
 

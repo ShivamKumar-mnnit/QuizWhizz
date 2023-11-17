@@ -68,7 +68,7 @@ router.post('/', Auth, async (req, resp) => {
 });
 
 
-router.patch('/:id', (req, resp) => {
+router.patch('/:id',Auth, (req, resp) => {
     Exam.updateOne({ _id: req.params.id }, {
         $set: {
             examname: req.body.examname,
@@ -82,7 +82,7 @@ router.patch('/:id', (req, resp) => {
     })
 })
 
-router.delete('/:id', async (req, resp) => {
+router.delete('/:id',Auth, async (req, resp) => {
     try {
         // Find and delete the exam
         const deletedExam = await Exam.findByIdAndDelete(req.params.id);

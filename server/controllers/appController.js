@@ -294,6 +294,36 @@ export async function getUser(req,res){
 }
 
 
+export async function getUserById(req, res) {
+    try {
+        const { userId } = req.params;
+        console.log(userId);
+        if (!userId) {
+            return res.status(400).send({ error: "Invalid User ID" });
+        }
+
+        UserModel.findById(userId, (err, user) => {
+            if (err) {
+                return res.status(500).send({ error: "Internal Server Error" });
+            }
+
+            if (!user) {
+                return res.status(404).send({ error: "User not found" });
+            }
+
+            // Remove sensitive data like password before sending the response
+            const { password, ...userData } = user.toObject();
+
+            return res.status(200).send(userData);
+        });
+    } catch (error) {
+        return res.status(500).send({ error: "Server Error" });
+    }
+}
+
+
+
+
 /** PUT: http://localhost:8080/api/updateuser 
  * @param: {
   "header" : "<token>"

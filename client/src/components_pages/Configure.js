@@ -64,6 +64,7 @@ const Configure = () => {
     const [examTime, setExamTime] = useState(0);
     const navigate = useNavigate();
   
+    const token = localStorage.getItem('token');
     const params = useParams();
     const id = params;
   
@@ -74,7 +75,7 @@ const Configure = () => {
   
     const getConfigureData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/exam/exam/` + id.id);
+        const response = await axios.get(`http://localhost:8080/exam/exam/` + id.id,{ headers: { Authorization: `Bearer ${token}` } });
         console.log(response.data);
         setExamName(response.data.examname);
         setExamGrade(response.data.passGrade);
@@ -93,7 +94,7 @@ const Configure = () => {
           time: examTime,
           passGrade: examGrade,
         };
-      axios.patch(`http://localhost:8080/exam/` + id.id, exam).then((response) => {
+      axios.patch(`http://localhost:8080/exam/` + id.id,exam,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
         console.log(response.status);
         console.log(response.data);
         navigate("/examDashboard");

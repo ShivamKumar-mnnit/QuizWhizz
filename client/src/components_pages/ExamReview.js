@@ -8,7 +8,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { ArrowForward } from '@mui/icons-material';
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
@@ -35,36 +34,12 @@ const Label = styled.label`
   color:;
   maxWidth:1400px;
   `
-const Button = styled.button`
-font-size:16px;
-margin:10px;
-padding:10px;
-border:none;
-border-radius:5px;
-background-color:#0275d8;
-color:#EEEEEE;
-cursor: pointer;
-&:hover {
-    background-color: #228CE9;
-  }
-  `
-const NextButton = styled.button`
-font-size:16px;
-margin:10px;
-padding:10px;
-border:none;
-border-radius:5px;
-background-color:#5cb85c;
-color:#EEEEEE;
-cursor: pointer;
-&:hover {
-    background-color: #75DB75;
-  }
-  `
+
 
 const ExamReview = () => {
 
     const [examQuestions, setExamQuestions] = useState([]);
+    // eslint-disable-next-line
     const [isLoading, setIsLoading] = useState(true);
 
     const params = useParams();
@@ -73,6 +48,7 @@ const ExamReview = () => {
     useEffect(() => {
         getExamInfos();
         console.log("check")
+        // eslint-disable-next-line
     }, [])
 
     const getExamInfos = async () => {
