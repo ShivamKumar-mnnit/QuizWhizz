@@ -11,6 +11,8 @@ import useFetch from '../../hooks/fetch.hook';
 import { BiSolidEdit } from "react-icons/bi";
 import { Link } from 'react-router-dom';
 
+import Reports from '../../components_pages/Reports';
+
 const Admin = () => {
 
 
@@ -139,25 +141,10 @@ const Admin = () => {
 
 <div className="card" style={cardStyle}>
       <div className="card-header">
-        List of quizzes
+        List of Available Exams
       </div>
       <div className="card-body" style={cardBodyStyle}>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
-        <h5 className="card-title">quiz 1 details</h5>
+        <Reports/>
         <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
       </div>
     </div>
