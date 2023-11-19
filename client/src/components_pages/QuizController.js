@@ -28,6 +28,7 @@ const QuizController = (CUId) => {
     const getExams = async () => {
         const { data } = await axios.get('http://localhost:8080/examquestions/' + id.id,{ headers: { Authorization: `Bearer ${token}` } });
         setQuestions(data);
+        console.log(data);
         userCheck();
     }
     console.log(CUId);
@@ -48,15 +49,17 @@ const QuizController = (CUId) => {
                     userId: CUId.CUId,
                     examId: id.id,
                     userInfo: {
-                        username: data.data.firstname + " " + data.data.lastname,
+                        username: data.data.firstName + " " + data.data.lastName,
                         examname: data2.data.examname,
                         score: 0,
                     }
                 };
                 axios.post("http://localhost:8080/userexams/", dummyData,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
                     console.log(response.status);
+                    console.log(response.data.message.keyValue.examId);
                     console.log(response.data);
-                    setExam_id(response.data._id)
+
+                    setExam_id(response.data.message.keyValue.examId)
                 });
                 setTimerData(data2.data.time)
             }
@@ -70,9 +73,10 @@ const QuizController = (CUId) => {
         try {
             const { data } = await axios.get('http://localhost:8080/userexams/' + CUId.CUId,{ headers: { Authorization: `Bearer ${token}` } });
             const myData = await Promise.all(data.map((d) => d.examId))
+            console.log(myData);
             for (let i = 0; i <= myData.length; i++) {
                 if (myData[i] === id.id) {
-                    navigate("/dashboard")
+                    navigate("/examdashboard")
                     alert("you have already took this exam")
                     return
                 }
@@ -84,6 +88,7 @@ const QuizController = (CUId) => {
             alert("you have already took this exam")
         }
     }
+    console.log(exam_id);
 
     const hoursMinSecs = {hours:0, minutes: timerData, seconds: 0}
     if (isLoading) {

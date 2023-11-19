@@ -29,6 +29,7 @@ const Result = () => {
 
   const getExamNames = async () => {
     const { data } = await axios.get(`http://localhost:8080/userexams/exam/${id.id}`,{ headers: { Authorization: `Bearer ${token}` } });
+    console.log(data);
     setScore(data);
     getPassGrade();
   }
@@ -39,14 +40,14 @@ const Result = () => {
     });
     setIsLoading(false);
   }
-
+console.log(passGrade);
  
   return (
     <>
 
       <Container>
         <span>Final Score : {score[0]?.grade}</span> <br />
-        {passGrade[0]?.passGrade < score[0]?.grade ? (<><span>congratulations you passed the exam</span><br /><img src="https://i.ibb.co/7vPw6r4/Png-Item-30479.png"  alt="..." style={{ height: "200px", width: "300px", marginLeft: "auto", marginRight: "auto" }} /></>) : (<><span>sorry you failed the exam</span><br /><img src="https://www.onlygfx.com/wp-content/uploads/2020/05/fail-stamp-7.png" alt="..." style={{ height: "200px", width: "300px", marginLeft: "auto", marginRight: "auto" }} /></>)}
+        {passGrade?.passGrade <= score[0]?.grade ? (<><span>congratulations you passed the exam</span><br /><img src="https://i.ibb.co/7vPw6r4/Png-Item-30479.png"  alt="..." style={{ height: "200px", width: "300px", marginLeft: "auto", marginRight: "auto" }} /></>) : (<><span>sorry you failed the exam</span><br /><img src="https://www.onlygfx.com/wp-content/uploads/2020/05/fail-stamp-7.png" alt="..." style={{ height: "200px", width: "300px", marginLeft: "auto", marginRight: "auto" }} /></>)}
         <Link to="/examdashboard">
           <button
             variant="contained"

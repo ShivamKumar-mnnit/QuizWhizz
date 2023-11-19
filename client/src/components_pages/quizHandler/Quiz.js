@@ -6,6 +6,7 @@ const Quiz = ({ questions, score, setScore, setQuestions, userId, exam_id}) => {
     const [currQues, setCurrQues] = useState(0);
     const [correct, setCorrect] = useState();
 
+    console.log(questions);
     useEffect(() => {
         startFunction();
     }, [currQues, questions]);

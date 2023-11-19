@@ -72,6 +72,7 @@ const Question = ({
   const [pass, setPass] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log(exam_id);
 
   const token = localStorage.getItem('token');
 
@@ -89,6 +90,7 @@ const Question = ({
   const handleCreatorUser = async () => {
     const { data } = await axios.get('http://localhost:8080/exam/exam/' + id.id,{ headers: { Authorization: `Bearer ${token}` } })
     setPass(data.creatorUserId == userId)
+    console.log(pass);
     setIsLoading(false)
   }
 
@@ -106,7 +108,7 @@ const Question = ({
 
   const handleNext = () => {
     if (currQues >= (questions.length - 1)) {
-      navigate(`/result/${id.id}`);
+      navigate(`/examresult/${id.id}`);
     } else if (selected) {
       setCurrQues(currQues + 1);
       setSelected();
@@ -121,8 +123,8 @@ const Question = ({
       console.log("datas did not saved")
     } else {
       const userExam = {
-        userId: userId,
         examId: id.id,
+        userId: userId,
         grade: score,
       };
       axios.patch(`http://localhost:8080/userexams/${exam_id}`, userExam,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
