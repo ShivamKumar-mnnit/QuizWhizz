@@ -13,6 +13,10 @@ const ExamSchema = new mongoose.Schema({
     type: Number,
     default: 2,
   },
+  category:{
+    type: String,
+    default: "MCQ"
+  },
   time: {
     type: Number,
     default: 20,

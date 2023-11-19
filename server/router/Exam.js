@@ -49,6 +49,7 @@ router.post('/',Auth,  async (req, resp) => {
             creatorUserId: req.user.userId,
             examname: req.body.examname,
             passGrade: req.body.passGrade,
+            category: req.body.category,
             time: req.body.time,
         });
 

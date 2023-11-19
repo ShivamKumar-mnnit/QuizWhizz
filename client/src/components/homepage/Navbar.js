@@ -81,7 +81,7 @@ function userLogout(){
 
 {     token?
     <>
-    <li className='container-fluid overflow-auto text-center fw-bold' >{apiData?.firstName}</li>
+    <li className='container-fluid overflow-auto text-center fw-bold' >{apiData?.firstName || apiData?.username}</li>
     {/* <li className='overflow-auto'>{apiData?.email}</li> */}
     <li><button className="btn btn-danger container-fluid text-center" onClick={userLogout}>Logout</button></li>
     </>

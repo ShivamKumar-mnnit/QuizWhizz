@@ -58,9 +58,16 @@ const Dashboard = (CUId) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [examName, setExamName] = useState("");
+  const [category,setCategory] = useState("");
   const [examNameStorage, setExamNameStorage] = useState([]);
   const [dummy, setDummy] = useState(0);
 console.log(CUId.CUId);
+
+
+const handleCategoryChange = (e) => {
+  setCategory(e.target.value);
+};
+
 
   const getExamNames = async (req,res) => {
     const { data } = await axios.get(`http://localhost:8080/exam/${CUId.CUId}`, { headers: { Authorization: `Bearer ${token}` } });
@@ -85,10 +92,14 @@ console.log(CUId.CUId);
     e.preventDefault();
     if (examName == "") {
       alert("If you want to create an exam you have to give it a name")
+    }
+    else if(category==""){
+      alert("If you want to create an exam you have to select a category")
     } else {
       const newExam = {
         creatorUserId: CUId.CUId,
         examname: examName,
+        category: category,
       };
       console.log(newExam)
       axios.post("http://localhost:8080/exam/", newExam, { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
@@ -98,6 +109,9 @@ console.log(CUId.CUId);
       setDummy(dummy + 1)
     }
   }
+
+
+  
 
   if (isLoading) {
     return (
@@ -120,10 +134,61 @@ console.log(CUId.CUId);
                 <button style={{ cursor: "pointer", position: "absolute", display: "block", padding: "2px 5px", lineHeight: "20px", right: "-10px", top: "-10px", fontSize: "24px", background: "#ffffff", borderRadius: "18px", border: "1px solid #cfcece" }} onClick={close}>
                   &times;
                 </button>
+
+
                 <form onSubmit={handleName}>
                   <div style={{ width: "100", borderBottom: "1px solid gray", fontSize: "18px", padding: "5px", color: "white" }}>New Exam</div>
                   <div style={{ width: "100%", padding: "10px 5px" }}>
                     <input type="text" style={{ width: "90%", padding: "5px", borderRadius: "6px", border: "none" }} placeholder='Enter title for your exam' onChange={e => setExamName(e.target.value)} required /><br />
+
+
+ 
+                    <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+          <input
+            type="radio"
+            className="btn-check"
+            name="category"
+            id="radio1"
+            value="MCQ"
+            onChange={handleCategoryChange}
+            autoComplete="off"
+            checked={category === "MCQ"}
+          />
+          <label className="btn btn-outline-primary" htmlFor="radio1">
+            MCQ
+          </label>
+
+          <input
+            type="radio"
+            className="btn-check"
+            name="category"
+            id="radio2"
+            value="TF"
+            onChange={handleCategoryChange}
+            autoComplete="off"
+            checked={category === "TF"}
+          />
+          <label className="btn btn-outline-primary" htmlFor="radio2">
+           TF
+          </label>
+
+          <input
+            type="radio"
+            className="btn-check"
+            name="category"
+            id="radio3"
+            value="SUB"
+            onChange={handleCategoryChange}
+            autoComplete="off"
+            checked={category === "SUB"}
+          />
+          <label className="btn btn-outline-primary" htmlFor="radio3">
+            Subjective
+          </label>
+        </div>
+
+
+
                   </div>
                   <div style={{ width: "100%", padding: "10px 5px", margin: "auto", textAlign: "center" }}>
                     <Popup
@@ -137,6 +202,8 @@ console.log(CUId.CUId);
                     </Button>
                   </div>
                 </form>
+
+
               </div>
             )}
           </Popup>
@@ -160,7 +227,11 @@ console.log(CUId.CUId);
                     <TableCell component="th" scope="row" onClick={() => { navigator.clipboard.writeText("http://localhost:3000/examquiz/" + name._id) }}>
                       <span style={{ cursor: "pointer" }} onClick={() => { notify(); }}> {name.examname}  <span style={{ color: "#CC0000" }}>{"=>"}  Click for quiz link</span> </span>
                     </TableCell>
+
+                    <TableCell align="right">{name.category}</TableCell>
+
                     <TableCell align="right"><Link to={`/anlyze/${name._id}`}><Button><BarChart style={{ verticalAlign: "middle", padding: "5px" }} />Analyze</Button></Link></TableCell>
+                    
                     <TableCell align="right"><Link to={`/examquiz/${name._id}`}><Button><Visibility style={{ verticalAlign: "middle", padding: "5px" }} />Preview</Button></Link></TableCell>
                     <TableCell align="right"><Link to={`/create/${name._id}`}><Button ><Edit style={{ verticalAlign: "middle", padding: "5px" }} />Edit</Button></Link></TableCell>
                     <TableCell align="right"><Button onClick={() => { deleteExam(name._id); }}><Delete style={{ verticalAlign: "middle", padding: "5px" }} />Delete</Button></TableCell>
