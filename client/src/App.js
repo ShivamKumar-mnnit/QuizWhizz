@@ -47,11 +47,13 @@ import { useSelector } from "react-redux";
 export default function App() {
 
     const [currentUserUid, setCurrentUserUid] = useState(null);
+    const [loading,setLoading] = useState(true);
 
     useEffect(() => {
         getUsername()
           .then((data) => {
             setCurrentUserUid(data.userId);
+            setLoading(false);
           })
           .catch((error) => {
             console.error('Error occurred:', error);
@@ -59,8 +61,6 @@ export default function App() {
       }, []);
 
 
-
-    console.log(currentUserUid);
 
 /** root routes */
 const router = createBrowserRouter([
@@ -174,6 +174,14 @@ const router = createBrowserRouter([
 ])
 
 
+if(loading){
+    return(
+        <>loading...</>
+    )
+}
+
+
+console.log(currentUserUid);
 
 
   return (
