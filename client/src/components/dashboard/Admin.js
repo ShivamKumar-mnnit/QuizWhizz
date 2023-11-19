@@ -11,7 +11,8 @@ import useFetch from '../../hooks/fetch.hook';
 import { BiSolidEdit } from "react-icons/bi";
 import { Link } from 'react-router-dom';
 
-import Reports from '../../components_pages/Reports';
+import Exams from './Exams';
+import Score from './Score';
 
 const Admin = () => {
 
@@ -117,13 +118,24 @@ const Admin = () => {
 
         {
         apiData?.role ?
-        <Link to="/examdashboard"> <span class="badge bg-warning text-dark mx-3">Go to Dashboard</span></Link>
+        <>
+        <div className="container my-4 text-center">
+        <Link to="/examdashboard"> <span class="badge bg-warning text-dark mx-3">Create Exam</span></Link>
+        </div>
+        </>
         :
-        <>be admin</>
+        <>
+         <div className="container my-4 text-center d-flex flex-column ">
+        You have to be admin to create an Exam
+        <Link to="/profile" className='text-decoration-underline'>Click here to be admin</Link>
+        </div>
+        </>
       }
 
         </div>
-        <div className="rounded bg-white h-40 shadow-sm"></div>
+        <div className="rounded bg-white h-40 shadow-sm">
+      <Score/>
+  </div>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-5 mb-16 h-480">
@@ -140,12 +152,13 @@ const Admin = () => {
 
 
 <div className="card" style={cardStyle}>
-      <div className="card-header">
-        List of Available Exams
+      <div className="card-header d-flex text-center">
+        <div className="container">List of Exams</div>
+       <div className="container flex-row-reverse text-decoration-underline"><Link to="/reports">Report</Link></div> 
       </div>
-      <div className="card-body" style={cardBodyStyle}>
-        <Reports/>
-        <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <div className="card-body text-center" style={cardBodyStyle}>
+        <Exams/>
+        
       </div>
     </div>
 

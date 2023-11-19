@@ -54,10 +54,7 @@ export default function App() {
           });
       }, []);
 
-if(!currentUserUid){
-    return <div>loading...</div>
-}
-  
+
 
     console.log(currentUserUid);
 
