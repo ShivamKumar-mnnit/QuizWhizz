@@ -48,6 +48,7 @@ cursor: pointer;
 const Reports = (CUId) => {
 
   
+  console.log(CUId);
 
   const [userDatas, setUserDatas] = useState([]);
   // eslint-disable-next-line
@@ -63,7 +64,7 @@ const token = localStorage.getItem('token');
     // eslint-disable-next-line
   }, [])
 
-
+console.log(CUId);
   const getUserDatas = async () => {
     const { data } = await axios.get(`http://localhost:8080/userexams/`+CUId.CUId,{ headers: { Authorization: `Bearer ${token}` } });
     setUserDatas(data)

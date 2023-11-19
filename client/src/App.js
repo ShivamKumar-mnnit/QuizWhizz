@@ -33,6 +33,10 @@ import Reports from './components_pages/Reports';
 import QuizController from './components_pages/QuizController';
 import ExamResult from './components_pages/quizHandler/Result';
 
+
+import ExamMain from './components_pages/Exam/Main';
+import ExamQuiz from './components_pages/Exam/Quiz';
+
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
 import { getUsername } from './helper/helper';
@@ -146,6 +150,16 @@ const router = createBrowserRouter([
 {
     path : '/examresult/:id',
     element : <ExamResult />
+},
+
+
+{
+    path : '/examstarting/:id',
+    element : <ExamMain />
+},
+{
+    path : '/examrunning/:id',
+    element : <ExamQuiz />
 },
 
 

@@ -18,7 +18,7 @@ router.get('/',Auth, (req, resp) => {
 //GET ExamQ
 router.get("/:id",Auth, async (req, resp) => {
     try {
-        ExamQuestions.find({ examId: req.params.id }).then(data => {
+        ExamQuestions.find({ _id: req.params.id }).then(data => {
             resp.json(data)
         })
     } catch (err) {

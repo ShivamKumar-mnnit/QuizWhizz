@@ -22,6 +22,7 @@ router.get("/:id",Auth, async (req, resp) => {
     }
 });
 
+
 router.get("/exam/:id",Auth, async (req, resp) => {
     try {
         UserExams.find({ examId: req.params.id }).then(data => {
@@ -32,41 +33,16 @@ router.get("/exam/:id",Auth, async (req, resp) => {
     }
 });
 
-/*
 
-router.get("/exam/:id", async (req, resp) => {
-    try {
-        let resultList = [];
-        const userExams = UserExams.find({ examId: req.params.id });
-
-        userExams.forEach(element => {
-            const user = Users.findOne(element.userId);
-
-            resultList.push({
-                usename: user.name,
-                examId: element.examId,
-                userExamId: element,
-            })
-
-        });
-
-
-
-    } catch (err) {
-        resp.json({ message: err });
-    }
-});
-
-*/
 
 router.post('/',Auth, (req, resp) => {
     const userExams = new UserExams({
-        examId: req.body.examId,
         userId: req.body.userId,
-        grade: req.body.grade,
-        userInfo: req.body.userInfo,
-        examReview: req.body.examReview,
+        examId: req.body.examId,
+        userName: req.body.userName,
+        score: req.body.score,
         status: req.body.status,
+        examReview: req.body.examReview,
     })
     userExams.save().then(data => {
         resp.json(data)
@@ -74,6 +50,7 @@ router.post('/',Auth, (req, resp) => {
         resp.json({ message: e })
     })
 })
+
 
 router.put("/:id", Auth, (req, resp) => {
     UserExams.updateOne({ _id: req.params.id }, {
@@ -95,7 +72,7 @@ router.patch('/:id', Auth, (req, resp) => {
                 $set: {
                     examId: req.body.examId,
                     userId: req.body.userId,
-                    grade: req.body.grade,
+                    score: req.body.score,
                 },
                 $push: {
                     examReview: req.body.examReview,
