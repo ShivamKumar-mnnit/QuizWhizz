@@ -4,7 +4,7 @@ import ErrorMessage from "./ErrorMessage";
 import styled from "styled-components"
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import React from "react";
+
 
 const Container = styled.div`
   width: 100%;
@@ -56,6 +56,7 @@ const Wrong = styled.div`
 `
 
 const Question = ({
+  CUId,
   currQues,
   setCurrQues,
   questions,
@@ -71,10 +72,12 @@ const Question = ({
   const [error, setError] = useState(false);
   const [pass, setPass] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [qid,setQid]=useState(null);
 
-  console.log(exam_id);
 
   const token = localStorage.getItem('token');
+  console.log(CUId);
+  console.log(exam_id);
 
   const navigate = useNavigate()
 
@@ -85,12 +88,11 @@ const Question = ({
     handleCreatorUser();
   }, [])
 
-  console.log(exam_id)
-
   const handleCreatorUser = async () => {
     const { data } = await axios.get('http://localhost:8080/exam/exam/' + id.id,{ headers: { Authorization: `Bearer ${token}` } })
-    setPass(data.creatorUserId == userId)
-    console.log(pass);
+    console.log(data);
+    setPass(CUId.CUId == userId)
+    console.log(setPass)
     setIsLoading(false)
   }
 
@@ -119,7 +121,8 @@ const Question = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(exam_id)
-    if (pass == userId) {
+    console.log(userId)
+    if (pass === userId) {
       console.log("datas did not saved")
     } else {
       const userExam = {
@@ -135,7 +138,8 @@ const Question = ({
   }
 
   const handleReview = (i) => {
-    if (pass == userId) {
+    console.log(pass)
+    if (pass === userId) {
       console.log("datas did not saved")
     } else {
       const userOptions = {
@@ -155,8 +159,7 @@ const Question = ({
 
   if (isLoading) {
     return (
-      <>
-       loading...
+      <>loading...
       </>)
   }
   return (

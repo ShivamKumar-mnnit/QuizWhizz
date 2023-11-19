@@ -15,6 +15,7 @@ const QuizController = (CUId) => {
     const [isLoading, setIsLoading] = useState(true);
     const [exam_id, setExam_id] = useState("");
     const [timerData, setTimerData] = useState(0);
+   
 
     const navigate = useNavigate()
 
@@ -46,8 +47,9 @@ const QuizController = (CUId) => {
                 alert("You are in preview mode that means your question data will not be saved")
             } else {
                 const dummyData = {
-                    userId: CUId.CUId,
                     examId: id.id,
+                    userId: CUId.CUId,
+                    grade: 0,
                     userInfo: {
                         username: data.data.firstName + " " + data.data.lastName,
                         examname: data2.data.examname,
@@ -56,15 +58,17 @@ const QuizController = (CUId) => {
                 };
                 axios.post("http://localhost:8080/userexams/", dummyData,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
                     console.log(response.status);
-                    console.log(response.data.message.keyValue.examId);
                     console.log(response.data);
-
+                    if(response.data){
+                        setExam_id(response.data._id);
+                    }else{
                     setExam_id(response.data.message.keyValue.examId)
+                    }
                 });
                 setTimerData(data2.data.time)
             }
             setTimeout(() => {
-                navigate("/result/" + id.id)
+                navigate("/examresult/" + id.id)
             }, ((data2.data.time) * 60) + "000");
         }))
     }
@@ -102,6 +106,7 @@ const QuizController = (CUId) => {
  
             <CountDownTimer hoursMinSecs={hoursMinSecs}/>
             <Quiz
+                CUId={CUId}
                 questions={questions}
                 score={score}
                 setScore={setScore}

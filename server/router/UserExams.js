@@ -75,7 +75,7 @@ router.post('/',Auth, (req, resp) => {
     })
 })
 
-router.put("/:id",Auth, (req, resp) => {
+router.put("/:id", Auth, (req, resp) => {
     UserExams.updateOne({ _id: req.params.id }, {
         $push: {
             examReview: req.body.examReview,
@@ -85,21 +85,43 @@ router.put("/:id",Auth, (req, resp) => {
     }).catch(e => {
         resp.json({ message: e })
     })
-})
+});
 
-router.patch('/:id',Auth, (req, resp) => {
-    UserExams.updateOne({ _id: req.params.id }, {
-        $set: {
-            examId: req.body.examId,
-            userId: req.body.userId,
-            grade: req.body.grade,
-            examReview: req.body.examReview,
-        }
-    }).then(data => {
-        resp.json(data)
-    }).catch(e => {
-        resp.json({ message: e })
-    })
+router.patch('/:id', Auth, (req, resp) => {
+    if (req.body.examReview) {
+        UserExams.updateOne(
+            { _id: req.params.id },
+            {
+                $set: {
+                    examId: req.body.examId,
+                    userId: req.body.userId,
+                    grade: req.body.grade,
+                },
+                $push: {
+                    examReview: req.body.examReview,
+                }
+            }
+        ).then(data => {
+            resp.json(data)
+        }).catch(e => {
+            resp.json({ message: e })
+        })
+    } else {
+        UserExams.updateOne(
+            { _id: req.params.id },
+            {
+                $set: {
+                    examId: req.body.examId,
+                    userId: req.body.userId,
+                    grade: req.body.grade,
+                }
+            }
+        ).then(data => {
+            resp.json(data)
+        }).catch(e => {
+            resp.json({ message: e })
+        })
+    }
 })
 
 router.delete('/:id',Auth, (req, resp) => {
