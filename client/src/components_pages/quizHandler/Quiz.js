@@ -8,7 +8,9 @@ const Quiz = ({CUId, questions, score, setScore, setQuestions, userId, exam_id})
 
     console.log(questions);
     useEffect(() => {
+        // eslint-disable-next-line
         startFunction();
+        // eslint-disable-next-line
     }, [currQues, questions]);
 
     const startFunction = () => {
@@ -21,7 +23,7 @@ console.log(questions[0]);
 
         for (let k = 0; k < data.length; k++) {
             dataOptions = (data[k].isCorrect);
-            if (dataOptions == true) {
+            if (dataOptions === true) {
                 setCorrect(data[k].option)
                 console.log(data[k].option)
             }

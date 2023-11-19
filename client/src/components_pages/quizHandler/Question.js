@@ -32,6 +32,7 @@ const Options = styled.div`
   justify-content: space-around;
   margin: 10px;
 `
+// eslint-disable-next-line
 const SingleOption = styled.button`
   width: 46%;
   height: 50px;
@@ -44,11 +45,13 @@ const Control = styled.div`
   width: 100%;
   justify-content: space-around;
 `
+// eslint-disable-next-line
 const Select = styled.div`
   background-color: rgb(7, 207, 0);
   color: white;
   box-shadow: 0 0 1px black;
 `
+// eslint-disable-next-line
 const Wrong = styled.div`
   background-color: rgb(233, 0, 0);
   color: white;
@@ -72,7 +75,7 @@ const Question = ({
   const [error, setError] = useState(false);
   const [pass, setPass] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [qid,setQid]=useState(null);
+
 
 
   const token = localStorage.getItem('token');
@@ -86,12 +89,13 @@ const Question = ({
 
   useEffect(() => {
     handleCreatorUser();
+    // eslint-disable-next-line
   }, [])
 
   const handleCreatorUser = async () => {
     const { data } = await axios.get('http://localhost:8080/exam/exam/' + id.id,{ headers: { Authorization: `Bearer ${token}` } })
     console.log(data);
-    setPass(CUId.CUId == userId)
+    setPass(CUId.CUId === userId)
     console.log(setPass)
     setIsLoading(false)
   }

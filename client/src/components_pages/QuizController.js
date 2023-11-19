@@ -24,6 +24,7 @@ const QuizController = (CUId) => {
 
     useEffect(() => {
         getExams();
+        // eslint-disable-next-line
     }, [])
 
     const getExams = async () => {
@@ -41,7 +42,7 @@ const QuizController = (CUId) => {
         ]).then(axios.spread((data, data2) => {
             console.log(data);
             console.log(data2);
-            if (data2.data.creatorUserId == CUId.CUId) {
+            if (data2.data.creatorUserId === CUId.CUId) {
                 setTimerData(data2.data.time)
                 console.log(data2.data.time)
                 alert("You are in preview mode that means your question data will not be saved")
