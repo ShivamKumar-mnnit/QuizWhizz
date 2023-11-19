@@ -8,6 +8,13 @@ const ExamQuestionsSchema = new mongoose.Schema({
     questionTitle: {
         type: String,
     },
+    questionMarks: {
+        type: Number,
+    },
+    questionCategory:{
+        type: String,
+        default: "MCQ"
+    },
     options: [{
         option: {
             type: String,

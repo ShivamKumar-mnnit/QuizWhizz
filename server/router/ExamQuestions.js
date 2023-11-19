@@ -46,12 +46,14 @@ router.get("/:id",Auth, async (req, resp) => {
 // })
 router.post('/',Auth, async (req, resp) => {
     try {
-        const { examId, questionTitle, options, correctOption } = req.body;
+        const { examId, questionTitle,questionMarks,questionCategory, options, correctOption } = req.body;
 
         // Create a new exam question
         const newQuestion = new ExamQuestions({
             examId,
             questionTitle,
+            questionMarks,
+            questionCategory,
             options,
             correctOption,
         });
@@ -94,6 +96,7 @@ router.patch('/:id',Auth, (req, resp) => {
         $set: {
             examId: req.body.examId,
             questionTitle: req.body.questionTitle,
+            questionCategory: req.body.questionCategory,
             options: req.body.options,
             correctOption: req.body.correctOption,
         }

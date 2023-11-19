@@ -79,7 +79,14 @@ const CreateQuiz = () => {
     const [questionTitle, setQuestionTitle] = useState("");
     const [dummy, setDummy] = useState(0);
     const [dumy, setDumy] = useState(0);
+    const [category,setCategory] = useState("");
+    const [marks,setMarks] = useState(0);
 
+
+    const handleCategoryChange = (e) => {
+        setCategory(e.target.value);
+      };
+    
 
     const addQuestion = async (e) => {
         e.preventDefault();
@@ -101,6 +108,8 @@ const CreateQuiz = () => {
             const newQuestion = {
                 examId: id.id,
                 questionTitle: questionTitle,
+                questionCategory: category,
+                questionMarks: marks
             };
             console.log(newQuestion)
             axios.post("http://localhost:8080/examquestions/", newQuestion,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
@@ -108,6 +117,10 @@ const CreateQuiz = () => {
                 const data = response.data._id;
                 handleOptions({ data, inputOption });
             });
+             // After successful submission, reset form fields
+        setInputFields([{ id: uuidv4(), option: '' }]);
+        setQuestionTitle("");
+        setCorrectOption(undefined);
         }
     }
 
@@ -199,7 +212,10 @@ const CreateQuiz = () => {
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="exam" style={{ color: "#222831", fontSize: "16px", fontWeight: "600", padding: "25px" }}>
+                                           
                                             <Label>{(index + 1) + " ) "}{exam.questionTitle}</Label>
+                                            
+
                                             {exam.options.map((option) => (
                                                 <>
                                                     <br /><Check type="radio" name={`${index + 1}`} />
@@ -212,10 +228,15 @@ const CreateQuiz = () => {
                                         <TableCell align="right"></TableCell>
                                         <TableCell align="right"></TableCell>
                                         <TableCell align="right"></TableCell>
-                                        <TableCell align="right"></TableCell>
+                                        <TableCell align="right"><Label className='d-flex flex-row-reverse'>{exam.questionMarks}</Label></TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
+
+
+
+
+
                             <TableHead>
                                 <TableRow>
                                     <Popup
@@ -229,7 +250,71 @@ const CreateQuiz = () => {
                                                     &times;
                                                 </button>
 
-                                                <div style={{ width: "100", borderBottom: "1px solid gray", fontSize: "18px", padding: "5px", color: "white" }}>New Question</div>
+                                                <div style={{ width: "100", borderBottom: "1px solid gray", fontSize: "18px", padding: "5px", color: "white" }}>New Question
+                                                
+                                                
+                                                
+                                                
+                                                
+        <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+          <input
+            type="radio"
+            className="btn-check"
+            name="category"
+            id="radio1"
+            value="MCQ"
+            onChange={handleCategoryChange}
+            autoComplete="off"
+            checked={category === "MCQ"}
+          />
+          <label className="btn btn-outline-primary" htmlFor="radio1">
+            MCQ
+          </label>
+
+          <input
+            type="radio"
+            className="btn-check"
+            name="category"
+            id="radio2"
+            value="TF"
+            onChange={handleCategoryChange}
+            autoComplete="off"
+            checked={category === "TF"}
+          />
+          <label className="btn btn-outline-primary" htmlFor="radio2">
+           TF
+          </label>
+
+          <input
+            type="radio"
+            className="btn-check"
+            name="category"
+            id="radio3"
+            value="SUB"
+            onChange={handleCategoryChange}
+            autoComplete="off"
+            checked={category === "SUB"}
+          />
+          <label className="btn btn-outline-primary" htmlFor="radio3">
+            Subjective
+          </label>
+        </div>
+
+     
+        <div className="container d-flex flex-row-reverse ">Marks:
+        <input
+        className='text-dark'
+            type="number"
+            value={marks}
+            onChange={(e) => setMarks(e.target.value)}
+            style={{ marginLeft: '10px', width: '50px'  }}
+        />
+    </div>
+
+                                                </div>
+
+
+
                                                 <div style={{ padding: "5px", fontSize: "16px", fontWeight: "500", color: "white" }}>Question: <textarea style={{ verticalAlign: "middle", maxWidth: "580px", maxHeight: "200px", width: "580px", color: 'black' }} type="text" onChange={e => setQuestionTitle(e.target.value)} /></div>
                                                 <form onSubmit={addQuestion} style={{ width: "100%", padding: "10px 5px" }}>
                                                     {inputFields.map(inputField => (
@@ -243,10 +328,13 @@ const CreateQuiz = () => {
                                                                 style={{ maxWidth: "650px", maxHeight: "200px", width: "650px" }}
                                                             />
 
+
                                                             <RemoveCircleOutline style={{ verticalAlign: "top", color: "#EEEEEE" }} disabled={inputFields.length === 1} onClick={() => handleRemoveFields(inputField.id)} />
                                                             <AddCircle style={{ verticalAlign: "top", color: "#EEEEEE" }} onClick={handleAddFields} />
                                                             <input style={{ verticalAlign: "top", color: "#EEEEEE" }} type="radio" name='correct' value={inputField.option} onClick={(e) => setCorrectOption(e.target.value)} />
                                                             <Label style={{ verticalAlign: "top", color: "#EEEEEE" }} htmlFor="correct">Correct</Label>
+
+
                                                         </div>
                                                     ))}
                                                     <div style={{ width: "100%", padding: "10px 5px", margin: "auto", textAlign: "center" }}>
@@ -261,6 +349,9 @@ const CreateQuiz = () => {
                                                         </Button>
                                                     </div>
                                                 </form>
+
+
+
                                             </div>
                                         )}
                                     </Popup>
@@ -270,6 +361,9 @@ const CreateQuiz = () => {
                                     <TableCell align='right'><Link to={`/configure/${id.id}`}><NextButton>Next<ArrowForward style={{ verticalAlign: "middle", transform: "scale(0.9)" }} /></NextButton></Link></TableCell>
                                 </TableRow>
                             </TableHead>
+
+
+
                         </Table>
                     </TableContainer>
                 </Wrapper>

@@ -63,7 +63,6 @@ const Configure = () => {
     const [examGrade, setExamGrade] = useState(0);
     const [examTime, setExamTime] = useState(0);
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(true);
   
     const token = localStorage.getItem('token');
     const params = useParams();
@@ -74,27 +73,27 @@ const Configure = () => {
       // eslint-disable-next-line
     }, []);
   
-    // const getConfigureData = async () => {
-    //   try {
-    //     const response = await axios.get(`http://localhost:8080/exam/exam/` + id.id,{ headers: { Authorization: `Bearer ${token}` } });
-    //     console.log(response.data);
-    //     setExamName(response.data.examname);
-    //     setExamGrade(response.data.passGrade);
-    //     setExamTime(response.data.time);
-    //     console.log(response.status);
-    //     setMyStartDatas(response.data);
-    //   } catch (error) {
-    //     console.error("Error fetching data:", error);
-    //   }
-    // };
-  
     const getConfigureData = async () => {
-      await axios.get(`http://localhost:8080/exam/exam/` + id.id,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
+      try {
+        const response = await axios.get(`http://localhost:8080/exam/exam/` + id.id,{ headers: { Authorization: `Bearer ${token}` } });
+        console.log(response.data);
+        setExamName(response.data.examname);
+        setExamGrade(response.data.passGrade);
+        setExamTime(response.data.time);
         console.log(response.status);
         setMyStartDatas(response.data);
-        setIsLoading(false);
-      })
-    }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    // const getConfigureData = async () => {
+    //   await axios.get(`http://localhost:8080/exam/exam/` + id.id,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
+    //     console.log(response.status);
+    //     setMyStartDatas(response.data);
+    //     setIsLoading(false);
+    //   })
+    // }
 
 
     const handleConfigure = (e) => {
@@ -111,12 +110,7 @@ const Configure = () => {
       });
     };
   
-    if (isLoading) {
-      return (
-        <>
-          loading...
-        </>)
-    }
+  
   
     return (
       <>
