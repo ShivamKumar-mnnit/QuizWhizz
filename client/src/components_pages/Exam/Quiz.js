@@ -2,6 +2,7 @@ import React from 'react';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Question  from './Question.js';
+import CountDownTimer from "../../components_pages/elements/CountDownTimer.js";
 
 import { useParams } from 'react-router-dom'
 
@@ -12,7 +13,6 @@ export default function Quiz() {
     const [loading,setLoading]= useState(true);
     const [score,setScore]= useState(0);
 
-
   
 
     const params = useParams();
@@ -22,11 +22,7 @@ export default function Quiz() {
         getExams();
     }, [])
   
-    //   const getExams = async () => {
-    //     console.log(id);
-    //     const { data } = await axios.get(`http://localhost:8080/exam/exam/${id.id}`,{ headers: { Authorization: `Bearer ${token}` } });
-    //     setQuestionsIndex(data.examQuestions);
-    // }
+
 
     const getExams = async () => {
         try {
@@ -47,9 +43,13 @@ export default function Quiz() {
     console.log(questionIndex);
     console.log(time);
 
+    
+    const hoursMinSecs = {hours:0, minutes: time, seconds: 0}
+
 
     return (
         <div className='container backgroundimagesetter'>
+          <CountDownTimer hoursMinSecs={hoursMinSecs}/>
           <h1 className='title text-dark text-center mt-5 mb-4'>Quiz Application</h1>
           {questionIndex.map((questionId, index) => (
             <div key={index} className='text-center'>

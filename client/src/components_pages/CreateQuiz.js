@@ -177,7 +177,8 @@ const CreateQuiz = () => {
     }, [options, dummy, dumy]);
 
     const getExams = async () => {
-        const { data } = await axios.get('http://localhost:8080/examquestions/' + id.id , { headers: { Authorization: `Bearer ${token}` } });
+        console.log(id.id);
+        const { data } = await axios.get('http://localhost:8080/examquestions/exam/' + id.id , { headers: { Authorization: `Bearer ${token}` } });
         setExamDatas(data);
         console.log(data)
     }

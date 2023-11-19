@@ -26,6 +26,17 @@ router.get("/:id",Auth, async (req, resp) => {
     }
 });
 
+//Get by examid
+router.get("/exam/:id",Auth, async (req, resp) => {
+    try {
+        ExamQuestions.find({ examId: req.params.id }).then(data => {
+            resp.json(data)
+        })
+    } catch (err) {
+        resp.json({ message: err });
+    }
+});
+
 // router.post('/', async(req, resp) => {
 //     const examQuestions = new ExamQuestions({
 //         examId: req.body.examId,
