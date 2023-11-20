@@ -81,7 +81,7 @@ function userLogout(){
 
 {     token?
     <>
-    <li className='container-fluid overflow-auto text-center fw-bold' >{apiData?.firstName}</li>
+    <li className='container-fluid overflow-auto text-center fw-bold' >{apiData?.firstName || apiData?.username}</li>
     {/* <li className='overflow-auto'>{apiData?.email}</li> */}
     <li><button className="btn btn-danger container-fluid text-center" onClick={userLogout}>Logout</button></li>
     </>
@@ -155,7 +155,7 @@ function userLogout(){
 
 
                 <Link to="/dashboard"><li className='text-xl py-4 flex'><CgProfile size={25} className='mr-4' /> Your Profile</li></Link>
-               <Link to='/quick_quiz'> <li className='text-xl py-4 flex'><MdQuiz size={25} className='mr-4' />Testing</li></Link>
+               <Link to='/examDashboard'> <li className='text-xl py-4 flex'><MdQuiz size={25} className='mr-4' />Testing</li></Link>
                 <Link to='/quiz'><li className='text-xl py-4 flex'><MdHelp size={25} className='mr-4' /> Quick-Quiz</li></Link>
                 <li className='text-xl py-4 flex'><AiFillTag size={25} className='mr-4' /> Promotions</li>
                 

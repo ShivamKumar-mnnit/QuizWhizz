@@ -34,6 +34,17 @@ export async function getUser({ username }){
     }
 }
 
+/** get User details */
+export async function getUserbyid({ userId }){
+    try {
+        const { data } = await axios.get(`/api/users/${userId}`);
+        return { data };
+    } catch (error) {
+        return { error : "Password doesn't Match...!"}
+    }
+}
+
+
 /** register user function */
 export async function registerUser(credentials){
     try {

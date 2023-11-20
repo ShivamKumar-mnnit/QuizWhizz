@@ -3,6 +3,13 @@ import cors from 'cors';
 import morgan from 'morgan';
 import connect from './database/conn.js';
 import router from './router/route.js';
+
+import examQuestionsRoute from './router/ExamQuestions.js';
+import userExamsRoute from './router/UserExams.js';
+import examRoute from './router/Exam.js';
+
+
+
 const app = express();
 
 /** middlewares */
@@ -22,6 +29,14 @@ app.get('/', (req, res) => {
 
 /** api routes */
 app.use('/api', router)
+
+// exam routes- seperately
+app.use('/examquestions', examQuestionsRoute)
+app.use('/exam', examRoute)
+app.use('/userexams', userExamsRoute)
+
+
+
 
 /** start server only when we have valid connection */
 connect().then(() => {

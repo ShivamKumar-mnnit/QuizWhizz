@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import Questions from './Questions';
 import Timer from './Timer';
 import { MoveNextQuestion, MovePrevQuestion } from '../../hooks/quiz/FetchQuestions';

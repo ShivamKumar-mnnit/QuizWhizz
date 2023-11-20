@@ -1,5 +1,7 @@
-import React from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import React, { useEffect,useState } from 'react'
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+
+
 // import 'bootstrap/dist/css/bootstrap.css'
 
 /** import all components */
@@ -21,17 +23,44 @@ import Quiz from './components/quiz/Quiz';
 import Result from './components/quiz/Result';
 import ResultTable from './components/quiz/ResultTable';
 
-//QuickQuiz
-import QuickQuizHome from './components/quick-quiz/Home';
-import QuickQuizOption from './components/quick-quiz/components/Indexpage';
-import QuickQuizGame from './components/quick-quiz/components/Quizpage';
-import QuickQuizEnd from './components/quick-quiz/components/End';
-import QuickQuizHiscore from './components/quick-quiz/components/Highscore';
+//Exam
+import ExamDashboard from './components_pages/Dashboard';
+import CreateQuiz from './components_pages/CreateQuiz';
+import Configure from './components_pages/Configure';
+import Anlyze from './components_pages/Anlyze';
+import ExamReview from './components_pages/ExamReview';
+import Reports from './components_pages/Reports';
+import QuizController from './components_pages/QuizController';
+import ExamResult from './components_pages/quizHandler/Result';
 
 
+import ExamMain from './components_pages/Exam/Main';
+import ExamQuiz from './components_pages/Exam/Quiz';
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
+import { getUsername } from './helper/helper';
+
+// import { getUsername } from './helper/helper';
+import { useSelector } from "react-redux";
+
+export default function App() {
+
+    const [currentUserUid, setCurrentUserUid] = useState(null);
+    const [loading,setLoading] = useState(true);
+
+    useEffect(() => {
+        getUsername()
+          .then((data) => {
+            setCurrentUserUid(data.userId);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error('Error occurred:', error);
+          });
+      }, [currentUserUid]);
+
+
 
 /** root routes */
 const router = createBrowserRouter([
@@ -71,26 +100,7 @@ const router = createBrowserRouter([
         path : '/quiz',
         element : <AuthorizeUser><Main /></AuthorizeUser>
     },
-    {
-        path : '/quick_quiz',
-        element : <AuthorizeUser><QuickQuizHome /></AuthorizeUser>
-    },
-    {
-        path : '/quick_quiz/option',
-        element : <AuthorizeUser><QuickQuizOption /></AuthorizeUser>
-    },
-    {
-        path : '/quick_quiz/game',
-        element : <AuthorizeUser><QuickQuizGame /></AuthorizeUser>
-    },
-    {
-        path : '/quick_quiz/end',
-        element : <AuthorizeUser><QuickQuizEnd /></AuthorizeUser>
-    },
-    {
-        path : '/quick_quiz/score',
-        element : <AuthorizeUser><QuickQuizHiscore /></AuthorizeUser>
-    },
+   
     {
         path : '/questions',
         element : <AuthorizeUser><Questions /></AuthorizeUser>
@@ -107,6 +117,55 @@ const router = createBrowserRouter([
         path : '/resultTable',
         element : <AuthorizeUser><ResultTable /></AuthorizeUser>
     },
+
+//define all exams related paths here
+{
+    path : '/examDashboard',
+    element : <AuthorizeUser><ExamDashboard CUId={currentUserUid} /></AuthorizeUser>
+},
+{
+    path : '/create/:id',
+    element : <CreateQuiz  />
+},
+{
+    path : '/configure/:id',
+    element : <Configure  />
+},
+{
+    path : '/anlyze/:id',
+    element : <Anlyze  />
+},
+{
+    path : '/examreview/:id',
+    element : <ExamReview  />
+},
+{
+    path : '/reports',
+    element : <Reports CUId={currentUserUid} />
+},
+{
+    path : '/examquiz/:id',
+    element : <QuizController CUId={currentUserUid} />
+},
+{
+    path : '/examresult/:id',
+    element : <ExamResult />
+},
+
+
+{
+    path : '/examstarting/:id',
+    element : <ExamMain CUId={currentUserUid} />
+},
+{
+    path : '/examrunning/:id',
+    element : <ExamQuiz />
+},
+
+
+
+
+
     {
         path : '*',
         element : <PageNotFound></PageNotFound>
@@ -114,10 +173,20 @@ const router = createBrowserRouter([
 
 ])
 
-export default function App() {
+
+if(loading){
+    return(
+        <>loading...</>
+    )
+}
+
+
+console.log(currentUserUid);
+
+
   return (
     <main>
-        <RouterProvider router={router}></RouterProvider>
+        <RouterProvider router={router} ></RouterProvider>
     </main>
   )
 }
