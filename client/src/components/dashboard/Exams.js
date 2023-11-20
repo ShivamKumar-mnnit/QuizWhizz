@@ -84,7 +84,7 @@ const Exams = () => {
           {examDatas.map((exam, index) => (
             <Tr key={index}>
               <Td>{exam.examname}</Td>
-              <Td><TableCell component="th" scope="row" onClick={() => { navigator.clipboard.writeText("http://localhost:3000/examquiz/" + exam._id) }}>
+              <Td><TableCell component="th" scope="row" onClick={() => { navigator.clipboard.writeText(`${process.env.REACT_APP_CLIENT_DOMAIN}examstarting/` + exam._id) }}>
                       <span style={{ cursor: "pointer" }} onClick={() => { notify(); }}> {exam.examname}  <span style={{ color: "#CC0000" }}>{"=>"}  Click for quiz link</span> </span>
                     </TableCell></Td>
              </Tr>

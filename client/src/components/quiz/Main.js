@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setUserId } from '../../redux/quiz/result_reducer';
-import '../quick-quiz/Home.css';
+import './Home.css';
 import useFetch from '../../hooks/fetch.hook';
 
 export default function Main() {

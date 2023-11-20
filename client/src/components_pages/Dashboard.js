@@ -224,7 +224,7 @@ const handleCategoryChange = (e) => {
                     key={name.examname}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row" onClick={() => { navigator.clipboard.writeText("http://localhost:3000/examstarting/" + name._id) }}>
+                    <TableCell component="th" scope="row" onClick={() => { navigator.clipboard.writeText(`${process.env.REACT_APP_CLIENT_DOMAIN}examstarting/` + name._id) }}>
                       <span style={{ cursor: "pointer" }} onClick={() => { notify(); }}> {name.examname}  <span style={{ color: "#CC0000" }}>{"=>"}  Click for quiz link</span> </span>
                     </TableCell>
 
