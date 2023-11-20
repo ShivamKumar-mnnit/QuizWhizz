@@ -63,6 +63,25 @@ router.put("/:id", Auth, (req, resp) => {
         resp.json({ message: e })
     })
 });
+// router.put("/:id", Auth, async (req, resp) => {
+//     const { id } = req.params;
+//     const { attemptedQuestions } = req.body;
+  
+//     try {
+//       const updatedExam = await UserExams.findByIdAndUpdate(id, {
+//         $set: { examReview: attemptedQuestions } // Set the examReview based on attempted questions
+//       }, { new: true });
+  
+//       if (!updatedExam) {
+//         return resp.status(404).json({ message: 'Exam not found' });
+//       }
+  
+//       resp.json(updatedExam);
+//     } catch (error) {
+//       resp.status(500).json({ message: error.message });
+//     }
+//   });
+
 
 router.patch('/:id', Auth, (req, resp) => {
     if (req.body.examReview) {

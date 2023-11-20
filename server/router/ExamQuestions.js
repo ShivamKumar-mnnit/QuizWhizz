@@ -57,7 +57,7 @@ router.get("/exam/:id",Auth, async (req, resp) => {
 // })
 router.post('/',Auth, async (req, resp) => {
     try {
-        const { examId, questionTitle,questionMarks,questionCategory, options, correctOption } = req.body;
+        const { examId, questionTitle,questionMarks,questionCategory,userResponse, options, correctOption } = req.body;
 
         // Create a new exam question
         const newQuestion = new ExamQuestions({
@@ -65,6 +65,7 @@ router.post('/',Auth, async (req, resp) => {
             questionTitle,
             questionMarks,
             questionCategory,
+            userResponse,
             options,
             correctOption,
         });

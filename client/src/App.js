@@ -58,7 +58,7 @@ export default function App() {
           .catch((error) => {
             console.error('Error occurred:', error);
           });
-      }, []);
+      }, [currentUserUid]);
 
 
 

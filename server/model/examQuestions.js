@@ -15,6 +15,11 @@ const ExamQuestionsSchema = new mongoose.Schema({
         type: String,
         default: "MCQ"
     },
+    userResponse:{
+        type: String,
+        default:""
+    },
+
     options: [{
         option: {
             type: String,

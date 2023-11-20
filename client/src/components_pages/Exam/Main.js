@@ -14,7 +14,7 @@ export default function Main ({CUId}) {
     const [{ apiData }] = useFetch();
     
 
-    
+    // const [userexamid,setuserexamid]={};
 
     const params = useParams();
     const id = params;
@@ -67,7 +67,8 @@ export default function Main ({CUId}) {
       );
       // Handle success, e.g., redirect to the quiz page
       console.log('Quiz started:', response.data);
-      navigate(`/examrunning/${id.id}`); // Redirect to the quiz page
+      // setuserexamid(response.data._id);
+      navigate(`/examrunning/${id.id}`,{ state: { userexamid: response.data._id } }); // Redirect to the quiz page
     } catch (error) {
       // Handle error
       console.error('Error starting quiz:', error);
@@ -95,7 +96,7 @@ export default function Main ({CUId}) {
         </form>
 
         <div className='start my-4'>
-        <button className='btn btn-success my-4' onClick={startQuiz}>
+        <button className='btn btn-success my-4' onClick={startQuiz} >
           Start Quiz
         </button>
         </div>

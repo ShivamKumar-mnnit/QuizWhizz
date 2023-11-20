@@ -40,13 +40,15 @@ const OptionBox = styled.button`
   width: 45%;
   margin: 5px;
   padding: 10px;
-  border: 2px solid #ccc;
+  border: 2px solid ${({ isSelected }) => (isSelected ? 'blue' : '#ccc')};
+  background-color: ${({ isSelected }) => (isSelected ? 'blue' : 'white')};
+  
   border-radius: 5px;
   text-align: center;
   cursor: pointer;
 
   &:hover {
-    background-color: lightblue; /* Change this color to the highlight color you prefer */
+    background-color: ${({ isSelected }) => (isSelected ? 'lightblue' : 'initial')};
   }
 `;
 
@@ -54,35 +56,37 @@ const OptionBox = styled.button`
 
 
 
-const Question = ({qid,qno,score,setScore,qtotal}) => {
+const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks,setQuestionMarks,qt,setQt}) => {
 
     const token = localStorage.getItem('token');
-    console.log(qid);
-    console.log(qno);
-    console.log(score);
-    console.log(setScore);
-    console.log(qtotal);
     const navigate = useNavigate()
 
     const [loading,setLoading]= useState(true);
     const [question,setQuestion]= useState();
     const [option,setOption]=useState();
-    const [selected, setSelected] = useState();
-    const [correct, setCorrect] = useState();
-    const [error, setError] = useState(false);
+    
+    
 
 
     useEffect(() => {
         getExams();
-    }, [])
+    }, [qid])
   
     const getExams = async () => {
         try {
+      
             const { data } = await axios.get(`http://localhost:8080/examquestions/${qid}`, { headers: { Authorization: `Bearer ${token}` } });
             console.log(data);
             setQuestion(data[0]);
             setOption(data[0].options);
+            setQt(data[0].questionTitle);
+            setQuestionMarks(data[0].questionMarks)
             setLoading(false); // Once the data is fetched, set loading to false
+
+            const correctOption = data[0].options.find(option => option.isCorrect);
+    if (correctOption) {
+      setCorrect(correctOption.option);
+    }
           } catch (error) {
             console.error("Error fetching data:", error);
             setLoading(false); // In case of an error, also set loading to false
@@ -92,48 +96,12 @@ const Question = ({qid,qno,score,setScore,qtotal}) => {
         if(loading){
           return <>loading...</>
         }
-        console.log(question);
-
-
-    const handleSelect = (i) => {
-        if (selected === i && selected === correct) return "select";
-        else if (selected === i && selected !== correct) return "wrong";
-        else if (i === correct) return "select";
-      };
-
-    const handleCheck = (i) => {
-        setSelected(i);
-        if (i === correct) { setScore(score + 1); }
-     
-      }; 
-
-
-
-
-    console.log(question);
-
-
-
-    const handleReview = (i) => {
-          const userOptions = {
-            examReview: {
-              qAnswers: i,
-              qCorrect: correct,
-              qTitle: question[qno].questionTitle,
-            }
-          };
-          console.log(userOptions)
-          axios.put(`http://localhost:8080/userexams/${qid}`, userOptions,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
-            console.log(response.status);
-            console.log(response.data);
-          });
-       
-      }
 
       const generateLabel = (index) => {
         return String.fromCharCode(65 + index); // 'A', 'B', 'C', ...
       };
-
+console.log(correct);
+console.log(questionMarks);
 
   return (
     <Container>
@@ -141,23 +109,24 @@ const Question = ({qid,qno,score,setScore,qtotal}) => {
       <SingleQuestion>
         <h2>{question.questionTitle}</h2>
         <Options>
-          {option &&
-            option.map((option, index) => (
-              <OptionBox
-                className={`singleOption  ${selected && handleSelect(option.option)}`}
-                key={option._id}
-                onClick={() => {
-                  handleCheck(option.option);
-                  handleReview(option.option);
-                }}
-                disabled={selected}
-              >
-                <div className="d-flex">
-                <div className="mx-4 fw-bold">{generateLabel(index)}:</div> {option.option}
-                </div>
-              </OptionBox>
-            ))}
+        {option &&
+  option.map((opt, index) => (
+    <OptionBox
+      key={opt._id}
+      isSelected={selected === opt.option} // Check if the option is selected
+      onClick={() => setSelected(opt.option)} // Set the selected option
+    >
+      {/* Display options */}
+      <div className="d-flex">
+        <div className="mx-4 fw-bold">{generateLabel(index)}:</div>{' '}
+        {opt.option}
+      </div>
+    </OptionBox>
+  ))}
+          
         </Options>
+
+      
       </SingleQuestion>
     </Container>
   )
