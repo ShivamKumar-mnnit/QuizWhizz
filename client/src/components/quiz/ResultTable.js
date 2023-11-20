@@ -6,7 +6,14 @@ export default function ResultTable() {
 
     useEffect(() => {
         getServerData(`http://localhost:8080/api/result`, (res) => {
-            setData(res);
+            const sortedData = res.sort((a, b) => {
+                if (b.points !== a.points) {
+                    return b.points - a.points; // Sort by 'points'
+                } else {
+                    return a.achieved - b.achieved; // Sort by 'achieved' (time)
+                }
+            });
+            setData(sortedData);
         });
     }, []);
 
