@@ -21,7 +21,6 @@ export default function Quiz() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [correct, setCorrect] = useState('');
   const [selected, setSelected] = useState();
-  const [examReview, setExamReview] = useState([]);
   const [qt,setQt]=useState("");
   const params = useParams();
   const id = params;

@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import {Navbar} from '../components/homepage/Navbar'
 
 const Container = styled.div`
 height:100%;
@@ -54,7 +55,6 @@ const Reports = (CUId) => {
   // eslint-disable-next-line
   const [isLoading, setIsLoading] = useState(true);
   const [examDatas, setExamDatas] = useState([]);
- 
 
 const token = localStorage.getItem('token');
 
@@ -64,11 +64,11 @@ const token = localStorage.getItem('token');
     // eslint-disable-next-line
   }, [])
 
-console.log(CUId);
   const getUserDatas = async () => {
     const { data } = await axios.get(`http://localhost:8080/userexams/`+CUId.CUId,{ headers: { Authorization: `Bearer ${token}` } });
+    console.log(data);
     setUserDatas(data)
-    console.log(data)
+    setIsLoading(false);
   }
 
   const getExamDatas = async () => {
@@ -79,11 +79,15 @@ console.log(CUId);
     })
   }
 
-
-
+if(isLoading){
+  return(
+  <>loading...</>
+  )
+}
+console.log(CUId)
   return (
     <>
-  
+  <Navbar/>
       <Container>
         <Header>Status report</Header>
         <Table>
@@ -96,7 +100,17 @@ console.log(CUId);
             <Tr key={index}>
               <Td>{exam.examname}</Td>
               <Td><Link to={`/examstarting/${exam._id}`}><Button>Go to exam</Button></Link></Td>
-              <Td>{userDatas.findIndex(u=> u.examId === exam._id) > -1 ? (<span style={{border:"none",borderRadius:"10px",padding:"5px",backgroundColor:"#CC0000",color:"#EEEEEE",fontWeight:"500" }}>{"Solved"}</span>) : <span style={{border:"none",borderRadius:"10px",padding:"5px",backgroundColor:"#007E33",color:"#EEEEEE",fontWeight:"500" }}>{"Available"}</span>}</Td>
+              <Td>
+  {exam.examGivers.includes(CUId.CUId) ? (
+    <span style={{ border: "none", borderRadius: "10px", padding: "5px", backgroundColor: "#CC0000", color: "#EEEEEE", fontWeight: "500" }}>
+      {"Solved"}
+    </span>
+  ) : (
+    <span style={{ border: "none", borderRadius: "10px", padding: "5px", backgroundColor: "#007E33", color: "#EEEEEE", fontWeight: "500" }}>
+      {"Available"}
+    </span>
+  )}
+</Td>
             </Tr>
           ))}
         </Table>
