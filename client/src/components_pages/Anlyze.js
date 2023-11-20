@@ -46,7 +46,7 @@ font-size:14px;
 cursor: pointer;
 `
 
-const Anlyze = (CUId) => {
+const Anlyze = () => {
     const token = localStorage.getItem('token');
 
     const [examInfo, setExamInfo] = useState([]);
@@ -57,17 +57,30 @@ const Anlyze = (CUId) => {
     const id = params;
 
     useEffect(() => {
-        getExamInfos();
-        // getExam();
+        getExam();
         // eslint-disable-next-line
     }, [])
 
+    const getExam = async () => {
+        try {
+          const response = await axios.get(`/exam/exam/${id.id}`, {
+            headers: {
+              Authorization: `Bearer ${token}` // Assuming the token is used for authentication
+            }
+          });
+          console.log(response.data);
+          setExamInfo(response.data);
+          setStart(false); // Set start to false to stop displaying the loading message
+        } catch (error) {
+          console.error('Error fetching exam:', error);
+          // Handle error state or display an error message
+        }
+      };
 
-    const getExamInfos = async () => {
-        const { data } = await axios.get(`http://localhost:8080/userexams/exam/${id.id}`,{ headers: { Authorization: `Bearer ${token}` } });
-        setExamInfo(data);
-        setStart(false);
-    }
+      
+
+
+
     if (start) {
         return (
             <>
@@ -76,31 +89,33 @@ const Anlyze = (CUId) => {
     }
    
     return (
-        <>
-         
-            <Container>
-                <Header>Exam analysis</Header>
-                <Table>
+        <Container>
+            <Header>Exam analysis</Header>
+            <Table>
+                <tbody>
                     <Tr>
                         <Th>User Name</Th>
                         <Th>Exam</Th>
                         <Th>Score</Th>
                         <Th>Review</Th>
                     </Tr>
-                    {examInfo.map((exam) => (
-                        <Tr
-                            key={exam._id}>
-                            <Td>{exam.userInfo.username}</Td>
-                            <Td>{exam.userInfo.examname}</Td>
-                            <Td>{exam.grade}</Td>
-                            <Td><Link to={`/examreview/${id.id}`}><Button>Click me</Button></Link></Td>
+                    {examInfo.examGivers.map((giverId, index) => (
+                        <Tr key={index}>
+                            <Td>{giverId}</Td> {/* Assuming this is the user ID */}
+                            <Td>{examInfo.examname}</Td>
+                            <Td>{examInfo.grade}</Td>
+                            <Td>
+                                <Link to={`/examreview/${giverId}`}>
+                                    <Button>Click me</Button>
+                                </Link>
+                            </Td>
                         </Tr>
                     ))}
-                </Table>
-            </Container>
-        
-        </>
-    )
+                </tbody>
+            </Table>
+        </Container>
+    );
+    
 }
 
 export default Anlyze

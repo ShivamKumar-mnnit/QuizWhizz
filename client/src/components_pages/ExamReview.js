@@ -53,9 +53,9 @@ const ExamReview = () => {
     }, [])
 
     const getExamInfos = async () => {
-        const { data } = await axios.get(`http://localhost:8080/userexams/exam/${id.id}`,{ headers: { Authorization: `Bearer ${token}` } });
+        console.log(id.id);
+        const { data } = await axios.get(`http://localhost:8080/userexams/${id.id}`,{ headers: { Authorization: `Bearer ${token}` } });
         console.log(data)
-        // console.log(data[0].examReview[0].qAnswers)
         setExamQuestions(data);
         setIsLoading(false);
     }
