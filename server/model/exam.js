@@ -27,7 +27,7 @@ const ExamSchema = new mongoose.Schema({
   }],
   examGivers: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'userexams'
+    ref: 'users'
   }],
 
 },

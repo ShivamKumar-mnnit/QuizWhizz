@@ -6,7 +6,8 @@ const UserExamsSchema = new mongoose.Schema({
         required: true
     },
     examId:{
-        type: String
+        type: String,
+        ref:'exam'
     },
     userName: {
         type: String,

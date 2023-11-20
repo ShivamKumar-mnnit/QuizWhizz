@@ -36,9 +36,10 @@ router.get("/exam/:id",Auth, async (req, resp) => {
 
 
 router.post('/',Auth, (req, resp) => {
+    const modifiedExamId = `${req.body.examId}_${req.body.userName}`;
     const userExams = new UserExams({
         userId: req.body.userId,
-        examId: req.body.examId,
+        examId: modifiedExamId,
         userName: req.body.userName,
         score: req.body.score,
         status: req.body.status,
