@@ -39,30 +39,53 @@ const Label = styled.label`
 const ExamReview = () => {
     const token = localStorage.getItem('token');
 
+    const [userData, setUserData] = useState([]);
     const [examQuestions, setExamQuestions] = useState([]);
     // eslint-disable-next-line
     const [isLoading, setIsLoading] = useState(true);
 
     const params = useParams();
     const id = params;
+    console.log(id);
 
     useEffect(() => {
-        getExamInfos();
-        console.log("check")
+        getUserInfos();
+        // getExamInfos();
         // eslint-disable-next-line
     }, [])
 
-    const getExamInfos = async () => {
+    const getUserInfos = async () => {
         console.log(id.id);
-        const { data } = await axios.get(`http://localhost:8080/userexams/${id.id}`,{ headers: { Authorization: `Bearer ${token}` } });
+        const { data } = await axios.get(`http://localhost:8080/api/users/${id.id}`,{ headers: { Authorization: `Bearer ${token}` } });
+        console.log(data)
+        setUserData(data);
+    }
+    useEffect(() => {
+        // getUserInfos();
+        getExamInfos();
+        // eslint-disable-next-line
+    }, [userData])
+
+    const getExamInfos = async () => {
+        console.log(`${id.eid}_${userData?.firstName}`);
+        const { data } = await axios.get(`http://localhost:8080/userexams/exam/${id.eid}_${userData.firstName}`,{ headers: { Authorization: `Bearer ${token}` } });
         console.log(data)
         setExamQuestions(data);
         setIsLoading(false);
     }
 
 
+
+    if(isLoading){
+        return(
+            <>loading...</>
+        )
+    }
+
     return (
         <>
+        <div className="container text-center my-4 d-flex flex-row-reverse"><img className='text-center' src={userData.profile} alt="..." /></div>
+        <div className="container text-center my-4">{userData?.firstName}</div>
             <Container>
                 <Wrapper>
                     <TableContainer component={Paper}>

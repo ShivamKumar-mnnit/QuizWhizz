@@ -141,7 +141,7 @@ const router = createBrowserRouter([
     element : <Anlyze  />
 },
 {
-    path : '/examreview/:id',
+    path : '/examreview/:id/:eid',
     element : <ExamReview  />
 },
 {

@@ -94,7 +94,7 @@ const Anlyze = () => {
             <Table>
                 <tbody>
                     <Tr>
-                        <Th>User Name</Th>
+                        <Th>User's Unique Id</Th>
                         <Th>Exam</Th>
                         <Th>Score</Th>
                         <Th>Review</Th>
@@ -105,7 +105,7 @@ const Anlyze = () => {
                             <Td>{examInfo.examname}</Td>
                             <Td>{examInfo.grade}</Td>
                             <Td>
-                                <Link to={`/examreview/${giverId}`}>
+                                <Link to={`/examreview/${giverId}/${id.id}`}>
                                     <Button>Click me</Button>
                                 </Link>
                             </Td>
