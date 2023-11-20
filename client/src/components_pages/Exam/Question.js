@@ -74,7 +74,6 @@ const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks
   
     const getExams = async () => {
         try {
-      
             const { data } = await axios.get(`http://localhost:8080/examquestions/${qid}`, { headers: { Authorization: `Bearer ${token}` } });
             console.log(data);
             setQuestion(data[0]);

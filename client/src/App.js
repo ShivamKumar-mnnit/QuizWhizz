@@ -30,7 +30,6 @@ import Configure from './components_pages/Configure';
 import Anlyze from './components_pages/Anlyze';
 import ExamReview from './components_pages/ExamReview';
 import Reports from './components_pages/Reports';
-import QuizController from './components_pages/QuizController';
 import ExamResult from './components_pages/quizHandler/Result';
 
 
@@ -142,10 +141,6 @@ const router = createBrowserRouter([
 {
     path : '/reports',
     element : <Reports CUId={currentUserUid} />
-},
-{
-    path : '/examquiz/:id',
-    element : <QuizController CUId={currentUserUid} />
 },
 {
     path : '/examresult/:id',

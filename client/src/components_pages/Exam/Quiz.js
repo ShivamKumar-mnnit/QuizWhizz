@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Question from './Question';
@@ -23,8 +23,6 @@ export default function Quiz() {
   const [selected, setSelected] = useState();
   const [examReview, setExamReview] = useState([]);
   const [qt,setQt]=useState("");
-
-
   const params = useParams();
   const id = params;
 
@@ -109,14 +107,22 @@ const handleReview = () => {
           />
           <div className="text-center mt-4 py-3">
             <button className="btn btn-success" onClick={handleNextQuestion}>
-              Next
+
+{
+  (currentQuestionIndex) === (questions.length-1)? <>Submit</> : <>Next</>
+}
+
+
             </button>
           </div>
         </div>
       ) : (
         <div className="text-center mt-4 py-3">
-          <p>All questions answered!</p>
-          <button className="btn btn-success">Submit</button>
+          <p className='my-2'>All questions answered!</p>
+          <p className='my-2'>Temporary Score : <span className='fw-bold'>20</span></p>
+          <Link to="/">
+          <button className="btn btn-success">Back to Home</button>
+          </Link>
         </div>
       )}
     </div>
