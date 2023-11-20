@@ -38,6 +38,7 @@ router.route('/createResetSession').get(controller.createResetSession) // reset 
 // Get Methods - Quiz
 router.route('/questions').get(quizcontroller.getQuestions); 
 router.route('/result').get(quizcontroller.getResult);
+router.route('/result/:username').get(quizcontroller.getResultByUsername);
 
 
 

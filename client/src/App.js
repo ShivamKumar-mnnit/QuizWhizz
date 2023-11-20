@@ -23,6 +23,7 @@ import Quiz from './components/quiz/Quiz';
 import Result from './components/quiz/Result';
 import ResultTable from './components/quiz/ResultTable';
 import Score from './components/dashboard/Score';
+import ScoreTable from './components/quiz/ScoreTable';
 
 //Exam
 import ExamDashboard from './components_pages/Dashboard';
@@ -118,8 +119,8 @@ const router = createBrowserRouter([
         element : <AuthorizeUser><ResultTable /></AuthorizeUser>
     },
     {
-        path : '/score',
-        element : <AuthorizeUser><Score /></AuthorizeUser>
+        path : '/quizscore',
+        element : <AuthorizeUser><ScoreTable /></AuthorizeUser>
     },
 
 //define all exams related paths here
