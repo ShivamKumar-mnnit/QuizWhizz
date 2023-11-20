@@ -51,6 +51,7 @@ router.post('/',Auth,  async (req, resp) => {
             passGrade: req.body.passGrade,
             category: req.body.category,
             time: req.body.time,
+            examGivers: []
         });
 
         const savedExam = await exam.save();
@@ -82,6 +83,42 @@ router.patch('/:id',Auth, (req, resp) => {
         resp.json({ message: e })
     })
 })
+
+
+
+// PUT ExamGivers to an Exam by Exam ID
+router.put('/addgivers/:id', Auth, async (req, resp) => {
+    try {
+      const examId = req.params.id;
+      const { examGivers } = req.body; // examGivers should be an array of user IDs
+  
+      // Find the exam by ID
+      const exam = await Exam.findById(examId);
+  
+      if (!exam) {
+        return resp.status(404).json({ message: 'Exam not found' });
+      }
+  
+    //   // Check if the logged-in user is the creator of the exam
+    //   if (exam.creatorUserId !== req.user.userId) {
+    //     return resp.status(403).json({ message: 'You are not authorized to add exam givers' });
+    //   }
+  
+      // Update examGivers array with the provided user IDs
+      const updatedExam = await Exam.findByIdAndUpdate(
+        examId,
+        { $addToSet: { examGivers: { $each: examGivers } } }, // Add multiple givers to examGivers array
+        { new: true }
+      );
+  
+      resp.json(updatedExam);
+    } catch (error) {
+      resp.status(500).json({ message: error.message });
+    }
+  });
+  
+
+
 
 router.delete('/:id',Auth, async (req, resp) => {
     try {

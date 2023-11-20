@@ -13,9 +13,6 @@ export default function Main ({CUId}) {
     const inputRef = useRef(null)
     const [{ apiData }] = useFetch();
     
-
-    // const [userexamid,setuserexamid]={};
-
     const params = useParams();
     const id = params;
 
@@ -24,10 +21,6 @@ export default function Main ({CUId}) {
   const navigate = useNavigate();
 
  
-
-
-
-
 
     useEffect(() => {
       getExams();
@@ -50,9 +43,10 @@ export default function Main ({CUId}) {
   }
 
 
+
   const startQuiz = async () => {
-    const userId = CUId; // Assuming this is where your userId is stored
-    const examId = id.id; // Extracted from the URL parameters
+    const userId = CUId.toString(); // Convert userId to string
+    const examId = id.id.toString(); // Convert examId to string
     const username = inputRef.current.value; // Assuming the username is obtained from the input field
 
     try {
@@ -65,6 +59,13 @@ export default function Main ({CUId}) {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
+      const addGiverResponse = await axios.put(
+        `http://localhost:8080/exam/addgivers/${examId}`, // Your endpoint to add examGivers
+        { examGivers: [userId] }, // Assuming userId is the examGiver ID
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+        console.log(addGiverResponse);
       // Handle success, e.g., redirect to the quiz page
       console.log('Quiz started:', response.data);
       // setuserexamid(response.data._id);
