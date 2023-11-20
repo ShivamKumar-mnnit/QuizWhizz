@@ -54,12 +54,7 @@ export default function Profile() {
 
 
 
-  // // logout handler function
-  // function userLogout(){
-  //   googleLogout();
-  //   localStorage.removeItem('token');
-  //   navigate('/')
-  // }
+  
 
   if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
   if(serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>

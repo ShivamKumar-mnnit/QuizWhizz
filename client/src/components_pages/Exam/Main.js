@@ -16,6 +16,7 @@ export default function Main ({CUId}) {
     const params = useParams();
     const id = params;
 
+    const [giverid,setGiverid]= useState([]);
 
     
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ export default function Main ({CUId}) {
       const { data } = await axios.get(`http://localhost:8080/exam/exam/${id.id}`,{ headers: { Authorization: `Bearer ${token}` } });
       
       console.log(data);
+      setGiverid(data.examGivers);
       
   }
   
@@ -45,11 +47,19 @@ export default function Main ({CUId}) {
 
 
   const startQuiz = async () => {
+
     const userId = CUId.toString(); // Convert userId to string
     const examId = id.id.toString(); // Convert examId to string
     const username = inputRef.current.value; // Assuming the username is obtained from the input field
 
     try {
+
+      if (giverid.includes(CUId)) {
+        alert('You have already completed this exam!');
+        return; // Stop further execution if the user has already taken the exam
+      }
+
+
       const response = await axios.post(
         'http://localhost:8080/userexams', // Replace with your API endpoint
         {
@@ -102,7 +112,7 @@ export default function Main ({CUId}) {
         </button>
         </div>
          
-       
+        <Link to="/"><button className='btn btn-info my-4'>Back to Home</button></Link>
     </div>
     </>
   )

@@ -64,62 +64,19 @@ router.put("/:id", Auth, (req, resp) => {
         resp.json({ message: e })
     })
 });
-// router.put("/:id", Auth, async (req, resp) => {
-//     const { id } = req.params;
-//     const { attemptedQuestions } = req.body;
-  
-//     try {
-//       const updatedExam = await UserExams.findByIdAndUpdate(id, {
-//         $set: { examReview: attemptedQuestions } // Set the examReview based on attempted questions
-//       }, { new: true });
-  
-//       if (!updatedExam) {
-//         return resp.status(404).json({ message: 'Exam not found' });
-//       }
-  
-//       resp.json(updatedExam);
-//     } catch (error) {
-//       resp.status(500).json({ message: error.message });
-//     }
-//   });
+router.put("/updatescore/:id", Auth, (req, resp) => {
+    UserExams.updateOne({ _id: req.params.id }, {
+        $push: {
+            score: req.body.score,
+        }
+    }).then(data => {
+        resp.json(data)
+    }).catch(e => {
+        resp.json({ message: e })
+    })
+});
 
 
-router.patch('/:id', Auth, (req, resp) => {
-    if (req.body.examReview) {
-        UserExams.updateOne(
-            { _id: req.params.id },
-            {
-                $set: {
-                    examId: req.body.examId,
-                    userId: req.body.userId,
-                    score: req.body.score,
-                },
-                $push: {
-                    examReview: req.body.examReview,
-                }
-            }
-        ).then(data => {
-            resp.json(data)
-        }).catch(e => {
-            resp.json({ message: e })
-        })
-    } else {
-        UserExams.updateOne(
-            { _id: req.params.id },
-            {
-                $set: {
-                    examId: req.body.examId,
-                    userId: req.body.userId,
-                    grade: req.body.grade,
-                }
-            }
-        ).then(data => {
-            resp.json(data)
-        }).catch(e => {
-            resp.json({ message: e })
-        })
-    }
-})
 
 router.delete('/:id',Auth, (req, resp) => {
     UserExams.deleteOne({ _id: req.params.id })
