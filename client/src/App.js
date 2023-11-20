@@ -155,7 +155,7 @@ const router = createBrowserRouter([
 
 {
     path : '/examstarting/:id',
-    element : <ExamMain />
+    element : <ExamMain CUId={currentUserUid} />
 },
 {
     path : '/examrunning/:id',
