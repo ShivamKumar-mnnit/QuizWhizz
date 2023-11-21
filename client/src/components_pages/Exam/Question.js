@@ -56,7 +56,7 @@ const OptionBox = styled.button`
 
 
 
-const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks,setQuestionMarks,qt,setQt , score,setScore}) => {
+const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks,setQuestionMarks,qt,setQt}) => {
 
     const token = localStorage.getItem('token');
     const navigate = useNavigate()
@@ -64,7 +64,9 @@ const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks
     const [loading,setLoading]= useState(true);
     const [question,setQuestion]= useState();
     const [option,setOption]=useState();
-    const [loop,setLoop]=useState(true);
+    const [selectedOption, setSelectedOption] = useState(null);
+
+
     
 
 
@@ -93,12 +95,6 @@ const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks
           }
         }
 
-        if(loop && selected!==undefined && selected!=='' && selected===correct){
-          setScore((prevscore)=>prevscore+questionMarks);
-          setLoop(false);
-        }
-
-
         
         if(loading){
           return <>loading...</>
@@ -120,12 +116,17 @@ const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks
     <OptionBox
       key={opt._id}
       isSelected={selected === opt.option} // Check if the option is selected
-      onClick={() => setSelected(opt.option)} // Set the selected option
+      onClick={() => {
+        setSelected(opt.option);
+        setSelectedOption(opt.option);
+      }} // Set the selected option
     >
       {/* Display options */}
       <div className="d-flex">
         <div className="mx-4 fw-bold">{generateLabel(index)}:</div>{' '}
         {opt.option}
+        {selectedOption === opt.option && <span>&#10003;</span>} {/* Tick mark */}
+               
       </div>
     </OptionBox>
   ))}
