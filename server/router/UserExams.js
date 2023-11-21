@@ -11,10 +11,10 @@ router.get('/',Auth, (req, resp) => {
     })
 })
 
-//spesific exam
+//spesific exam by userid
 router.get("/:id",Auth, async (req, resp) => {
     try {
-        UserExams.find({ userId: req.params.id }).then(data => {
+        UserExams.find({ userId: String(req.params.id) }).then(data => {
             resp.json(data)
         })
     } catch (err) {

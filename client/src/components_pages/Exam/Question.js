@@ -56,7 +56,7 @@ const OptionBox = styled.button`
 
 
 
-const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks,setQuestionMarks,qt,setQt}) => {
+const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks,setQuestionMarks,qt,setQt , score,setScore}) => {
 
     const token = localStorage.getItem('token');
     const navigate = useNavigate()
@@ -64,7 +64,7 @@ const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks
     const [loading,setLoading]= useState(true);
     const [question,setQuestion]= useState();
     const [option,setOption]=useState();
-    
+    const [loop,setLoop]=useState(true);
     
 
 
@@ -81,8 +81,9 @@ const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks
             setQt(data[0].questionTitle);
             setQuestionMarks(data[0].questionMarks)
             setLoading(false); // Once the data is fetched, set loading to false
-
+            console.log(data[0].options);
             const correctOption = data[0].options.find(option => option.isCorrect);
+            console.log(correctOption);
     if (correctOption) {
       setCorrect(correctOption.option);
     }
@@ -91,6 +92,13 @@ const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks
             setLoading(false); // In case of an error, also set loading to false
           }
         }
+
+        if(loop && selected!==undefined && selected!=='' && selected===correct){
+          setScore((prevscore)=>prevscore+questionMarks);
+          setLoop(false);
+        }
+
+
         
         if(loading){
           return <>loading...</>
@@ -99,8 +107,7 @@ const Question = ({qid,qno,selected,setSelected,correct,setCorrect,questionMarks
       const generateLabel = (index) => {
         return String.fromCharCode(65 + index); // 'A', 'B', 'C', ...
       };
-console.log(correct);
-console.log(questionMarks);
+
 
   return (
     <Container>

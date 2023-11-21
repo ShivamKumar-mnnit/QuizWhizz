@@ -88,7 +88,7 @@ const handleCategoryChange = (e) => {
     getExamNames();
   }, [examName, dummy]);
 
-  const handleName = (e) => {
+  const handleName = async(e) => {
     e.preventDefault();
     if (examName == "") {
       alert("If you want to create an exam you have to give it a name")
@@ -101,12 +101,20 @@ const handleCategoryChange = (e) => {
         examname: examName,
         category: category,
       };
-      console.log(newExam)
-      axios.post("http://localhost:8080/exam/", newExam, { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
-        console.log(response.status);
-        console.log(response.data);
-      });
-      setDummy(dummy + 1)
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/exam/",
+          newExam,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        if (response.status === 200) {
+          setDummy(dummy + 1); // Trigger re-fetch of exam list upon successful creation
+        }
+      } catch (error) {
+        console.error("Error creating exam:", error);
+        // Handle error
+      }
     }
   }
 

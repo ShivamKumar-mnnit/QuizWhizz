@@ -41,7 +41,7 @@ export default function Main() {
                     </Link>
                 </div>
                 <div className='my-4'>
-                    <Link to='/resultTable'>
+                    <Link to='/quizscore'>
                         <button className='btn btn-info my-2 mx-4'>Your Scores</button>
                     </Link>
                     <Link to='/resultTable'>

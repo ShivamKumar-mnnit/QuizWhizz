@@ -47,6 +47,24 @@ export async function getResult(req, res){
     }
 }
 
+// Get result by username
+export async function getResultByUsername(req, res) {
+    try {
+        const { username } = req.params; // Assuming username is passed as a URL parameter
+        
+        if (!username) {
+            throw new Error('Username not provided');
+        }
+
+        const result = await Results.find({ username: username });
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+
+
 // post all results
 export async function storeResult(req, res){
     try {
