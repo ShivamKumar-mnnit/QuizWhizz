@@ -21,8 +21,10 @@ export default function Quiz() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [correct, setCorrect] = useState('');
   const [selected, setSelected] = useState();
+
   const [qt,setQt]=useState("");
 const [score,setScore] = useState(0);
+
 
   const params = useParams();
   const id = params;
@@ -46,9 +48,7 @@ const [score,setScore] = useState(0);
   };
 
 
-  console.log(selected);
-console.log(correct);
-console.log(questionMarks);
+
 
 
 
@@ -71,11 +71,51 @@ const handleReview = () => {
   
 }
 
+
+
+
+const handleScore = () => {
+  // Calculate the final score or perform any final actions before submitting the score
+
+  const finalScore = score;
+  
+  // Create payload for submitting final score
+  const scorePayload = {
+    score: finalScore // Assuming the API requires the final score in this format
+  };
+console.log(userexamid);
+  axios.put(`http://localhost:8080/userexams/score/${userexamid}`, scorePayload, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  .then((response) => {
+    if (response.status === 200) {
+      console.log("Final score submitted successfully:", response.data);
+      // Perform any actions after successful submission
+    } else {
+      console.log("Submission failed with status:", response.status);
+      // Handle failure scenarios if needed
+    }
+  })
+  .catch((error) => {
+    console.error("Error submitting final score:", error);
+    // Handle error scenarios
+  });
+};
+
+
+if(selected!==undefined && selected!=='' && selected===correct){
+  setScore((prevscore)=>prevscore+questionMarks);
+  setSelected();
+}
+
+
   const handleNextQuestion = () => {
     handleReview();
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
-
+  const handleSubmit=()=>{
+    handleScore();
+  }
   
 
 
@@ -106,14 +146,20 @@ const handleReview = () => {
             setQuestionMarks={setQuestionMarks}
             qt={qt}
             setQt={setQt}
-            score={score}
-            setScore={setScore}
+
           />
           <div className="text-center mt-4 py-3">
             <button className="btn btn-success" onClick={handleNextQuestion}>
 
 {
-  (currentQuestionIndex) === (questions.length-1)? <>Submit</> : <>Next</>
+  (currentQuestionIndex) === (questions.length-1)? <>
+  
+  
+  
+  <div onClick={handleSubmit}>Submit</div>
+  
+  
+  </> : <>Next</>
 }
 
 
