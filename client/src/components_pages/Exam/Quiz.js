@@ -22,6 +22,8 @@ export default function Quiz() {
   const [correct, setCorrect] = useState('');
   const [selected, setSelected] = useState();
   const [qt,setQt]=useState("");
+const [score,setScore] = useState(0);
+
   const params = useParams();
   const id = params;
 
@@ -49,6 +51,9 @@ console.log(correct);
 console.log(questionMarks);
 
 
+
+
+
 const handleReview = () => {
  
     const userOptions = {
@@ -71,16 +76,14 @@ const handleReview = () => {
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
 
+  
+
+
   if (loading) {
     return <>Loading...</>;
   }
 
   const hoursMinSecs = { hours: 0, minutes: time, seconds: 0 };
-
-
-
-
-
 
 
   return (
@@ -103,6 +106,8 @@ const handleReview = () => {
             setQuestionMarks={setQuestionMarks}
             qt={qt}
             setQt={setQt}
+            score={score}
+            setScore={setScore}
           />
           <div className="text-center mt-4 py-3">
             <button className="btn btn-success" onClick={handleNextQuestion}>
@@ -118,7 +123,7 @@ const handleReview = () => {
       ) : (
         <div className="text-center mt-4 py-3">
           <p className='my-2'>All questions answered!</p>
-          <p className='my-2'>Temporary Score : <span className='fw-bold'>20</span></p>
+          <p className='my-2'>Temporary Score : <span className='fw-bold'>{score}</span></p>
           <Link to="/">
           <button className="btn btn-success">Back to Home</button>
           </Link>
