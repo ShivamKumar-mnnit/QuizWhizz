@@ -103,13 +103,14 @@ console.log(userexamid);
 };
 
 
-if(selected!==undefined && selected!=='' && selected===correct){
-  setScore((prevscore)=>prevscore+questionMarks);
-  setSelected();
-}
+
 
 
   const handleNextQuestion = () => {
+    if(selected!==undefined && selected!=='' && selected===correct){
+      setScore((prevscore)=>prevscore+questionMarks);
+      setSelected();
+    }
     handleReview();
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
@@ -156,7 +157,7 @@ if(selected!==undefined && selected!=='' && selected===correct){
   
   
   
-  <div onClick={handleSubmit}>Submit</div>
+  submit
   
   
   </> : <>Next</>
@@ -170,6 +171,7 @@ if(selected!==undefined && selected!=='' && selected===correct){
         <div className="text-center mt-4 py-3">
           <p className='my-2'>All questions answered!</p>
           <p className='my-2'>Temporary Score : <span className='fw-bold'>{score}</span></p>
+          <div onClick={handleSubmit}>Submit</div>
           <Link to="/">
           <button className="btn btn-success">Back to Home</button>
           </Link>
