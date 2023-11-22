@@ -34,7 +34,6 @@ import ExamReview from './components_pages/ExamReview';
 import Reports from './components_pages/Reports';
 import ExamResult from './components_pages/quizHandler/Result';
 
-
 import ExamMain from './components_pages/Exam/Main';
 import ExamQuiz from './components_pages/Exam/Quiz';
 
@@ -141,7 +140,7 @@ const router = createBrowserRouter([
     element : <Anlyze  />
 },
 {
-    path : '/examreview/:id/:eid',
+    path : '/examreview/:name/:id/:eid',
     element : <ExamReview  />
 },
 {
@@ -162,6 +161,7 @@ const router = createBrowserRouter([
     path : '/examrunning/:id',
     element : <ExamQuiz />
 },
+
 
 
 

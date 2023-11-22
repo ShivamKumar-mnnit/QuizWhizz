@@ -96,19 +96,20 @@ const Anlyze = () => {
                     <Tr>
                         <Th>User's Unique Id</Th>
                         <Th>Exam</Th>
-                        <Th>Score</Th>
                         <Th>Review</Th>
+                        <Th>Publish Status</Th>
                     </Tr>
                     {examInfo.examGivers.map((giverId, index) => (
                         <Tr key={index}>
                             <Td>{giverId}</Td> {/* Assuming this is the user ID */}
                             <Td>{examInfo.examname}</Td>
-                            <Td>{examInfo.grade}</Td>
+                            
                             <Td>
-                                <Link to={`/examreview/${giverId}/${id.id}`}>
+                                <Link to={`/examreview/${examInfo.examname}/${giverId}/${id.id}`}>
                                     <Button>Click me</Button>
                                 </Link>
                             </Td>
+                            <Td>review to Publish </Td>
                         </Tr>
                     ))}
                 </tbody>

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link ,useNavigate} from 'react-router-dom'
 import {Navbar} from '../components/homepage/Navbar'
 
 const Container = styled.div`
@@ -47,7 +47,7 @@ cursor: pointer;
 `
 
 const Reports = (CUId) => {
-
+  const navigate = useNavigate();
   
   console.log(CUId);
 
@@ -55,6 +55,7 @@ const Reports = (CUId) => {
   // eslint-disable-next-line
   const [isLoading, setIsLoading] = useState(true);
   const [examDatas, setExamDatas] = useState([]);
+  const [imageData,setImageData]= useState("");
 
 const token = localStorage.getItem('token');
 
@@ -79,6 +80,9 @@ const token = localStorage.getItem('token');
     })
   }
 
+
+ 
+
 if(isLoading){
   return(
   <>loading...</>
@@ -92,12 +96,15 @@ console.log(CUId)
         <Header>Status report</Header>
         <Table>
           <Tr>
+            <Th>S.no</Th>
             <Th>Exam Name</Th>
             <Th>Link</Th>
             <Th>Status</Th>
+            <Th>Result</Th>
           </Tr>
           {examDatas.map((exam, index) => (
             <Tr key={index}>
+              <Td>{index+1}</Td>
               <Td>{exam.examname}</Td>
               <Td><Link to={`/examstarting/${exam._id}`}><Button>Go to exam</Button></Link></Td>
               <Td>
@@ -111,9 +118,14 @@ console.log(CUId)
     </span>
   )}
 </Td>
+{userDatas[index]?.status &&
+<img src={userDatas[index].status} alt="Result not published yet" />
+}
             </Tr>
           ))}
         </Table>
+
+
       </Container>
  
     </>

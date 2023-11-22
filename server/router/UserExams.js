@@ -90,6 +90,30 @@ router.put("/score/:id", Auth, async (req, res) => {
     }
 });
 
+router.put("/status/:id", async (req, res) => {
+    const { status } = req.body;
+    try {
+        if (!status) {
+            return res.status(400).send("Image is required");
+        }
+
+        const updatedExam = await UserExams.findByIdAndUpdate(
+            req.params.id,
+            { status },
+            { new: true }
+        );
+
+        if (!updatedExam) {
+            return res.status(404).send("Exam not found");
+        }
+
+        res.json({ updatedExam });
+    } catch (error) {
+        console.error(error); // Log the error for debugging
+        res.status(500).send("Internal server error");
+    }
+});
+
 
 
 

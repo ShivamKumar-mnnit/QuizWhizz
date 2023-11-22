@@ -160,8 +160,6 @@ function userLogout(){
                <Link to='/quiz'><li className='text-xl py-4 flex'><MdHelp size={25} className='mr-4' /> Quick-Quiz</li></Link>
                <Link to='/reports'><li className='text-xl py-4 flex'><MdHelp size={25} className='mr-4' /> Exams</li></Link>
                 
-                
-
                 </>
 
 :
