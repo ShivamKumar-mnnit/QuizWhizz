@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import axios from 'axios'
 import { useEffect, useState,useRef } from 'react'
-import { Link ,useNavigate} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {Navbar} from '../components/homepage/Navbar'
 
 import html2canvas from 'html2canvas';
@@ -50,7 +50,7 @@ cursor: pointer;
 `
 
 const Reports = (CUId) => {
-  const navigate = useNavigate();
+
 
   const pdfRef = useRef();
   
@@ -60,7 +60,7 @@ const Reports = (CUId) => {
   // eslint-disable-next-line
   const [isLoading, setIsLoading] = useState(true);
   const [examDatas, setExamDatas] = useState([]);
-  const [imageData,setImageData]= useState("");
+
 
 const token = localStorage.getItem('token');
 

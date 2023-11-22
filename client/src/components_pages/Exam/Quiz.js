@@ -131,7 +131,7 @@ console.log(userexamid);
 
   return (
     <div className="container backgroundimagesetter">
-      <CountDownTimer hoursMinSecs={hoursMinSecs} />
+      <CountDownTimer hoursMinSecs={hoursMinSecs} handleTimerEnd={handleSubmit} />
       <h1 className="title text-dark text-center mt-5 mb-4">Quiz Application</h1>
       {currentQuestionIndex < questions.length ? (
         <div className="text-center">

@@ -11,6 +11,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useParams,useNavigate } from 'react-router-dom'
+
+import {Navbar} from '../components/homepage/Navbar'
 import axios from 'axios'
 
 
@@ -140,6 +142,7 @@ const handleCapture = async () => {
 
     return (
         <>
+        <Navbar/>
         <div ref={captureRef}>
         <div className="d-flex">
             <div className="container my-4 mx-4">Exam Name : <span className='fw-bold'>{id.name}</span></div>
