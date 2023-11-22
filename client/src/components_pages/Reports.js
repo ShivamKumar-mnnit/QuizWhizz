@@ -1,8 +1,11 @@
 import styled from 'styled-components'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useState,useRef } from 'react'
 import { Link ,useNavigate} from 'react-router-dom'
 import {Navbar} from '../components/homepage/Navbar'
+
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 const Container = styled.div`
 height:100%;
@@ -48,6 +51,8 @@ cursor: pointer;
 
 const Reports = (CUId) => {
   const navigate = useNavigate();
+
+  const pdfRef = useRef();
   
   console.log(CUId);
 
@@ -80,7 +85,22 @@ const token = localStorage.getItem('token');
     })
   }
 
-
+const downloadPDF=()=>{
+  const input = pdfRef.current;
+  html2canvas(input).then((canvas)=>{
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p','mm','a4',true);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = canvas.width;
+    const imgHeight = canvas.height;
+    const ratio = Math.min(pdfWidth/imgWidth , pdfHeight/imgHeight);
+    const imgx = (pdfWidth-imgWidth*ratio)/2;
+    const imgy = 30;
+    pdf.addImage(imgData,'PNG',imgx,imgy,imgWidth*ratio,imgHeight*ratio);
+    pdf.save('score.pdf'); 
+  })
+}
  
 
 if(isLoading){
@@ -118,9 +138,11 @@ console.log(CUId)
     </span>
   )}
 </Td>
+<button className='btn btn-success' onClick={downloadPDF}>download</button>
 {userDatas[index]?.status &&
-<img src={userDatas[index].status} alt="Result not published yet" />
+<img src={userDatas[index].status} alt="Result not published yet" ref={pdfRef}/>
 }
+
             </Tr>
           ))}
         </Table>
