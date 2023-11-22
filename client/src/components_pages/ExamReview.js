@@ -10,10 +10,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useParams } from 'react-router-dom'
+import { useParams,useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-import convertToBase64 from '../helper/convert';
 
 const Container = styled.table`
       width: 100%;
@@ -43,8 +42,9 @@ const Label = styled.label`
 const ExamReview = () => {
     const token = localStorage.getItem('token');
     const captureRef = useRef(null);
+    const navigate = useNavigate();
 
-    const [file, setFile] = useState();
+    const [blocked, setBlocked] = useState(true);
     const [userData, setUserData] = useState([]);
     const [examQuestions, setExamQuestions] = useState([]);
     // eslint-disable-next-line
@@ -122,6 +122,9 @@ const handleCapture = async () => {
     } else {
       console.log("err");
     }
+
+    alert("Result published");
+    navigate(`/anlyze/${id.eid}`)
   };
   
 
@@ -162,7 +165,11 @@ const handleCapture = async () => {
                                     <TableCell align="right"></TableCell>
                                     <TableCell align="right"></TableCell>
                                     <TableCell align="right"></TableCell>
-                                    <TableCell align="right"><button className='btn btn-info' onClick={handleCapture}>Publish</button></TableCell>
+                                    <TableCell align="right">
+                                    <button className='btn btn-info' onClick={handleCapture}>Publish</button>
+                                       </TableCell>
+
+
                                 </TableRow>
                             </TableHead>
                             {examQuestions?.map((exam, index) => (
