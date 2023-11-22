@@ -19,6 +19,7 @@ const UserExamsSchema = new mongoose.Schema({
     },
     status: {
         type: String,
+        default:"no"
     },
     examReview: [{
 

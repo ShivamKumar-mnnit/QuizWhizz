@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { useRef } from 'react';
+import html2canvas from 'html2canvas';
 
 import styled from 'styled-components'
 import Table from '@mui/material/Table';
@@ -10,6 +12,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+
+import convertToBase64 from '../helper/convert';
 
 const Container = styled.table`
       width: 100%;
@@ -38,11 +42,14 @@ const Label = styled.label`
 
 const ExamReview = () => {
     const token = localStorage.getItem('token');
+    const captureRef = useRef(null);
 
+    const [file, setFile] = useState();
     const [userData, setUserData] = useState([]);
     const [examQuestions, setExamQuestions] = useState([]);
     // eslint-disable-next-line
     const [isLoading, setIsLoading] = useState(true);
+    const [ueid,setUeid]= useState();
 
     const params = useParams();
     const id = params;
@@ -71,12 +78,66 @@ const ExamReview = () => {
         const { data } = await axios.get(`http://localhost:8080/userexams/exam/${id.eid}_${userData.firstName}`,{ headers: { Authorization: `Bearer ${token}` } });
         console.log(data)
         setExamQuestions(data);
+        if(data){
+            setUeid(data[0]._id);
+        }
         setIsLoading(false);
     }
+console.log(ueid);
+
+const handleCapture = async () => {
+    if (captureRef.current) {
+      try {
+        const canvas = await html2canvas(captureRef.current);
+        // Resize the captured image to a smaller size (e.g., 800px width)
+        const resizedCanvas = document.createElement('canvas');
+        const ctx = resizedCanvas.getContext('2d');
+        const scale = 800 / canvas.width;
+        resizedCanvas.width = 800;
+        resizedCanvas.height = canvas.height * scale;
+        ctx.drawImage(canvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
+        
+        // Convert the resized image to base64 format
+        const imgData = resizedCanvas.toDataURL('image/jpeg', 0.7); // Adjust quality as needed
+        
+        // Send the optimized image data to the server
+        const scorePayload = {
+          status: imgData // Sending the resized and compressed image data
+        };
+  
+        // Make the PUT request with the optimized image data
+        axios.put(`http://localhost:8080/userexams/status/${ueid}`, scorePayload)
+          .then((response) => {
+            if (response.status === 200) {
+              console.log("Final status submitted successfully:", response.data);
+              // Perform any actions after successful submission
+            } else {
+              console.log("Submission failed with status:", response.status);
+              // Handle failure scenarios if needed
+            }
+          });
+      } catch (error) {
+        console.error('Error capturing image:', error);
+      }
+    } else {
+      console.log("err");
+    }
+  };
+  
+
+    //   const convertToBase64 = (imageData) => {
+    //     return new Promise((resolve) => {
+    //       const reader = new FileReader();
+    //       reader.readAsDataURL(imageData);
+    //       reader.onloadend = () => {
+    //         resolve(reader.result);
+    //       };
+    //     });
+    //   };
 
 
 
-    if(isLoading){
+    if(isLoading || examQuestions[0]===undefined){
         return(
             <>loading...</>
         )
@@ -84,6 +145,7 @@ const ExamReview = () => {
 
     return (
         <>
+        <div ref={captureRef}>
         <div className="d-flex">
             <div className="container my-4 mx-4">Exam Name : <span className='fw-bold'>{id.name}</span></div>
         <div className="container text-center my-4 d-flex flex-row-reverse"><img className='text-center' src={userData.profile} alt="..." /></div>
@@ -100,7 +162,7 @@ const ExamReview = () => {
                                     <TableCell align="right"></TableCell>
                                     <TableCell align="right"></TableCell>
                                     <TableCell align="right"></TableCell>
-                                    <TableCell align="right"><button className='btn btn-info'>Publish</button></TableCell>
+                                    <TableCell align="right"><button className='btn btn-info' onClick={handleCapture}>Publish</button></TableCell>
                                 </TableRow>
                             </TableHead>
                             {examQuestions?.map((exam, index) => (
@@ -138,6 +200,7 @@ const ExamReview = () => {
                     </TableContainer>
                 </Wrapper>
             </Container>
+            </div>
         </>
     )
 }
