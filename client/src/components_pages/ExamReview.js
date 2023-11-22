@@ -128,15 +128,7 @@ const handleCapture = async () => {
   };
   
 
-    //   const convertToBase64 = (imageData) => {
-    //     return new Promise((resolve) => {
-    //       const reader = new FileReader();
-    //       reader.readAsDataURL(imageData);
-    //       reader.onloadend = () => {
-    //         resolve(reader.result);
-    //       };
-    //     });
-    //   };
+   
 
 
 
