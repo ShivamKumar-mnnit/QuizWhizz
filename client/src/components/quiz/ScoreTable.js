@@ -27,7 +27,7 @@ export default function ScoreTable() {
                 <table className="table table-striped table-bordered">
                     <thead className='table-header bg-primary text-light'>
                         <tr>
-                            <th className='text-center'>Ranks</th>
+                            <th className='text-center'>S.no</th>
                             <th className='text-center'>Name</th>
                             <th className='text-center'>Questions attempted</th>
                             <th className='text-center'>Earn Points</th>
@@ -40,10 +40,7 @@ export default function ScoreTable() {
                             <tr key={i}>
                                 <td>
                                     {i + 1}
-                                    {
-                                        i===0?
-                                        <>🌟</>:<></>
-                                    }
+                                    
                                     
                                     
                                     
