@@ -84,19 +84,23 @@ const ExamReview = () => {
 
     return (
         <>
+        <div className="d-flex">
+            <div className="container my-4 mx-4">Exam Name : <span className='fw-bold'>{id.name}</span></div>
         <div className="container text-center my-4 d-flex flex-row-reverse"><img className='text-center' src={userData.profile} alt="..." /></div>
-        <div className="container text-center my-4">{userData?.firstName}</div>
+        </div>
+        <div className="container text-center my-4">Name: <span className='fw-bold'>{userData?.firstName}</span></div>
             <Container>
                 <Wrapper>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow style={{ backgroundColor: "whitesmoke" }}>
+                                Score: <span className='fw-bold'>{examQuestions[0].score}</span>
                                     <TableCell align="right"></TableCell>
                                     <TableCell align="right"></TableCell>
                                     <TableCell align="right"></TableCell>
                                     <TableCell align="right"></TableCell>
-                                    <TableCell align="right"></TableCell>
+                                    <TableCell align="right"><button className='btn btn-info'>Publish</button></TableCell>
                                 </TableRow>
                             </TableHead>
                             {examQuestions?.map((exam, index) => (

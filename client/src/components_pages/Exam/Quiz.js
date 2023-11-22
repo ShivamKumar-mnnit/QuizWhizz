@@ -4,10 +4,10 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Question from './Question';
 import CountDownTimer from '../../components_pages/elements/CountDownTimer';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function Quiz() {
-
+  const navigate = useNavigate();
 
   const { state } = useLocation();
   const userexamid = state?.userexamid;
@@ -116,6 +116,8 @@ console.log(userexamid);
   };
   const handleSubmit=()=>{
     handleScore();
+    alert("Your Exam hasbeen finished");
+    navigate('/');
   }
   
 
@@ -171,10 +173,8 @@ console.log(userexamid);
         <div className="text-center mt-4 py-3">
           <p className='my-2'>All questions answered!</p>
           <p className='my-2'>Temporary Score : <span className='fw-bold'>{score}</span></p>
-          <div onClick={handleSubmit}>Submit</div>
-          <Link to="/">
-          <button className="btn btn-success">Back to Home</button>
-          </Link>
+          <button className='btn btn-success' onClick={handleSubmit}>Final Submit the Exam</button>
+          
         </div>
       )}
     </div>

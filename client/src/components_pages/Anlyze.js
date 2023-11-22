@@ -105,7 +105,7 @@ const Anlyze = () => {
                             <Td>{examInfo.examname}</Td>
                             <Td>{examInfo.grade}</Td>
                             <Td>
-                                <Link to={`/examreview/${giverId}/${id.id}`}>
+                                <Link to={`/examreview/${examInfo.examname}/${giverId}/${id.id}`}>
                                     <Button>Click me</Button>
                                 </Link>
                             </Td>
