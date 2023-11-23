@@ -66,6 +66,20 @@ router.put("/:id", Auth, (req, resp) => {
     })
 });
 
+//proctore
+router.put("/proctore/:id", Auth, (req, resp) => {
+    UserExams.updateOne({ _id: req.params.id }, {
+        $push: {
+            proctore: req.body.proctore,
+        }
+    }).then(data => {
+        resp.json(data)
+    }).catch(e => {
+        resp.json({ message: e })
+    })
+});
+
+
 router.put("/score/:id", Auth, async (req, res) => {
     const { score } = req.body;
     try {

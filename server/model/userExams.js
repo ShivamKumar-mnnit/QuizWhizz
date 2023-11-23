@@ -19,7 +19,7 @@ const UserExamsSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default:"no"
+        default:"none"
     },
     examReview: [{
 
@@ -33,6 +33,9 @@ const UserExamsSchema = new mongoose.Schema({
             type: String,
         }
     }],
+    proctore:[{
+        proctoreImage:{type:String,default:"none"}
+    }]
 },
     {
         timestamps: true,

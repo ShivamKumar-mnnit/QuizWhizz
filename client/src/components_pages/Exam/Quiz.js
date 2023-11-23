@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -8,6 +8,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 export default function Quiz() {
   const navigate = useNavigate();
+  const videoRef = useRef(null);
+  const photoRef = useRef(null);
+
 
   const { state } = useLocation();
   const userexamid = state?.userexamid;
@@ -21,6 +24,8 @@ export default function Quiz() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [correct, setCorrect] = useState('');
   const [selected, setSelected] = useState();
+  const [hasPhoto,setHasPhoto]=useState(false);
+  const [isExamFinished, setIsExamFinished] = useState(false);
 
   const [qt,setQt]=useState("");
 const [score,setScore] = useState(0);
@@ -32,6 +37,20 @@ const [score,setScore] = useState(0);
   useEffect(() => {
     getExams();
   }, []);
+
+  
+useEffect(() => {
+  
+  // Call handleCapture every 1 minute
+  const captureInterval = setInterval(() => {
+    handleCapture();
+  }, 29999); // just less than .5 min
+
+  // Clean up the interval on component unmount
+  return () => clearInterval(captureInterval);
+}, []);
+
+
 
   const getExams = async () => {
     try {
@@ -70,6 +89,27 @@ const handleReview = () => {
     });
   
 }
+const handleCapture = () => {
+ takePhoto();
+ // Get the canvas element reference
+ let canvas = photoRef.current;
+
+ // Convert the canvas image to a base64 data URL
+ const imageDataURL = canvas.toDataURL('image/jpeg'); // You can specify the image format (e.g., 'image/jpeg', 'image/png')
+
+
+    const userOptions = {
+      proctore: {
+        proctoreImage: imageDataURL,
+      }
+    };
+    console.log(userOptions)
+    axios.put(`http://localhost:8080/userexams/proctore/${userexamid}`, userOptions,{ headers: { Authorization: `Bearer ${token}` } }).then((response) => {
+      console.log(response.status);
+      console.log(response.data);
+    });
+
+}
 
 
 
@@ -100,6 +140,7 @@ console.log(userexamid);
     console.error("Error submitting final score:", error);
     // Handle error scenarios
   });
+  setIsExamFinished(true);
 };
 
 
@@ -122,6 +163,62 @@ console.log(userexamid);
   
 
 
+// for camera proctoring
+useEffect(() => {
+  const getVideo = () => {
+    navigator.mediaDevices.getUserMedia({
+      video: { width: 1920, height: 1080 }
+    }).then(stream => {
+      let video = videoRef.current;
+      video.srcObject = stream;
+      video.play();
+    }).catch(err => {
+      console.log(err);
+    });
+
+    return () => {
+      // Clean up the video stream when the component unmounts
+      if (videoRef.current && videoRef.current.srcObject) {
+        const tracks = videoRef.current.srcObject.getTracks();
+        tracks.forEach((track) => track.stop());
+      }
+    };
+  };
+
+  getVideo();
+}, [videoRef]);
+
+
+const takePhoto = ()=>{
+  const width=414;
+  const height= width/(16/9);
+
+  let video = videoRef.current;
+  let photo = photoRef.current;
+  
+  photo.width = width;
+  photo.height = height;
+
+  let ctx = photo.getContext('2d');
+  ctx.drawImage(video,0,0,width,height);
+  setHasPhoto(true);
+}
+
+
+useEffect(() => {
+  if (isExamFinished) {
+    // If the exam is finished, clean up the video stream
+    if (videoRef.current && videoRef.current.srcObject) {
+      const tracks = videoRef.current.srcObject.getTracks();
+      tracks.forEach((track) => track.stop());
+    }
+  }
+}, [isExamFinished]);
+
+
+
+
+
   if (loading) {
     return <>Loading...</>;
   }
@@ -131,7 +228,21 @@ console.log(userexamid);
 
   return (
     <div className="container backgroundimagesetter">
+
+{/* proctoring */}
+
+<div className="camera" style={{ width: '50%', height: 'auto', margin: '0 auto' }}>
+  <video ref={videoRef}></video>
+</div>
+<div className={'result' + (hasPhoto ? ' hasPhoto' : '')} style={{ width: '50%', height: 'auto', margin: '0 auto' }}>
+  <canvas ref={photoRef} hidden={true}></canvas>
+</div>
+
+
+{/* proctoringend */}
+
       <CountDownTimer hoursMinSecs={hoursMinSecs} handleTimerEnd={handleSubmit} />
+
       <h1 className="title text-dark text-center mt-5 mb-4">Quiz Application</h1>
       {currentQuestionIndex < questions.length ? (
         <div className="text-center">
