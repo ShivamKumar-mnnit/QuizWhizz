@@ -90,7 +90,7 @@ const Home = () => {
 
 <h1 className='container text-center my-4'>Contact Us</h1>
 
-       <section className="section-padding bg-light" id="contact">
+       <section className="section-padding bg-light mb-4" id="contact">
                 <div className="container">
 
 <div className="row justify-content-center" data-aos="fade-down" data-aos-delay="250">
@@ -98,11 +98,11 @@ const Home = () => {
                             
                         <Form ref={form} onSubmit={sendEmail} className="row g-3 p-lg-5 p-4 bg-white theme-shadow ">                      
       <label>Name</label>
-      <input className='btn btn-warning' type="text" name="user_name" required />
+      <input className='btn btn-warning bg-light' type="text" name="user_name" required  placeholder='Enter your name here'/>
       <label >Email</label>
-      <input className='btn btn-warning' type="email" name="user_email" required/>
+      <input className='btn btn-warning bg-light' type="email" name="user_email" required placeholder='Enter your Email'/>
       <label>Message</label>
-      <textarea className='btn btn-warning' name="message" required/>
+      <textarea className='btn btn-warning bg-light' name="message" required placeholder='Description'/>
       <button type="submit" value="Send" className='btn btn-info'>Send</button>
     </Form>
                         </div>
@@ -115,6 +115,14 @@ const Home = () => {
 
         
         }
+
+<footer className="bg-dark py-4 mt-4 text-center">
+  <div className="container text-light texr-center">
+    <p className="display-5 mb-3">QuizzWhizz</p>
+    <small className='text-white-50'>&copy; Copyright by QuizzWhizz. All rights reserved</small>
+  </div>
+</footer>
+
 
     </>
   )
