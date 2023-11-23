@@ -203,6 +203,25 @@ const handleCapture = async () => {
                 </Wrapper>
             </Container>
             </div>
+
+            <div class="container">
+  <div class="row">
+
+
+
+
+  <div className="container">
+                <div className="row">
+                    {examQuestions && examQuestions[0].proctore.map((image, index) => (
+                        <div className="col" key={index}>
+                            <img src={image.proctoreImage} alt={`Proctore ${index}`} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+  </div>
+</div>
         </>
     )
 }
