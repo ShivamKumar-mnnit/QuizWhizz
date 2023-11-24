@@ -103,7 +103,7 @@ const downloadPDF=()=>{
 }
  
 
-if(isLoading){
+if(isLoading || !userDatas.length){
   return(
   <>loading...</>
   )

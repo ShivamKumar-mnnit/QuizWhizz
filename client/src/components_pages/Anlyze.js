@@ -3,6 +3,7 @@ import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { Navbar } from '../components/homepage/Navbar'
 
 const Container = styled.div`
 height:100%;
@@ -89,6 +90,8 @@ const Anlyze = () => {
     }
    
     return (
+      <>
+      <Navbar/>
         <Container>
             <Header>Exam analysis</Header>
             <Table>
@@ -115,6 +118,7 @@ const Anlyze = () => {
                 </tbody>
             </Table>
         </Container>
+        </>
     );
     
 }

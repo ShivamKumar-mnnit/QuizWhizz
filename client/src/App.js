@@ -175,11 +175,6 @@ const router = createBrowserRouter([
 ])
 
 
-if(loading){
-    return(
-        <>loading...</>
-    )
-}
 
 
 console.log(currentUserUid);
